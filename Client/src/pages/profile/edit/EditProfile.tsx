@@ -130,7 +130,16 @@ export default function EditProfile() {
       return;
     }
     fetchProfile();
-  }, [navigate, isLoaded, userId, clerkUser]);
+  }, [
+    navigate,
+    isLoaded,
+    userId,
+    clerkUser?.id,
+    clerkUser?.username,
+    clerkUser?.fullName,
+    clerkUser?.imageUrl,
+    clerkUser?.primaryEmailAddress?.emailAddress,
+  ]);
 
   const fetchProfile = async () => {
     setIsLoading(true);
