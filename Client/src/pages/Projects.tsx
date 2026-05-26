@@ -10,7 +10,7 @@ const projectList = [
     title: "Project Aura",
     tagline: "The Next Generation AI Learning Companion",
     description: "A premium, high-performance ecosystem designed to transform study materials into interactive and resumable learning experiences using Deep Analysis AI.",
-    image: "/aura_hero.png",
+    image: "/og-image.png",
     github: "https://github.com/aryansondharva/Aura",
     live: "https://techassasin.vercel.app",
     path: "/aura",

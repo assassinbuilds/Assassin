@@ -34,6 +34,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+const getExternalHref = (href?: string, type?: 'github' | 'linkedin' | 'twitter' | 'website') => {
+  const trimmed = (href || '').trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+
+  const handle = trimmed.replace(/^@+/, '').replace(/^\/+/, '');
+  if (type === 'github') return `https://github.com/${handle.replace(/^github\.com\//i, '')}`;
+  if (type === 'linkedin') return `https://www.linkedin.com/in/${handle.replace(/^(www\.)?linkedin\.com\/in\//i, '')}`;
+  if (type === 'twitter') return `https://x.com/${handle.replace(/^(www\.)?(twitter|x)\.com\//i, '')}`;
+  return `https://${handle}`;
+};
+
 export default function Profile() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<any>({});
@@ -279,9 +291,10 @@ export default function Profile() {
                   <span>{profile?.address || ""}</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <SocialIcon icon={Github} href={profile?.github_url} />
-                  <SocialIcon icon={Linkedin} href={profile?.linkedin_url} />
-                  <SocialIcon icon={Twitter} href={profile?.twitter_url} />
+                  <SocialIcon icon={Github} href={profile?.github_url} type="github" />
+                  <SocialIcon icon={Linkedin} href={profile?.linkedin_url} type="linkedin" />
+                  <SocialIcon icon={Twitter} href={profile?.twitter_url} type="twitter" />
+                  <SocialIcon icon={Globe} href={profile?.portfolio_url} type="website" />
                 </div>
               </div>
             </div>
@@ -432,13 +445,24 @@ export default function Profile() {
   );
 }
 
-function SocialIcon({ icon: Icon, href }: { icon: any, href?: string }) {
+function SocialIcon({ icon: Icon, href, type }: { icon: any, href?: string, type?: 'github' | 'linkedin' | 'twitter' | 'website' }) {
+  const externalHref = getExternalHref(href, type);
+  const className = "w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 transition-all border border-slate-100/50";
+
+  if (!externalHref) {
+    return (
+      <span className={`${className} opacity-40 cursor-default`}>
+        <Icon className="w-5 h-5" />
+      </span>
+    );
+  }
+
   return (
     <a 
-      href={href || ""} 
+      href={externalHref}
       target="_blank" 
       rel="noreferrer" 
-      className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 hover:text-red-600 hover:bg-white hover:shadow-md transition-all border border-slate-100/50"
+      className={`${className} hover:text-red-600 hover:bg-white hover:shadow-md`}
     >
       <Icon className="w-5 h-5" />
     </a>

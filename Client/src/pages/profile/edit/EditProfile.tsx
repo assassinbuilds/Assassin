@@ -43,6 +43,37 @@ const getFullName = (firstName?: string, lastName?: string, fallback?: string | 
   return [firstName, lastName].filter(Boolean).join(' ').trim() || fallback || '';
 };
 
+const normalizeHandle = (value?: string | null) => (value || '').trim().replace(/^@+/, '').replace(/^\/+/, '');
+
+const normalizeUrl = (value?: string | null) => {
+  const trimmed = (value || '').trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed.replace(/^\/+/, '')}`;
+};
+
+const normalizeSocialUrl = (field: keyof ProfileUpdateRequest, value?: string | null) => {
+  const trimmed = (value || '').trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+
+  const handle = normalizeHandle(trimmed);
+  if (field === 'github_url') return `https://github.com/${handle.replace(/^github\.com\//i, '')}`;
+  if (field === 'linkedin_url') return `https://www.linkedin.com/in/${handle.replace(/^(www\.)?linkedin\.com\/in\//i, '')}`;
+  if (field === 'twitter_url') return `https://x.com/${handle.replace(/^(www\.)?(twitter|x)\.com\//i, '')}`;
+  return normalizeUrl(trimmed);
+};
+
+const normalizeProfilePayload = (data: ProfileUpdateRequest): ProfileUpdateRequest => ({
+  ...data,
+  interests: data.interests || data.skills || [],
+  github_url: normalizeSocialUrl('github_url', data.github_url),
+  linkedin_url: normalizeSocialUrl('linkedin_url', data.linkedin_url),
+  twitter_url: normalizeSocialUrl('twitter_url', data.twitter_url),
+  portfolio_url: normalizeUrl(data.portfolio_url),
+  resume_url: normalizeUrl(data.resume_url),
+});
+
 const getClerkProfileFallback = (clerkUser: any, userId?: string | null): Partial<Profile> => {
   const email = clerkUser?.primaryEmailAddress?.emailAddress || '';
   const fallbackName = splitFullName(clerkUser?.fullName);
@@ -59,6 +90,9 @@ const getClerkProfileFallback = (clerkUser: any, userId?: string | null): Partia
     avatar_url: clerkUser?.imageUrl || null,
   };
 };
+
+const arrayToText = (items?: string[] | null) => (items || []).join(', ');
+const textToArray = (value: string) => value.split(',').map(item => item.trim()).filter(Boolean);
 
 const mergeProfileWithFallback = (data: Partial<Profile>, fallback: Partial<Profile>): Partial<Profile> => {
   return {
@@ -106,6 +140,9 @@ const mapProfileToFormData = (data: Partial<Profile>, fallback: Partial<Profile>
     phone: merged.phone || '',
     emergency_contact_name: merged.emergency_contact_name || '',
     emergency_contact_phone: merged.emergency_contact_phone || '',
+    is_email_public: merged.is_email_public ?? false,
+    is_phone_public: merged.is_phone_public ?? false,
+    is_address_public: merged.is_address_public ?? false,
   };
 };
 
@@ -115,6 +152,7 @@ export default function EditProfile() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
+  const [skillsText, setSkillsText] = useState('');
   
   const { isLoaded, userId } = useAuth();
   const { user: clerkUser } = useUser();
@@ -147,12 +185,16 @@ export default function EditProfile() {
     try {
       const data = await profileService.getMyProfile();
       const mergedProfile = mergeProfileWithFallback(data, fallback);
+      const nextFormData = mapProfileToFormData(mergedProfile, fallback);
       setProfile(mergedProfile);
-      setFormData(mapProfileToFormData(mergedProfile, fallback));
+      setFormData(nextFormData);
+      setSkillsText(arrayToText(nextFormData.skills));
     } catch (error) {
       console.error(error);
+      const nextFormData = mapProfileToFormData(fallback);
       setProfile(fallback);
-      setFormData(mapProfileToFormData(fallback));
+      setFormData(nextFormData);
+      setSkillsText(arrayToText(nextFormData.skills));
     } finally {
       setIsLoading(false);
     }
@@ -166,9 +208,9 @@ export default function EditProfile() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const payload: ProfileUpdateRequest = {
+      const payload: ProfileUpdateRequest = normalizeProfilePayload({
         ...formData,
-      };
+      });
       const fullName = getFullName(formData.first_name, formData.last_name, formData.full_name);
       if (fullName) {
         payload.full_name = fullName;
@@ -176,8 +218,10 @@ export default function EditProfile() {
       const updatedData = await profileService.update(payload);
       const fallback = getClerkProfileFallback(clerkUser, userId);
       const mergedProfile = mergeProfileWithFallback(updatedData, fallback);
+      const nextFormData = mapProfileToFormData(mergedProfile, fallback);
       setProfile(mergedProfile);
-      setFormData(mapProfileToFormData(mergedProfile, fallback));
+      setFormData(nextFormData);
+      setSkillsText(arrayToText(nextFormData.skills));
       
       // Update the stored user data for real-time sync across the app
       authService.updateUser({
@@ -387,15 +431,28 @@ export default function EditProfile() {
             {activeSection === 'experience' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-10">
                   <SectionCard title="What Describes You Best?" subtitle="Choose all that fit" onSave={handleSave} isSaving={isSaving}>
-                     <div className="grid grid-cols-2 gap-4">
-                        {['Designer', 'Frontend Developer', 'Backend Developer', 'Mobile Developer', 'Blockchain Developer', 'Other'].map(role => (
-                          <RoleToggle 
-                            key={role} 
-                            label={role} 
-                            active={(formData.roles || []).includes(role)} 
-                            onToggle={() => toggleRole(role)}
-                          />
-                        ))}
+                     <div className="space-y-8">
+                        <div className="grid grid-cols-2 gap-4">
+                          {['Designer', 'Frontend Developer', 'Backend Developer', 'Mobile Developer', 'Blockchain Developer', 'Other'].map(role => (
+                            <RoleToggle
+                              key={role}
+                              label={role}
+                              active={(formData.roles || []).includes(role)}
+                              onToggle={() => toggleRole(role)}
+                            />
+                          ))}
+                        </div>
+                        <Field
+                          label="Skills"
+                          value={skillsText}
+                          onChange={(v) => {
+                            setSkillsText(v);
+                            const skills = textToArray(v);
+                            handleUpdateField('skills', skills);
+                            handleUpdateField('interests', skills);
+                          }}
+                          placeholder="React, Node.js, Python"
+                        />
                      </div>
                   </SectionCard>
 
@@ -409,9 +466,10 @@ export default function EditProfile() {
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                   <SectionCard title="Links" subtitle="Your digital identity." onSave={handleSave} isSaving={isSaving}>
                      <div className="space-y-4">
-                        <SocialLinkInput icon={Github} value={formData.github_url} onChange={(v) => handleUpdateField('github_url', v)} />
-                        <SocialLinkInput icon={Linkedin} value={formData.linkedin_url} onChange={(v) => handleUpdateField('linkedin_url', v)} color="text-red-500" />
-                        <SocialLinkInput icon={Twitter} value={formData.twitter_url} onChange={(v) => handleUpdateField('twitter_url', v)} />
+                        <SocialLinkInput icon={Github} value={formData.github_url} onChange={(v) => handleUpdateField('github_url', v)} placeholder="github.com/username or username" />
+                        <SocialLinkInput icon={Linkedin} value={formData.linkedin_url} onChange={(v) => handleUpdateField('linkedin_url', v)} placeholder="linkedin.com/in/username or username" color="text-red-500" />
+                        <SocialLinkInput icon={Twitter} value={formData.twitter_url} onChange={(v) => handleUpdateField('twitter_url', v)} placeholder="x.com/username or @username" />
+                        <SocialLinkInput icon={Globe} value={formData.portfolio_url} onChange={(v) => handleUpdateField('portfolio_url', v)} placeholder="your-portfolio.com" />
                      </div>
                   </SectionCard>
                </motion.div>
@@ -426,6 +484,26 @@ export default function EditProfile() {
                            <Input value={profile?.email || ''} readOnly className="h-14 bg-slate-50 border-none rounded-xl px-6 font-bold text-slate-400" />
                         </div>
                         <Field label="Phone number" value={formData.phone} onChange={(v) => handleUpdateField('phone', v)} />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                          <PrivacyToggle
+                            id="email-public"
+                            checked={formData.is_email_public}
+                            label="Public email"
+                            onChange={(v: boolean) => handleUpdateField('is_email_public', v)}
+                          />
+                          <PrivacyToggle
+                            id="phone-public"
+                            checked={formData.is_phone_public}
+                            label="Public phone"
+                            onChange={(v: boolean) => handleUpdateField('is_phone_public', v)}
+                          />
+                          <PrivacyToggle
+                            id="address-public"
+                            checked={formData.is_address_public}
+                            label="Public city"
+                            onChange={(v: boolean) => handleUpdateField('is_address_public', v)}
+                          />
+                        </div>
                       </div>
                    </SectionCard>
 
@@ -502,12 +580,12 @@ function RoleToggle({ label, active, onToggle }: any) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function SocialLinkInput({ icon: Icon, value, onChange, color = "text-slate-900" }: any) {
+function SocialLinkInput({ icon: Icon, value, onChange, placeholder, color = "text-slate-900" }: any) {
    return (
       <div className="flex items-center gap-4 w-full">
          <div className="flex-1 relative flex items-center">
             <div className={`absolute left-5 ${color}`}><Icon className={`w-5 h-5`} /></div>
-            <Input value={value || ''} onChange={(e) => onChange(e.target.value)} className="h-14 bg-slate-50 border-none rounded-xl font-bold px-14 text-slate-600 w-full focus-visible:ring-red-500/10" />
+            <Input value={value || ''} placeholder={placeholder} onChange={(e) => onChange(e.target.value)} className="h-14 bg-slate-50 border-none rounded-xl font-bold px-14 text-slate-600 w-full focus-visible:ring-red-500/10" />
          </div>
          <button onClick={() => onChange('')} className="p-3 text-slate-200 hover:text-red-600 transition-colors"><Trash2 className="w-5 h-5" /></button>
       </div>
@@ -520,6 +598,22 @@ function RadioItem({ value, label }: any) {
     <div className="flex items-center space-x-3 p-5 rounded-xl border border-slate-100 bg-white hover:border-slate-200 transition-all">
       <RadioGroupItem value={value} id={value} className="text-red-500 border-red-200" />
       <Label htmlFor={value} className="flex-1 font-bold text-sm text-slate-700 cursor-pointer">{label}</Label>
+    </div>
+  );
+}
+
+function PrivacyToggle({ id, checked, label, onChange }: any) {
+  return (
+    <div className="flex items-center gap-3 p-4 rounded-xl border border-slate-100 bg-white">
+      <Checkbox
+        id={id}
+        checked={!!checked}
+        onCheckedChange={(value) => onChange(value === true)}
+        className="border-slate-300 data-[state=checked]:bg-red-500 data-[state=checked]:border-red-500"
+      />
+      <Label htmlFor={id} className="text-xs font-bold text-slate-600 uppercase tracking-widest cursor-pointer">
+        {label}
+      </Label>
     </div>
   );
 }

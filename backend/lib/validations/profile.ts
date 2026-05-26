@@ -63,6 +63,9 @@ export const profileUpdateSchema = z.object({
   twitter_url: z.string().url().optional().or(z.literal('')),
   emergency_contact_name: z.string().max(100).optional().or(z.literal('')),
   emergency_contact_phone: z.string().max(20).optional().or(z.literal('')),
+  is_email_public: z.boolean().optional(),
+  is_phone_public: z.boolean().optional(),
+  is_address_public: z.boolean().optional(),
 }).partial()
 
 /**

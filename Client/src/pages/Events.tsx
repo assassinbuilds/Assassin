@@ -31,7 +31,7 @@ export default function Events() {
     max_participants: 200,
     participant_count: 45,
     status: 'live',
-    image_urls: ['/luma.png'],
+    image_urls: ['/og-image.png'],
     registration_open: true,
     prizes: { '1st': '5K INR', '2nd': '3K INR' },
     themes: ['Social Impact'],

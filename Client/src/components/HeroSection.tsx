@@ -1,4 +1,4 @@
-import heroBg from "@/assets/hero-bg.png";
+import heroBg from "@/assets/hero-bg.webp";
 import { CalendarDays, MapPin, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 

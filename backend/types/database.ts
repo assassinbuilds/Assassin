@@ -28,11 +28,17 @@ export interface Profile {
   degree_type: string | null
   graduation_year: number | null
   graduation_month: string | null
+  skills: string[] | null
+  interests: string[] | null
   roles: string[] | null
   resume_url: string | null
   has_experience: boolean
   emergency_contact_name: string | null
   emergency_contact_phone: string | null
+  banner_url: string | null
+  is_email_public: boolean
+  is_phone_public: boolean
+  is_address_public: boolean
   is_admin: boolean
   total_xp: number
   current_rank_id: string | null

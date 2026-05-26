@@ -15,6 +15,56 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 })
 
+const normalizeHandle = (value: string) => value.trim().replace(/^@+/, '').replace(/^\/+/, '')
+
+const normalizeUrl = (value: unknown) => {
+  if (typeof value !== 'string') {
+    return value
+  }
+
+  const trimmed = value.trim()
+  if (!trimmed) {
+    return ''
+  }
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed
+  }
+  return `https://${trimmed.replace(/^\/+/, '')}`
+}
+
+const normalizeSocialUrl = (field: string, value: unknown) => {
+  if (typeof value !== 'string') {
+    return value
+  }
+
+  const trimmed = value.trim()
+  if (!trimmed || /^https?:\/\//i.test(trimmed)) {
+    return trimmed
+  }
+
+  const handle = normalizeHandle(trimmed)
+  if (field === 'github_url') {
+    return `https://github.com/${handle.replace(/^github\.com\//i, '')}`
+  }
+  if (field === 'linkedin_url') {
+    return `https://www.linkedin.com/in/${handle.replace(/^(www\.)?linkedin\.com\/in\//i, '')}`
+  }
+  if (field === 'twitter_url') {
+    return `https://x.com/${handle.replace(/^(www\.)?(twitter|x)\.com\//i, '')}`
+  }
+
+  return normalizeUrl(trimmed)
+}
+
+const normalizeProfileUpdateBody = (body: Record<string, unknown>) => ({
+  ...body,
+  github_url: normalizeSocialUrl('github_url', body.github_url),
+  linkedin_url: normalizeSocialUrl('linkedin_url', body.linkedin_url),
+  twitter_url: normalizeSocialUrl('twitter_url', body.twitter_url),
+  portfolio_url: normalizeUrl(body.portfolio_url),
+  resume_url: normalizeUrl(body.resume_url),
+})
+
 /**
  * GET /api/profile
  * Get current user's own profile (all fields).
@@ -98,7 +148,7 @@ export async function PATCH(request: Request) {
       throw new AuthorizationError('Cannot modify admin status.')
     }
 
-    const validatedData = profileUpdateSchema.parse(body)
+    const validatedData = profileUpdateSchema.parse(normalizeProfileUpdateBody(body))
 
     const client = await pool.connect()
     try {
@@ -142,7 +192,8 @@ export async function PATCH(request: Request) {
         'has_education', 'education', 'university', 'degree_type',
         'graduation_year', 'graduation_month', 'skills', 'interests',
         'roles', 'resume_url', 'has_experience', 'banner_url',
-        'emergency_contact_name', 'emergency_contact_phone'
+        'emergency_contact_name', 'emergency_contact_phone',
+        'is_email_public', 'is_phone_public', 'is_address_public'
       ]
 
       const entries = Object.entries(dataToUpdate)

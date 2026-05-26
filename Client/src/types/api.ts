@@ -222,6 +222,9 @@ export interface ProfileUpdateRequest {
   address?: string;
   interests?: string[];
   banner_url?: string;
+  is_email_public?: boolean;
+  is_phone_public?: boolean;
+  is_address_public?: boolean;
 }
 
 export interface AvatarUploadResponse {

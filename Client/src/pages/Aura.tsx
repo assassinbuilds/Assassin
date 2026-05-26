@@ -72,7 +72,7 @@ const Aura = () => {
               <div className="absolute inset-0 bg-red-600/5 rounded-[3rem] blur-3xl" />
               <div className="relative aspect-video rounded-[2.5rem] overflow-hidden shadow-[0_32px_80px_-16px_rgba(0,0,0,0.1)] border-8 border-white bg-white">
                 <img 
-                  src="/aura_hero.png" 
+                  src="/og-image.png"
                   alt="Aura Interface" 
                   className="w-full h-full object-cover"
                 />
