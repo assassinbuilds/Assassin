@@ -12,7 +12,6 @@ const Missions = () => {
       <main className="pt-24 pb-20">
         {/* Header Section */}
         <div className="relative overflow-hidden mb-12">
-          <div className="absolute inset-0 bg-[url('/textures/grunge-overlay.png')] opacity-10" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 blur-[150px] rounded-full pointer-events-none" />
           
           <div className="max-w-7xl mx-auto px-6 pt-16 pb-8 text-center relative z-10">
