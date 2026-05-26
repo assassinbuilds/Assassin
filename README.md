@@ -20,7 +20,7 @@
 
 ## Welcome to the Command Center
 
-Tech Assassin is a high-performance community infrastructure designed for elite developers, security researchers, and systems architects. It serves as a unified ecosystem where field operatives synchronize on mission-critical sprints, track professional progression via an advanced gamification engine, and collaborate on dismantling technical monoliths.
+Tech Assassin is a high-performance community infrastructure designed for elite developers, security researchers, and system architects. It serves as a unified ecosystem where field operatives synchronize on mission-critical sprints, track professional progression via an advanced gamification engine, and collaborate on dismantling technical monoliths.
 
 The platform provides a seamless experience across web and mobile, ensuring operatives stay connected to the network through real-time notifications, presence tracking, and tactical dashboards.
 
