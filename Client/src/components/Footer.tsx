@@ -111,7 +111,7 @@ const Footer = () => {
                   (link) => (
                     <li key={link}>
                       <a
-                        href="#"
+                        href={link === "About" ? "/about" : "#"}
                         className="text-sm text-hero-muted hover:text-primary transition-colors duration-200"
                       >
                         {link}

@@ -18,6 +18,7 @@ const Events = lazy(() => import("./pages/Events"));
 const EventDetails = lazy(() => import("./pages/EventDetails"));
 const Mentorship = lazy(() => import("./pages/Mentorship"));
 const Missions = lazy(() => import("./pages/Missions"));
+const About = lazy(() => import("./pages/About"));
 const Aura = lazy(() => import("./pages/Aura"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -53,6 +54,7 @@ const App = () => (
           <Route path="/events/:id" element={withSuspense(<EventDetails />)} />
           <Route path="/mentorship" element={withSuspense(<Mentorship />)} />
           <Route path="/missions" element={withSuspense(<Missions />)} />
+          <Route path="/about" element={withSuspense(<About />)} />
           <Route path="/aura" element={withSuspense(<Aura />)} />
           <Route path="/projects" element={withSuspense(<NotFound />)} />
           <Route path="/profile" element={withSuspense(<Profile />)} />

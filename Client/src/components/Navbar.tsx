@@ -11,6 +11,7 @@ import NotificationBell from "./NotificationBell";
 
 const navLinks = [
   { label: "Home", href: "/", isRoute: true },
+  { label: "About", href: "/about", isRoute: true },
   { label: "Testimonials", href: "/#developers-say", isRoute: false },
 ];
 
