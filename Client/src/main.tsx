@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { ClerkProvider } from "@clerk/react";
 import { dark } from '@clerk/themes';
@@ -6,16 +6,17 @@ import App from "./App.tsx";
 import "./index.css";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const isProductionMode = import.meta.env.MODE === "production";
+const isLiveClerkKey = PUBLISHABLE_KEY?.startsWith("pk_live_");
 
-if (!PUBLISHABLE_KEY) {
-  // Graceful fail for production if user hasn't set env vars yet
+const renderConfigurationError = (message: ReactNode) => {
   createRoot(document.getElementById("root")!).render(
-    <div style={{ 
-      height: '100vh', 
-      display: 'flex', 
+    <div style={{
+      height: '100vh',
+      display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center', 
-      justifyContent: 'center', 
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: '#0a0a0b',
       color: 'white',
       fontFamily: 'sans-serif',
@@ -23,11 +24,27 @@ if (!PUBLISHABLE_KEY) {
       padding: '20px'
     }}>
       <h1 style={{ color: '#ef4444', marginBottom: '16px' }}>Configuration Error</h1>
-      <p style={{ maxWidth: '500px', lineHeight: '1.6', color: '#a1a1aa' }}>
-        The <b>VITE_CLERK_PUBLISHABLE_KEY</b> is missing. <br /><br />
-        Please add this key to your Vercel Environment Variables to activate the new authentication system.
+      <p style={{ maxWidth: '540px', lineHeight: '1.6', color: '#a1a1aa' }}>
+        {message}
       </p>
     </div>
+  );
+};
+
+if (!PUBLISHABLE_KEY) {
+  // Graceful fail for production if user hasn't set env vars yet
+  renderConfigurationError(
+    <>
+      The <b>VITE_CLERK_PUBLISHABLE_KEY</b> is missing. <br /><br />
+      Add your Clerk publishable key to the environment before running the app.
+    </>
+  );
+} else if (isProductionMode && !isLiveClerkKey) {
+  renderConfigurationError(
+    <>
+      Production builds must use a Clerk live key. <br /><br />
+      Set <b>VITE_CLERK_PUBLISHABLE_KEY</b> to your Clerk production key that starts with <b>pk_live_</b>.
+    </>
   );
 } else {
   createRoot(document.getElementById("root")!).render(

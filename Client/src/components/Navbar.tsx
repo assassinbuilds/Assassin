@@ -11,6 +11,7 @@ import NotificationBell from "./NotificationBell";
 
 const navLinks = [
   { label: "Home", href: "/", isRoute: true },
+  { label: "Testimonials", href: "/#developers-say", isRoute: false },
 ];
 
 const Navbar = ({ dark = true }: { dark?: boolean }) => {
@@ -27,6 +28,56 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    let attempts = 0;
+    let timeout: number;
+
+    const scrollToTarget = () => {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      attempts += 1;
+      if (attempts < 12) {
+        timeout = window.setTimeout(scrollToTarget, 75);
+      }
+    };
+
+    timeout = window.setTimeout(scrollToTarget, 0);
+
+    return () => window.clearTimeout(timeout);
+  }, [location.hash, location.pathname]);
+
+  const getIsActive = (href: string) => {
+    const [pathname, hash] = href.split("#");
+
+    if (hash) {
+      return location.pathname === pathname && location.hash === `#${hash}`;
+    }
+
+    return location.pathname === href && !location.hash;
+  };
+
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+
+    const [pathname, hash] = href.split("#");
+    const isSamePageHash =
+      Boolean(hash) &&
+      location.pathname === pathname &&
+      location.hash === `#${hash}`;
+
+    if (isSamePageHash) {
+      document
+        .getElementById(hash)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   const handleLogout = async () => {
     await signOut();
@@ -63,11 +114,12 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           <div className={`hidden lg:flex items-center justify-center absolute left-1/2 -translate-x-1/2 ${dark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'} border px-2 py-1 rounded-full`}>
             <div className="flex items-center gap-1">
               {navLinks.map((link) => {
-                const isActive = location.pathname === link.href;
+                const isActive = getIsActive(link.href);
                 return (
                   <Link
                     key={link.label}
                     to={link.href}
+                    onClick={() => handleNavClick(link.href)}
                     className={`
                       px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative
                       ${isActive 
@@ -155,7 +207,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                 <Link
                   key={link.label}
                   to={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => handleNavClick(link.href)}
                   className={`text-2xl font-black italic uppercase tracking-tighter transition-colors ${
                     dark ? 'text-white/50 hover:text-red-500' : 'text-slate-400 hover:text-red-600'
                   }`}
