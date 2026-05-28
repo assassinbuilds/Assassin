@@ -95,19 +95,15 @@ export async function GET() {
             (email) => email.id === user.primaryEmailAddressId
           )?.emailAddress || user.emailAddresses[0]?.emailAddress || ''
           
-          const username = user.username || primaryEmail.split('@')[0] || `user_${userId.slice(-8)}`
-          const firstName = user.firstName || ''
-          const lastName = user.lastName || ''
-          const fullName = [firstName, lastName].filter(Boolean).join(' ') || ''
-          const avatarUrl = user.imageUrl || null
+          const username = `user_${String(userId).slice(-8).replace(/[^a-zA-Z0-9_]/g, '')}`
 
           const { rows: newRows } = await client.query(`
             INSERT INTO public.profiles (
               id, username, email, first_name, last_name, full_name, avatar_url, updated_at
             ) VALUES (
-              $1, $2, $3, $4, $5, $6, $7, NOW()
+              $1, $2, $3, '', '', '', NULL, NOW()
             ) RETURNING *
-          `, [userId, username, primaryEmail, firstName, lastName, fullName, avatarUrl])
+          `, [userId, username, primaryEmail])
           
           return NextResponse.json(newRows[0])
         } catch (syncError) {

@@ -44,7 +44,7 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={withSuspense(<Index />)} />
-          <Route path="/signup/*" element={<div className="min-h-screen flex items-center justify-center bg-background"><SignUp routing="path" path="/signup" /></div>} />
+          <Route path="/signup/*" element={<div className="min-h-screen flex items-center justify-center bg-background"><SignUp routing="path" path="/signup" forceRedirectUrl="/edit-profile" fallbackRedirectUrl="/edit-profile" /></div>} />
           <Route path="/signin/*" element={<div className="min-h-screen flex items-center justify-center bg-background"><SignIn routing="path" path="/signin" /></div>} />
           <Route path="/forgot-password" element={withSuspense(<ForgotPassword />)} />
           <Route path="/magic-link" element={withSuspense(<MagicLink />)} />

@@ -106,35 +106,24 @@ async function handleUserUpsert(userData: any, client: any) {
       (email: any) => email.id === userData.primary_email_address_id
     )?.email_address || userData.email_addresses?.[0]?.email_address || null
     
-    const firstName = userData.first_name || ''
-    const lastName = userData.last_name || ''
-    const username = userData.username || primaryEmail?.split('@')[0] || `user_${clerkUserId.slice(-8)}`
-    const imageUrl = userData.image_url || null
-    const fullName = [firstName, lastName].filter(Boolean).join(' ') || ''
+    const username = `user_${String(clerkUserId).slice(-8).replace(/[^a-zA-Z0-9_]/g, '')}`
 
-    // Upsert profile
+    // Keep editable profile fields blank on signup.
+    // username is only a technical placeholder because the DB requires it.
     await client.query(`
       INSERT INTO public.profiles (
         id, username, email, first_name, last_name, full_name, avatar_url, updated_at
       ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7, NOW()
+        $1, $2, $3, '', '', '', NULL, NOW()
       )
       ON CONFLICT (id) DO UPDATE SET
         email = EXCLUDED.email,
-        first_name = EXCLUDED.first_name,
-        last_name = EXCLUDED.last_name,
-        full_name = EXCLUDED.full_name,
-        avatar_url = EXCLUDED.avatar_url,
         updated_at = NOW()
-        -- Note: username and member_id are intentionally locked here unless it's a new insert
+        -- Do not overwrite editable profile fields from Clerk.
     `, [
       clerkUserId,
       username,
-      primaryEmail,
-      firstName,
-      lastName,
-      fullName,
-      imageUrl
+      primaryEmail
     ])
 
     console.log(`Profile synced for ${clerkUserId} (${username})`)

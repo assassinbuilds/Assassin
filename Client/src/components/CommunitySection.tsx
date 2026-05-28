@@ -76,14 +76,14 @@ const testimonials = [
       "Tech Assassin makes unfinished ideas feel finishable. The best part is the mix of accountability, feedback, and people who actually want to build.",
     name: "Aryan Sondharva",
     role: "Founder",
-    image: {founderImg},
+    image: founderImg,
   },
   {
     quote:
       "The community is practical. You do not just talk about projects, you ship them, get reviewed, and learn what to improve next.",
     name: "Manthan Rajpurohit",
     role: "Co-Founder",
-    image: {manthanImg},
+    image: manthanImg,
   },
 ];
 

@@ -126,7 +126,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                 <NotificationBell dark={false} />
                 <UserButton>
                   <UserButton.MenuItems>
-                    <UserButton.Link href={`/@${user?.username}`} label="My Assassin" labelIcon={<Shield className="w-4 h-4" />} />
+                    <UserButton.Link href="/profile" label="My Assassin" labelIcon={<Shield className="w-4 h-4" />} />
                     <UserButton.Link href="/edit-profile" label="Edit Profile" labelIcon={<PenSquare className="w-4 h-4" />} />
                     <UserButton.Link href="/missions" label="My Missions" labelIcon={<Target className="w-4 h-4" />} />
                     <UserButton.Action label="Show QR Code" labelIcon={<QrCode className="w-4 h-4" />} onClick={() => window.location.href = '/qr'} />
@@ -140,7 +140,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                     Enter System
                   </button>
                 </SignInButton>
-                <SignUpButton mode="modal">
+                <SignUpButton mode="modal" forceRedirectUrl="/edit-profile" fallbackRedirectUrl="/edit-profile">
                   <button className="flex items-center gap-2 rounded-full bg-slate-950 px-5 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg transition-all hover:scale-105 hover:bg-red-600 active:scale-95">
                     Join Squad <Zap className="w-3 h-3 fill-current" />
                   </button>
@@ -208,10 +208,10 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
 
               {isSignedIn ? (
                 <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 text-sm">
-                   <Link to={`/@${user?.username}`} className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>My Assassin</Link>
+                   <Link to="/profile" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>My Assassin</Link>
                    <Link to="/edit-profile" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Edit Profile</Link>
                    <Link to="/missions" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>My Missions</Link>
-                   <Link to={`/@${user?.username}`} className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                   <Link to="/profile" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Dashboard</Link>
                    <button onClick={handleLogout} className="text-left font-bold uppercase tracking-widest text-red-500">Log Out</button>
                 </div>
               ) : (
@@ -223,7 +223,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                       Enter System
                     </button>
                   </SignInButton>
-                  <SignUpButton mode="modal">
+                  <SignUpButton mode="modal" forceRedirectUrl="/edit-profile" fallbackRedirectUrl="/edit-profile">
                     <button
                       className="w-full rounded-xl bg-slate-900 py-4 text-center text-sm font-black uppercase tracking-widest text-white"
                     >

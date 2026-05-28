@@ -95,12 +95,9 @@ describe('Property 3: Input Validation Rejection', () => {
       )
     })
 
-    it('should reject empty full_name', () => {
+    it('should allow empty full_name while a new user completes onboarding', () => {
       const result = profileUpdateSchema.safeParse({ full_name: '' })
-      expect(result.success).toBe(false)
-      if (!result.success) {
-        expect(result.error.issues[0].message).toContain('required')
-      }
+      expect(result.success).toBe(true)
     })
 
     it('should reject full_name longer than 100 characters', () => {

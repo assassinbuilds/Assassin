@@ -43,6 +43,8 @@ const getFullName = (firstName?: string, lastName?: string, fallback?: string | 
   return [firstName, lastName].filter(Boolean).join(' ').trim() || fallback || '';
 };
 
+const isGeneratedUsername = (username?: string | null) => /^user_[a-zA-Z0-9_]{4,}$/i.test(username || '');
+
 const normalizeHandle = (value?: string | null) => (value || '').trim().replace(/^@+/, '').replace(/^\/+/, '');
 
 const normalizeUrl = (value?: string | null) => {
@@ -76,18 +78,15 @@ const normalizeProfilePayload = (data: ProfileUpdateRequest): ProfileUpdateReque
 
 const getClerkProfileFallback = (clerkUser: any, userId?: string | null): Partial<Profile> => {
   const email = clerkUser?.primaryEmailAddress?.emailAddress || '';
-  const fallbackName = splitFullName(clerkUser?.fullName);
-  const firstName = clerkUser?.firstName || fallbackName.firstName;
-  const lastName = clerkUser?.lastName || fallbackName.lastName;
 
   return {
     id: userId || clerkUser?.id || '',
-    username: clerkUser?.username || email.split('@')[0] || '',
+    username: '',
     email,
-    first_name: firstName,
-    last_name: lastName,
-    full_name: getFullName(firstName, lastName, clerkUser?.fullName),
-    avatar_url: clerkUser?.imageUrl || null,
+    first_name: '',
+    last_name: '',
+    full_name: '',
+    avatar_url: null,
   };
 };
 
@@ -98,7 +97,7 @@ const mergeProfileWithFallback = (data: Partial<Profile>, fallback: Partial<Prof
   return {
     ...fallback,
     ...data,
-    username: data.username || fallback.username || '',
+    username: isGeneratedUsername(data.username) ? '' : data.username || fallback.username || '',
     email: data.email || fallback.email || '',
     first_name: data.first_name || fallback.first_name || '',
     last_name: data.last_name || fallback.last_name || '',
@@ -117,7 +116,7 @@ const mapProfileToFormData = (data: Partial<Profile>, fallback: Partial<Profile>
     first_name: firstName,
     last_name: lastName,
     full_name: getFullName(firstName, lastName, merged.full_name),
-    username: merged.username || '',
+    username: isGeneratedUsername(merged.username) ? '' : merged.username || '',
     gender: merged.gender || '',
     tshirt_size: merged.tshirt_size || '',
     address: merged.address || '',
@@ -211,6 +210,9 @@ export default function EditProfile() {
       const payload: ProfileUpdateRequest = normalizeProfilePayload({
         ...formData,
       });
+      if (!payload.username?.trim()) {
+        delete payload.username;
+      }
       const fullName = getFullName(formData.first_name, formData.last_name, formData.full_name);
       if (fullName) {
         payload.full_name = fullName;

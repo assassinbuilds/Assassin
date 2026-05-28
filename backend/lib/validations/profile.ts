@@ -14,7 +14,8 @@ export const profileUpdateSchema = z.object({
   full_name: z
     .string()
     .min(1, 'Full name is required')
-    .max(100, 'Full name must not exceed 100 characters'),
+    .max(100, 'Full name must not exceed 100 characters')
+    .or(z.literal('')),
   bio: z
     .string()
     .max(500, 'Bio must not exceed 500 characters')
