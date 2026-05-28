@@ -7,7 +7,7 @@ const testimonials = [
     quote:
       "Tech Assassin gives builders the rare mix of pressure, guidance, and community. It feels like a place where shipping real work is the default.",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=aarav",
-    accent: "text-cyan-400",
+    accent: "text-blue-600",
   },
   {
     name: "Nisha Rao",
@@ -15,7 +15,7 @@ const testimonials = [
     quote:
       "The missions are practical and the feedback loop is fast. I joined for events, but stayed because the community keeps me improving.",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=nisha",
-    accent: "text-emerald-400",
+    accent: "text-emerald-600",
   },
   {
     name: "Karan Shah",
@@ -46,7 +46,7 @@ const DeveloperTestimonials = () => {
           {testimonials.map((testimonial) => (
             <article
               key={testimonial.name}
-              className="rounded-lg border border-white/10 bg-white/[0.04] p-6 shadow-sm transition-colors hover:bg-white/[0.07]"
+              className="rounded-lg border border-slate-200 bg-white p-6 shadow-[0_18px_45px_-34px_rgba(15,23,42,0.75)] transition-colors hover:border-red-200"
             >
               <div className="flex items-center justify-between gap-4 mb-8">
                 <Quote className={`w-8 h-8 ${testimonial.accent}`} />
@@ -57,7 +57,7 @@ const DeveloperTestimonials = () => {
                 </div>
               </div>
 
-              <p className="text-hero-foreground/90 leading-relaxed mb-8">
+              <p className="text-slate-700 leading-relaxed mb-8">
                 "{testimonial.quote}"
               </p>
 
@@ -65,7 +65,7 @@ const DeveloperTestimonials = () => {
                 <img
                   src={testimonial.avatar}
                   alt={`${testimonial.name} avatar`}
-                  className="h-12 w-12 rounded-full border border-white/15 bg-white/10"
+                  className="h-12 w-12 rounded-full border border-slate-200 bg-slate-50"
                   loading="lazy"
                 />
                 <div>

@@ -84,28 +84,21 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-hero-bg via-hero-bg to-hero-bg p-4 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-5 animate-pulse animation-delay-4000"></div>
-      </div>
-
       <div className="relative z-10 w-full max-w-6xl grid lg:grid-cols-2 gap-8">
         {/* Left side - Welcome Back */}
         <div className="hidden lg:flex flex-col justify-center p-8">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="text-5xl font-bold text-hero-black">
+              <h1 className="text-5xl font-bold text-hero-foreground">
                 Welcome Back to <span className="text-primary">Tech Assassin</span>
               </h1>
               <p className="text-xl text-hero-muted mb-6">
                 Continue your journey. Build, innovate, and conquer with the community.
               </p>
-              <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 w-fit backdrop-blur-sm">
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 w-fit shadow-sm">
                 <div className="flex -space-x-3">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-[#0a0a0b] overflow-hidden shadow-xl ring-2 ring-primary/20">
+                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-xl ring-2 ring-primary/20">
                       <img 
                         src={`https://api.dicebear.com/7.x/avataaars/svg?seed=user${i}`} 
                         alt="Operative" 
