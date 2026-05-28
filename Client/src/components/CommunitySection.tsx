@@ -98,9 +98,9 @@ const CommunitySection = () => {
 };
 
 const ImpactSection = () => (
-  <section id="community" className="relative bg-white py-20">
+  <section id="community" className="relative bg-white py-14 md:py-20">
     <div className="container relative mx-auto px-6">
-      <div className="mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-[1.05fr_0.95fr]">
+      <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-10">
         <div className="relative">
           <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_30px_70px_-45px_rgba(15,23,42,0.8)]">
             <img
@@ -145,7 +145,7 @@ const ImpactSection = () => (
 );
 
 const HappeningNowSection = () => (
-  <section className="bg-white py-16">
+  <section className="bg-white py-12 md:py-16">
     <div className="container mx-auto px-6">
       <h2 className="mb-8 text-center text-xl font-black text-slate-950">
         Happening now
@@ -181,9 +181,9 @@ const HappeningNowSection = () => (
 );
 
 const QuoteSection = () => (
-  <section className="bg-white py-20">
+  <section className="bg-white py-14 md:py-20">
     <div className="container mx-auto px-6">
-      <div className="mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-[0.95fr_1.05fr]">
+      <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[0.95fr_1.05fr] md:gap-10">
         <div>
           <p className="text-2xl font-black leading-tight text-red-600 md:text-3xl">
             The mission is simple: give every student a real shot at building
@@ -212,9 +212,9 @@ const QuoteSection = () => (
 );
 
 const IdentitySection = () => (
-  <section className="relative bg-white py-24">
+  <section className="relative bg-white py-16 md:py-20">
     <div className="container relative mx-auto px-6 text-center">
-      <div className="mx-auto mb-10 flex h-48 max-w-xl items-center justify-center">
+      <div className="mx-auto mb-10 flex h-40 max-w-xl items-center justify-center md:h-48">
         <div className="relative h-40 w-40">
           <div className="absolute left-1/2 top-0 h-36 w-px -translate-x-1/2 bg-slate-950" />
           <div className="absolute left-1/2 top-0 h-10 w-10 -translate-x-1/2 rounded-b-full border-b-4 border-l-4 border-slate-950" />
@@ -234,8 +234,8 @@ const IdentitySection = () => (
 );
 
 const BuilderStorySection = () => (
-  <section className="bg-white py-24">
-    <div className="container mx-auto space-y-24 px-6">
+  <section className="bg-white py-16 md:py-20">
+    <div className="container mx-auto space-y-16 px-6 md:space-y-20">
       {storyBlocks.map((block, index) => {
         const Icon = block.icon;
         const flipped = index % 2 === 1;
@@ -243,7 +243,7 @@ const BuilderStorySection = () => (
         return (
           <div
             key={block.title}
-            className={`mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2 ${flipped ? "md:[&>*:first-child]:order-2" : ""}`}
+            className={`mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-2 md:gap-12 ${flipped ? "md:[&>*:first-child]:order-2" : ""}`}
           >
             <div>
               <div className="mb-5 flex items-center gap-3">
@@ -275,7 +275,7 @@ const BuilderStorySection = () => (
 );
 
 const DeveloperVoicesSection = () => (
-  <section id="developers-say" className="bg-white py-24">
+  <section id="developers-say" className="bg-white py-16 md:py-20">
     <div className="container mx-auto px-6">
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="text-4xl font-black text-slate-950">
@@ -317,7 +317,7 @@ const DeveloperVoicesSection = () => (
 );
 
 const CommunityCtaSection = () => (
-  <section className="bg-yellow-300 py-24">
+  <section className="bg-yellow-300 py-16 md:py-20">
     <div className="container mx-auto px-6 text-center">
       <p className="mb-3 text-sm font-black uppercase tracking-[0.2em] text-slate-800">
         Tech Assassin for communities

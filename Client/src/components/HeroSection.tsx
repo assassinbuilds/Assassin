@@ -4,13 +4,13 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen items-center overflow-hidden bg-white pt-16"
+      className="relative overflow-hidden bg-white pt-16 pb-14 sm:pb-16 md:pt-20 md:pb-20"
     >
-      <div className="container relative z-10 mx-auto px-4 py-16 text-center sm:px-6 md:py-24">
+      <div className="container relative z-10 mx-auto px-4 text-center sm:px-6">
         <div className="relative mx-auto max-w-6xl">
           <DecorativeMarks />
 
-          <div className="relative z-10 mx-auto max-w-5xl pt-14 sm:pt-20 md:pt-24">
+          <div className="relative z-10 mx-auto max-w-5xl pt-10 sm:pt-12 md:pt-14">
             <h1 className="text-4xl font-normal leading-[1.08] text-slate-800 sm:text-5xl md:text-6xl lg:text-7xl">
               Turning{" "}
               <span className="font-black text-slate-950">learners</span> into
@@ -27,7 +27,7 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="relative z-10 mx-auto mt-12 max-w-xl md:mt-20">
+          <div className="relative z-10 mx-auto mt-9 max-w-xl md:mt-12">
             <p className="mb-4 text-xs font-black uppercase text-slate-800 sm:text-sm md:mb-5">
               Join us
             </p>
@@ -58,39 +58,39 @@ const HeroSection = () => {
 };
 
 const DecorativeMarks = () => (
-  <div aria-hidden="true" className="pointer-events-none absolute inset-0 h-full min-h-[32rem]">
+  <div aria-hidden="true" className="pointer-events-none absolute inset-0 h-full">
     <CodeFace
-      className="left-[1%] top-[32%] hidden sm:block"
+      className="left-[1%] top-[38%] hidden sm:block"
       rotate="-rotate-12"
       body="bg-emerald-400"
       accent="border-emerald-400"
     />
     <CodeFace
-      className="left-[26%] top-[0%] hidden md:block"
+      className="left-[26%] top-[4%] hidden md:block"
       rotate="rotate-6"
       body="bg-yellow-100"
       accent="border-yellow-100"
     />
     <CodeFace
-      className="right-[27%] top-[0%] hidden md:block"
+      className="right-[27%] top-[4%] hidden md:block"
       rotate="-rotate-6"
       body="bg-orange-300"
       accent="border-orange-300"
     />
     <CodeFace
-      className="right-[2%] top-[29%] hidden sm:block"
+      className="right-[2%] top-[35%] hidden sm:block"
       rotate="rotate-12"
       body="bg-yellow-300"
       accent="border-emerald-400"
     />
     <FloatingBadge
-      className="left-[27%] bottom-[5%] hidden md:flex"
+      className="left-[27%] bottom-[-1%] hidden md:flex"
       rotate="rotate-6"
       bg="bg-blue-500"
       border="border-blue-500"
     />
     <FloatingBadge
-      className="right-[24%] bottom-[3%] hidden md:flex"
+      className="right-[24%] bottom-[-2%] hidden md:flex"
       rotate="-rotate-12"
       bg="bg-red-600"
       border="border-red-700"
