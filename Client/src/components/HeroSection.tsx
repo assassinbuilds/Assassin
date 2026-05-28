@@ -4,7 +4,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-white pt-16 pb-14 sm:pb-16 md:pt-20 md:pb-20"
+      className="relative overflow-hidden bg-white pt-24 pb-14 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20"
     >
       <div className="container relative z-10 mx-auto px-4 text-center sm:px-6">
         <div className="relative mx-auto max-w-6xl">
