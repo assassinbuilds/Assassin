@@ -32,10 +32,6 @@ const DeveloperTestimonials = () => {
     <section id="developers-say" className="py-24 bg-hero text-hero-foreground">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-hero-muted text-xs font-semibold uppercase tracking-wider mb-5">
-            <Code2 className="w-4 h-4 text-primary" />
-            Builder Signal
-          </div>
 
           <h2 className="text-3xl md:text-5xl font-bold mb-5">
             What Developers Say

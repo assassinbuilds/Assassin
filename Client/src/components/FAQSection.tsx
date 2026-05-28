@@ -43,9 +43,9 @@ const FAQSection = () => {
     <section id="faq" className="py-24 bg-section-alt">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
+          {/* <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
             Support
-          </span>
+          </span> */}
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
             Frequently Asked Questions
           </h2>

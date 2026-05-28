@@ -32,9 +32,9 @@ const WhySection = () => {
     <section id="why" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
+          {/* <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4">
             Why Us
-          </span>
+          </span> */}
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
             Why Our Community
           </h2>

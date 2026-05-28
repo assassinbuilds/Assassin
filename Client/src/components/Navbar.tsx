@@ -1,7 +1,5 @@
 import { 
-  Menu, X, Shield, ChevronRight, Zap, User, Settings, 
-  Target, Sparkles, Layout, QrCode, LogOut,
-  PenSquare, Compass, Gift, BarChart
+  Menu, X, Shield, Zap, Target, QrCode, PenSquare
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -10,22 +8,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "./NotificationBell";
 
 const navLinks = [
-  { label: "Home", href: "/", isRoute: true },
   { label: "About", href: "/about", isRoute: true },
   { label: "Testimonials", href: "/#developers-say", isRoute: false },
 ];
 
 const Navbar = ({ dark = true }: { dark?: boolean }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const location = useLocation();
   const { user, isSignedIn } = useUser();
   const { signOut } = useClerk();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setHidden(window.scrollY > 20);
     };
+
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -86,7 +85,11 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] px-4 py-6 pointer-events-none text-sans">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-[100] px-4 py-6 pointer-events-none text-sans transition-all duration-300 ${
+        hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
+      }`}
+    >
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -94,13 +97,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
       >
         <div className={`
           relative flex items-center justify-between h-16 px-6 md:px-8 rounded-full 
-          transition-all duration-700 ease-in-out
-          ${scrolled 
-            ? dark 
-              ? "bg-black/40 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]" 
-              : "bg-white/80 backdrop-blur-2xl border border-slate-200 shadow-[0_8px_32px_rgba(0,0,0,0.05)]"
-            : "bg-transparent border-transparent"
-          }
+          border border-transparent bg-transparent shadow-none transition-colors duration-300
         `}>
           {/* Logo Section */}
           <Link to="/" className="flex items-center gap-2 group shrink-0">
@@ -110,7 +107,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           </Link>
 
           {/* Desktop Navigation - Centered */}
-          <div className={`hidden lg:flex items-center justify-center absolute left-1/2 -translate-x-1/2 ${dark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'} border px-2 py-1 rounded-full`}>
+          <div className="hidden lg:flex items-center justify-center absolute left-1/2 -translate-x-1/2 border border-transparent bg-transparent px-2 py-1 rounded-full">
             <div className="flex items-center gap-1">
               {navLinks.map((link) => {
                 const isActive = getIsActive(link.href);
@@ -127,13 +124,6 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                       }
                     `}
                   >
-                    {isActive && (
-                      <motion.div 
-                        layoutId="nav-active"
-                        className={`absolute inset-0 ${dark ? 'bg-white/10' : 'bg-slate-200/50'} rounded-full`}
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                      />
-                    )}
                     <span className="relative z-10">{link.label}</span>
                   </Link>
                 );
@@ -251,17 +241,5 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
     </nav>
   );
 };
-
-function DropdownItem({ to, icon: Icon, label }: { to: string, icon: React.ElementType, label: string }) {
-  return (
-    <Link 
-      to={to} 
-      className="flex items-center gap-3 w-full px-4 py-2.5 rounded-lg hover:bg-white/10 text-slate-300 transition-all group/item"
-    >
-      <Icon className="w-5 h-5 text-slate-400 group-hover/item:text-white" />
-      <span className="text-[13px] font-medium">{label}</span>
-    </Link>
-  );
-}
 
 export default Navbar;
