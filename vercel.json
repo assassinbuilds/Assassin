@@ -3,15 +3,11 @@
   "buildCommand": "cd Client && npm install && npm run build",
   "outputDirectory": "Client/dist",
   "installCommand": "cd Client && npm install",
-  "framework": null,
-  "routes": [
+  "framework": "vite",
+  "rewrites": [
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
