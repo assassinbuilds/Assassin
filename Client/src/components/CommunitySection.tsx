@@ -217,12 +217,12 @@ const QuoteSection = () => (
 const IdentitySection = () => (
   <section className="relative bg-white py-16 md:py-20">
     <div className="container relative mx-auto px-6 text-center">
-      <div className="mx-auto mb-10 flex h-40 max-w-xl items-center justify-center md:h-48">
-        <div className="relative h-40 w-40">
+      <div className="mx-auto mb-10 flex h-56 max-w-xl items-center justify-center md:h-64">
+        <div className="relative h-56 w-56 md:h-64 md:w-64">
           <img 
             src={flagImg} 
             alt="Tech Assassin Flag" 
-            className="h-full w-full object-contain" 
+            className="h-full w-full object-contain scale-[1.3] md:scale-[1.5]" 
           />
         </div>
       </div>
