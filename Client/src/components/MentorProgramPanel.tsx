@@ -1,10 +1,11 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { api, ApiError } from '@/lib/api-client';
-import { Calendar, Copy, ExternalLink, Loader2, ShieldAlert, Star, Video, Users, Target, Zap, ChevronRight, Search, Check, ShieldCheck, Clock, MessageSquare, Send } from 'lucide-react';
+import { Calendar, Copy, ExternalLink, Loader2, ShieldAlert, Star, Video, Users, Target, Zap, ChevronRight, Search, Check, ShieldCheck, Clock, MessageSquare, Send, type LucideIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type ExperienceLevel = 'junior' | 'mid' | 'senior' | 'expert';
 type RequestStatus = 'pending' | 'accepted' | 'declined' | 'canceled' | 'completed';
+type MentorRequestAction = 'accept' | 'decline' | 'confirm_complete' | 'cancel' | 'complete';
 
 interface Mentor {
   id: string;
@@ -116,11 +117,7 @@ const MentorProgramPanel = () => {
     return `${JITSI_BASE_URL}/${MENTORSHIP_ROOM_PREFIX}-${roomSeed}`;
   };
 
-  useEffect(() => {
-    void loadData();
-  }, []);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       const [mentorList, mentorStats] = await Promise.all([
@@ -129,8 +126,8 @@ const MentorProgramPanel = () => {
       ]);
       setMentors(mentorList);
       setStats(mentorStats);
-      if (mentorList.length > 0 && !selectedMentorId) {
-        setSelectedMentorId(mentorList[0].id);
+      if (mentorList.length > 0) {
+        setSelectedMentorId((current) => current || mentorList[0].id);
       }
 
       try {
@@ -151,7 +148,11 @@ const MentorProgramPanel = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    void loadData();
+  }, [loadData]);
 
   const handleApplyAsMentor = async (e: FormEvent) => {
     e.preventDefault();
@@ -229,7 +230,7 @@ const MentorProgramPanel = () => {
     } catch (err) { setMessage('Feedback loop failed.'); }
   };
 
-  const handleRequestAction = async (requestId: string, action: any) => {
+  const handleRequestAction = async (requestId: string, action: MentorRequestAction) => {
     try {
       await api.patch(`/community/mentors/requests/${requestId}`, { action });
       loadData();
@@ -280,7 +281,7 @@ const MentorProgramPanel = () => {
       <div className="flex gap-4 border-b border-border">
         {['directory', 'requests'].map((tab) => (
           <button 
-            key={tab} onClick={() => setActiveTab(tab as any)}
+            key={tab} onClick={() => setActiveTab(tab as 'directory' | 'requests')}
             className={`px-6 py-4 text-xs font-black uppercase tracking-[0.2em] transition-all relative ${activeTab === tab ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
           >
             {tab === 'directory' ? 'Operational Dossiers' : 'Mission Logs'}
@@ -540,7 +541,7 @@ const MentorProgramPanel = () => {
   );
 };
 
-const MetricCard = ({ icon: Icon, label, value, color }: { icon: any, label: string; value: number; color: 'red' | 'blue' | 'yellow' }) => {
+const MetricCard = ({ icon: Icon, label, value, color }: { icon: LucideIcon, label: string; value: number; color: 'red' | 'blue' | 'yellow' }) => {
   const colors = {
     red: 'text-red-500 bg-red-500/10',
     blue: 'text-blue-500 bg-blue-500/10',

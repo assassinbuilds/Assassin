@@ -274,10 +274,11 @@ const MissionsHub = () => {
       setSolvingMissionId(null);
       setProofLink('');
       fetchData();
-    } catch (err: any) {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Could not verify mission.'
       toast({
         title: 'SYSTEM ERROR',
-        description: err?.message || 'Could not verify mission.',
+        description: message,
         variant: 'destructive',
       });
     } finally {
