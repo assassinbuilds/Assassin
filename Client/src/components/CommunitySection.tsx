@@ -1,7 +1,9 @@
 import founderImg from '@/assets/founder.png';
 import manthanImg from '@/assets/manthan.png';
 import flagImg from '@/assets/flag.webp';
+import heroBgImg from '@/assets/hero-bg.webp';
 import keyChainImg from '@/assets/key_chain.png';
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -17,9 +19,42 @@ import {
 import { Link } from "react-router-dom";
 
 const stats = [
-  //{ value: "950+", label: "builders guided", color: "bg-red-500" },
-  //{ value: "80+", label: "projects shipped", color: "bg-emerald-400" },
-  //{ value: "25+", label: "missions hosted", color: "bg-blue-500" },
+  // {
+  //   value: "950,000+",
+  //   label: "builders",
+  //   color: "bg-[#5ccdbc]",
+  //   className: "max-w-[25rem] lg:-ml-28 lg:w-[32rem] lg:max-w-none",
+  // },
+  // {
+  //   value: "80,000+",
+  //   label: "projects",
+  //   color: "bg-[#03df79]",
+  //   className: "max-w-[22rem] lg:-ml-28 lg:w-[28rem] lg:max-w-none",
+  // },
+  // {
+  //   value: "1,500+",
+  //   label: "hackathons",
+  //   color: "bg-[#81a2ed]",
+  //   className: "max-w-[20rem] lg:-ml-28 lg:w-[26rem] lg:max-w-none",
+  // },
+];
+
+const impactSlides = [
+  {
+    src: keyChainImg,
+    alt: "Tech Assassin key chain",
+    imageClassName: "object-cover object-center",
+  },
+  {
+    src: heroBgImg,
+    alt: "Tech Assassin community background",
+    imageClassName: "object-cover object-center",
+  },
+  {
+    src: flagImg,
+    alt: "Tech Assassin flag",
+    imageClassName: "object-contain bg-slate-950 p-8",
+  },
 ];
 
 const missions = [
@@ -102,23 +137,18 @@ const CommunitySection = () => {
 };
 
 const ImpactSection = () => (
-  <section id="community" className="relative bg-white py-14 md:py-20">
+  <section id="community" className="relative overflow-hidden bg-white py-14 md:py-24">
     <div className="container relative mx-auto px-6">
-      <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-10">
-        <div className="relative">
+      <div className="mx-auto grid max-w-7xl items-center gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-6 lg:gap-10">
+        <div className="relative z-10">
           <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_30px_70px_-45px_rgba(15,23,42,0.8)]">
-            <img
-              src={keyChainImg}
-              alt="Tech Assassin key chain"
-              className="h-64 w-full object-cover object-center sm:h-80 md:h-[23rem]"
-              loading="lazy"
-            />
+            <ImpactImageSwap />
           </div>
           <FloatingChip className="-bottom-4 left-4 sm:-bottom-5 sm:left-8" color="bg-yellow-300" text="JS" />
           <FloatingChip className="-right-3 top-6 sm:-right-6 sm:top-8" color="bg-emerald-400" text="{ }" />
         </div>
 
-        <div>
+        <div className="relative z-20">
           <p className="mb-4 text-sm font-black uppercase tracking-[0.22em] text-red-600">
             We ship momentum
           </p>
@@ -129,24 +159,58 @@ const ImpactSection = () => (
             We run missions, reviews, workshops, and project showcases so students
             can move from tutorials to real work with a squad around them.
           </p>
-
-          <div className="mt-8 space-y-3">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4">
-                <span className={`min-w-[7rem] rounded-full px-4 py-2 text-center text-base font-black text-white sm:min-w-[9rem] sm:text-lg ${stat.color}`}>
-                  {stat.value}
-                </span>
-                <span className="text-xs font-black uppercase tracking-[0.16em] text-slate-500 sm:text-sm sm:tracking-[0.18em]">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </div>
+          <ImpactStats />
         </div>
       </div>
     </div>
   </section>
 );
+
+const ImpactStats = () => (
+  <div className="relative z-20 mt-8 space-y-4 md:mt-10">
+    {stats.map((stat) => (
+      <div
+        key={stat.label}
+        className={`mx-auto flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-white shadow-[0_24px_55px_-32px_rgba(15,23,42,0.7)] min-[420px]:px-5 sm:gap-3 sm:px-7 md:py-4 lg:mx-0 lg:justify-start lg:px-9 ${stat.color} ${stat.className}`}
+      >
+        <span className="font-heading text-2xl font-black leading-none min-[420px]:text-3xl sm:text-4xl lg:text-5xl">
+          {stat.value}
+        </span>
+        <span className="text-lg font-medium leading-none min-[420px]:text-xl sm:text-2xl">
+          {stat.label}
+        </span>
+      </div>
+    ))}
+  </div>
+);
+
+const ImpactImageSwap = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const swapTimer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % impactSlides.length);
+    }, 2000);
+
+    return () => window.clearInterval(swapTimer);
+  }, []);
+
+  return (
+    <div className="relative h-72 w-full bg-slate-950 sm:h-96 md:h-[34rem] lg:h-[44rem]">
+      {impactSlides.map((slide, index) => (
+        <img
+          key={slide.src}
+          src={slide.src}
+          alt={slide.alt}
+          className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${slide.imageClassName} ${
+            index === activeSlide ? "opacity-100" : "opacity-0"
+          }`}
+          loading={index === 0 ? "eager" : "lazy"}
+        />
+      ))}
+    </div>
+  );
+};
 
 const HappeningNowSection = () => (
   <section className="bg-white py-12 md:py-16">

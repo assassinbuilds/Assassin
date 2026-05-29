@@ -11,7 +11,7 @@ const HeroSection = () => {
           <DecorativeMarks />
 
           <div className="relative z-10 mx-auto max-w-5xl pt-0 sm:pt-12 md:pt-14">
-            <h1 className="text-[2.45rem] font-normal leading-[1.02] text-slate-800 min-[380px]:text-5xl sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="text-[2.45rem] font-normal leading-[1.02] text-slate-800 min-[380px]:text-5xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-[4rem]">
               Turning{" "}
               <span className="font-black text-slate-950">learners</span> into
               builders with{" "}
@@ -27,7 +27,7 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="relative z-10 mx-auto mt-8 max-w-sm sm:max-w-xl md:mt-12">
+          <div className="relative z-10 mx-auto mt-14 max-w-sm sm:mt-16 sm:max-w-xl md:mt-20">
             <p className="mb-3 text-[11px] font-black uppercase text-slate-800 sm:mb-4 sm:text-sm md:mb-5">
               Join us
             </p>
@@ -114,13 +114,13 @@ const CodeFace = ({
   rotate: string;
 }) => (
   <div className={`absolute ${className} ${rotate}`}>
-    <div className={`relative h-12 w-20 overflow-hidden rounded-b-full rounded-t-md shadow-[0_22px_48px_-34px_rgba(15,23,42,0.8)] sm:h-14 sm:w-24 md:h-16 md:w-28 lg:h-[5.2rem] lg:w-32 ${body}`}>
-      <span className="absolute left-7 top-4 h-6 w-10 rounded-b-full border-b-[3px] border-slate-800 sm:left-8 sm:top-5 sm:h-7 sm:w-11 md:left-10 md:top-5 md:h-8 md:w-12 lg:left-11 lg:top-6 lg:h-9 lg:w-14 lg:border-b-[4px]" />
-      <span className="absolute right-5 top-4 h-2 w-2 rounded-full bg-slate-800 sm:right-6 sm:top-5 md:right-7 md:top-6 lg:right-8 lg:top-7 lg:h-2.5 lg:w-2.5" />
-      <span className="absolute right-3 top-4 h-1.5 w-1.5 rounded-full bg-slate-800 sm:right-4 sm:top-5 md:top-5 lg:right-4 lg:top-6 lg:h-2 lg:w-2" />
+    <div className={`relative h-12 w-20 overflow-hidden rounded-b-full rounded-t-md shadow-[0_22px_48px_-34px_rgba(15,23,42,0.8)] sm:h-14 sm:w-24 md:h-16 md:w-28 xl:h-[5.2rem] xl:w-32 ${body}`}>
+      <span className="absolute left-7 top-4 h-6 w-10 rounded-b-full border-b-[3px] border-slate-800 sm:left-8 sm:top-5 sm:h-7 sm:w-11 md:left-10 md:top-5 md:h-8 md:w-12 xl:left-11 xl:top-6 xl:h-9 xl:w-14 xl:border-b-[4px]" />
+      <span className="absolute right-5 top-4 h-2 w-2 rounded-full bg-slate-800 sm:right-6 sm:top-5 md:right-7 md:top-6 xl:right-8 xl:top-7 xl:h-2.5 xl:w-2.5" />
+      <span className="absolute right-3 top-4 h-1.5 w-1.5 rounded-full bg-slate-800 sm:right-4 sm:top-5 md:top-5 xl:right-4 xl:top-6 xl:h-2 xl:w-2" />
     </div>
-    <span className={`absolute -left-2 bottom-2 h-7 w-7 rounded-full border-l-[3px] sm:bottom-3 sm:h-8 sm:w-8 md:h-9 md:w-9 lg:-left-3 lg:bottom-4 lg:h-10 lg:w-10 lg:border-l-4 ${accent}`} />
-    <span className="absolute left-7 -top-3 h-7 w-4 rounded-b-full border-b-[3px] border-l-[3px] border-slate-800 sm:left-9 sm:-top-4 sm:h-9 sm:w-5 md:left-10 lg:left-12 lg:-top-5 lg:h-11 lg:w-6 lg:border-b-4 lg:border-l-4" />
+    <span className={`absolute -left-2 bottom-2 h-7 w-7 rounded-full border-l-[3px] sm:bottom-3 sm:h-8 sm:w-8 md:h-9 md:w-9 xl:-left-3 xl:bottom-4 xl:h-10 xl:w-10 xl:border-l-4 ${accent}`} />
+    <span className="absolute left-7 -top-3 h-7 w-4 rounded-b-full border-b-[3px] border-l-[3px] border-slate-800 sm:left-9 sm:-top-4 sm:h-9 sm:w-5 md:left-10 xl:left-12 xl:-top-5 xl:h-11 xl:w-6 xl:border-b-4 xl:border-l-4" />
   </div>
 );
 
@@ -136,11 +136,11 @@ const FloatingBadge = ({
   rotate: string;
 }) => (
   <div
-    className={`absolute h-12 w-12 items-center justify-center rounded-lg border-2 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.7)] md:h-14 md:w-14 lg:h-16 lg:w-16 ${className} ${rotate} ${bg} ${border}`}
+    className={`absolute h-12 w-12 items-center justify-center rounded-lg border-2 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.7)] md:h-14 md:w-14 xl:h-16 xl:w-16 ${className} ${rotate} ${bg} ${border}`}
   >
-    <span className="absolute -right-1.5 -top-1.5 h-4 w-4 rounded-full border-2 border-white bg-red-500 lg:h-5 lg:w-5" />
+    <span className="absolute -right-1.5 -top-1.5 h-4 w-4 rounded-full border-2 border-white bg-red-500 xl:h-5 xl:w-5" />
     <span className="absolute left-3 top-3 h-5 w-5 rounded-full bg-white/40 md:left-4 md:top-4 md:h-6 md:w-6" />
-    <span className="absolute bottom-3 right-3 h-2.5 w-2.5 rounded-full bg-white/70 lg:bottom-4 lg:right-4 lg:h-3 lg:w-3" />
+    <span className="absolute bottom-3 right-3 h-2.5 w-2.5 rounded-full bg-white/70 xl:bottom-4 xl:right-4 xl:h-3 xl:w-3" />
   </div>
 );
 
