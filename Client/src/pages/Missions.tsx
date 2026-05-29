@@ -1,41 +1,56 @@
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import MissionsHub from '@/components/MissionsHub';
-import { Target, ShieldCheck } from 'lucide-react';
+import { ShieldCheck, Lock } from 'lucide-react';
 
 const Missions = () => {
   return (
-    <div className="min-h-screen bg-white text-slate-950">
+    <div className="min-h-screen bg-white text-slate-950 flex flex-col">
       <Navbar dark={false} />
       
-      <main className="pt-24 pb-20">
-        {/* Header Section */}
-        <div className="relative overflow-hidden mb-12">
-          <div className="max-w-7xl mx-auto px-6 pt-16 pb-8 text-center relative z-10">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 mb-6"
-            >
-              <ShieldCheck className="w-4 h-4 text-red-600" />
-              <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.3em]">Operative Assignments</span>
-            </motion.div>
-            
-            <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter mb-4 leading-none text-slate-950">
-              MY <span className="text-red-600">MISSIONS</span>
-            </h1>
-            
-            <p className="text-slate-600 text-sm md:text-base max-w-xl mx-auto font-medium leading-relaxed">
-              Complete these tactical objectives to earn XP, increase your rank, and unlock higher-tier bounties. The grid waits for no one.
-            </p>
-          </div>
-        </div>
+      <main className="flex-grow flex flex-col items-center justify-center pt-24 pb-20 px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center max-w-2xl mx-auto mt-16"
+        >
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-8 border border-slate-200 shadow-sm"
+          >
+            <Lock className="w-10 h-10 text-slate-400" />
+          </motion.div>
 
-        {/* Missions Hub Area */}
-        <section id="missions-hub" className="px-6">
-          <MissionsHub />
-        </section>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 mb-6"
+          >
+            <ShieldCheck className="w-4 h-4 text-red-600" />
+            <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.3em]">Classified Intel</span>
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-5xl md:text-7xl font-black italic tracking-tighter mb-6 leading-none text-slate-950"
+          >
+            COMING <span className="text-red-600">SOON</span>
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-slate-600 text-lg max-w-xl mx-auto font-medium leading-relaxed"
+          >
+            The grid is currently securing new operative assignments. Stand by for the next wave of tactical bounties, challenges, and high-tier rewards.
+          </motion.p>
+        </motion.div>
       </main>
 
       <Footer />
