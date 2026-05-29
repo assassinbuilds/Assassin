@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import nodemailer from 'nodemailer'
 import { NextRequest, NextResponse } from 'next/server'
 import { Pool } from 'pg'
 import { collaborationCreateSchema } from '@/lib/validations/collaboration'
@@ -109,6 +110,51 @@ export async function POST(request: NextRequest) {
           },
         ]
       )
+
+      // Send Email Notification
+      try {
+        if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.GMAIL_USER,
+              pass: process.env.GMAIL_APP_PASSWORD,
+            },
+          })
+
+          const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: process.env.GMAIL_USER, // Send to the admin
+            subject: `New Collaboration Request: ${validatedData.organization_name}`,
+            text: `
+New Collaboration Request Received:
+
+Organization: ${validatedData.organization_name} (${validatedData.organization_type})
+Contact Name: ${validatedData.contact_name}
+Role: ${validatedData.role_title || 'N/A'}
+Email: ${validatedData.work_email}
+Phone: ${validatedData.phone || 'N/A'}
+Website: ${validatedData.website_url || 'N/A'}
+
+Interests: ${validatedData.collaboration_interests.join(', ')}
+Budget Range: ${validatedData.budget_range || 'N/A'}
+Timeline: ${validatedData.timeline || 'N/A'}
+Audience: ${validatedData.student_audience || 'N/A'}
+
+Message:
+${validatedData.message}
+            `
+          }
+
+          await transporter.sendMail(mailOptions)
+          console.log('Collaboration email sent successfully.')
+        } else {
+          console.warn('GMAIL_USER or GMAIL_APP_PASSWORD not configured.')
+        }
+      } catch (emailError) {
+        console.error('Failed to send collaboration email:', emailError)
+        // Don't throw error to ensure the API still returns 201 success
+      }
 
       return NextResponse.json(rows[0], { status: 201 })
     } finally {
