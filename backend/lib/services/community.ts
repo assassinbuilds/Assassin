@@ -7,10 +7,10 @@ export async function getCommunityStats() {
   const supabase = await createClient()
 
   const [
-    { count: activeHackers },
-    { count: totalEvents },
-    { count: totalTeams },
-    { data: eventsData }
+    profilesResult,
+    eventsResult,
+    projectsResult,
+    eventsDataResult
   ] = await Promise.all([
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('events').select('*', { count: 'exact', head: true }),
@@ -18,9 +18,18 @@ export async function getCommunityStats() {
     supabase.from('events').select('prizes')
   ])
 
+  if (profilesResult.error) throw profilesResult.error
+  if (eventsResult.error) throw eventsResult.error
+  if (projectsResult.error) throw projectsResult.error
+  if (eventsDataResult.error) throw eventsDataResult.error
+
+  const builders = profilesResult.count || 0
+  const hackathons = eventsResult.count || 0
+  const projects = projectsResult.count || 0
+
   // Calculate total prize pool (heuristic)
   let totalPrizePool = 0
-  eventsData?.forEach(event => {
+  eventsDataResult.data?.forEach(event => {
     // If prizes is a number or has a total field
     if (typeof event.prizes === 'number') {
       totalPrizePool += event.prizes
@@ -30,18 +39,20 @@ export async function getCommunityStats() {
     }
   })
 
-  // Return a mix of real DB stats and some high-end rounded numbers for wow factor
   return {
-    activeHackers: (activeHackers || 0) + 400, // Add 400 as established baseline
-    newHackers: 12,
-    totalEvents: totalEvents || 18,
-    newEvents: 2,
-    totalPrizePool: totalPrizePool > 0 ? (totalPrizePool / 100000) : 5, // Show in Lakhs
-    newPrizePool: 50,
-    teamsFormed: (totalTeams || 0) + 80,
-    newTeams: 5,
-    totalContributors: 24, // Real baseline from GitHub
-    newContributors: 3
+    builders,
+    projects,
+    hackathons,
+    activeHackers: builders,
+    newHackers: 0,
+    totalEvents: hackathons,
+    newEvents: 0,
+    totalPrizePool: totalPrizePool > 0 ? (totalPrizePool / 100000) : 0, // Show in Lakhs
+    newPrizePool: 0,
+    teamsFormed: projects,
+    newTeams: 0,
+    totalContributors: builders,
+    newContributors: 0
   }
 }
 

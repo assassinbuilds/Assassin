@@ -4,6 +4,7 @@ import flagImg from '@/assets/flag.webp';
 import heroBgImg from '@/assets/hero-bg.webp';
 import keyChainImg from '@/assets/key_chain.png';
 import { useEffect, useState } from "react";
+import { api } from "@/lib/api-client";
 import {
   ArrowRight,
   BookOpen,
@@ -20,24 +21,38 @@ import { Link } from "react-router-dom";
 
 const stats = [
   {
-    value: "950,000+",
+    key: "builders",
+    fallbackValue: 167,
     label: "builders",
     color: "bg-[#5ccdbc]",
-    className: "max-w-[25rem] lg:-ml-28 lg:w-[32rem] lg:max-w-none",
+    className: "max-w-[21.25rem] lg:-ml-24 lg:w-[27.25rem] lg:max-w-none",
   },
   {
-    value: "80,000+",
+    key: "projects",
+    fallbackValue: 4,
     label: "projects",
     color: "bg-[#03df79]",
-    className: "max-w-[22rem] lg:-ml-28 lg:w-[28rem] lg:max-w-none",
+    className: "max-w-[18.75rem] lg:-ml-24 lg:w-[23.75rem] lg:max-w-none",
   },
   {
-    value: "1,500+",
+    key: "hackathons",
+    fallbackValue: 1,
     label: "hackathons",
     color: "bg-[#81a2ed]",
-    className: "max-w-[20rem] lg:-ml-28 lg:w-[26rem] lg:max-w-none",
+    className: "max-w-[17rem] lg:-ml-24 lg:w-[22rem] lg:max-w-none",
   },
 ];
+
+type CommunityStatsResponse = {
+  builders?: number;
+  projects?: number;
+  hackathons?: number;
+};
+
+const formatStatValue = (value: number) => {
+  const formatted = new Intl.NumberFormat("en-US").format(value);
+  return value > 0 ? `${formatted}+` : formatted;
+};
 
 const impactSlides = [
   {
@@ -137,9 +152,9 @@ const CommunitySection = () => {
 };
 
 const ImpactSection = () => (
-  <section id="community" className="relative overflow-hidden bg-white py-14 md:py-24">
+  <section id="community" className="relative overflow-hidden bg-white py-12 md:py-20">
     <div className="container relative mx-auto px-6">
-      <div className="mx-auto grid max-w-7xl items-center gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-6 lg:gap-10">
+      <div className="mx-auto grid max-w-[68rem] items-center gap-7 md:grid-cols-[1.05fr_0.95fr] md:gap-5 lg:gap-8">
         <div className="relative z-10">
           <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_30px_70px_-45px_rgba(15,23,42,0.8)]">
             <ImpactImageSwap />
@@ -149,13 +164,13 @@ const ImpactSection = () => (
         </div>
 
         <div className="relative z-20">
-          <p className="mb-4 text-sm font-black uppercase tracking-[0.22em] text-red-600">
+          <p className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-red-600">
             We ship momentum
           </p>
-          <h2 className="text-3xl font-black leading-tight text-slate-950 sm:text-4xl md:text-5xl">
+          <h2 className="text-[1.6rem] font-black leading-tight text-slate-950 sm:text-[2.15rem] md:text-[2.55rem]">
             A community where learners become builders.
           </h2>
-          <p className="mt-5 text-base font-medium leading-7 text-slate-600 sm:text-lg sm:leading-8">
+          <p className="mt-4 text-[0.95rem] font-medium leading-6 text-slate-600 sm:text-[1rem] sm:leading-7">
             We run missions, reviews, workshops, and project showcases so students
             can move from tutorials to real work with a squad around them.
           </p>
@@ -166,23 +181,48 @@ const ImpactSection = () => (
   </section>
 );
 
-const ImpactStats = () => (
-  <div className="relative z-20 mt-8 space-y-4 md:mt-10">
-    {stats.map((stat) => (
-      <div
-        key={stat.label}
-        className={`mx-auto flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-white shadow-[0_24px_55px_-32px_rgba(15,23,42,0.7)] min-[420px]:px-5 sm:gap-3 sm:px-7 md:py-4 lg:mx-0 lg:justify-start lg:px-9 ${stat.color} ${stat.className}`}
-      >
-        <span className="font-heading text-2xl font-black leading-none min-[420px]:text-3xl sm:text-4xl lg:text-5xl">
-          {stat.value}
-        </span>
-        <span className="text-lg font-medium leading-none min-[420px]:text-xl sm:text-2xl">
-          {stat.label}
-        </span>
-      </div>
-    ))}
-  </div>
-);
+const ImpactStats = () => {
+  const [liveStats, setLiveStats] = useState<CommunityStatsResponse | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    api
+      .get<CommunityStatsResponse>("/community/stats")
+      .then((data) => {
+        if (mounted) setLiveStats(data);
+      })
+      .catch(() => {
+        if (mounted) setLiveStats(null);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  return (
+    <div className="relative z-20 mt-7 space-y-3 md:mt-8">
+      {stats.map((stat) => {
+        const value = liveStats?.[stat.key as keyof CommunityStatsResponse] ?? stat.fallbackValue;
+
+        return (
+          <div
+            key={stat.label}
+            className={`mx-auto flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 text-white shadow-[0_24px_55px_-32px_rgba(15,23,42,0.7)] min-[420px]:px-4 sm:gap-2.5 sm:px-6 md:py-3.5 lg:mx-0 lg:justify-start lg:px-8 ${stat.color} ${stat.className}`}
+          >
+            <span className="font-heading text-[1.7rem] font-black leading-none min-[420px]:text-[2.15rem] sm:text-[2.55rem] lg:text-[2.55rem]">
+              {formatStatValue(value)}
+            </span>
+            <span className="text-base font-medium leading-none min-[420px]:text-lg sm:text-xl">
+              {stat.label}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 const ImpactImageSwap = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -196,7 +236,7 @@ const ImpactImageSwap = () => {
   }, []);
 
   return (
-    <div className="relative h-72 w-full bg-slate-950 sm:h-96 md:h-[34rem] lg:h-[44rem]">
+    <div className="relative h-[15.3rem] w-full bg-slate-950 sm:h-[20.4rem] md:h-[29rem] lg:h-[37.4rem]">
       {impactSlides.map((slide, index) => (
         <img
           key={slide.src}
