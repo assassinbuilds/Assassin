@@ -209,12 +209,12 @@ const ImpactStats = () => {
         return (
           <div
             key={stat.label}
-            className={`mx-auto flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 text-white shadow-[0_24px_55px_-32px_rgba(15,23,42,0.7)] min-[420px]:px-4 sm:gap-2.5 sm:px-6 md:py-3.5 lg:mx-0 lg:justify-start lg:px-8 ${stat.color} ${stat.className}`}
+            className={`mx-auto flex w-full items-center justify-center gap-3 rounded-full px-4 py-2.5 text-white shadow-[0_24px_55px_-32px_rgba(15,23,42,0.7)] min-[420px]:gap-4 min-[420px]:px-4 sm:gap-5 sm:px-6 md:py-3.5 lg:mx-0 lg:justify-start lg:px-8 ${stat.color} ${stat.className}`}
           >
             <span className="font-heading text-[1.7rem] font-black leading-none min-[420px]:text-[2.15rem] sm:text-[2.55rem] lg:text-[2.55rem]">
               {formatStatValue(value)}
             </span>
-        <span className="text-base font-semibold leading-none min-[420px]:text-lg sm:text-xl">
+            <span className="text-base font-semibold leading-none tracking-[0.08em] min-[420px]:text-lg sm:text-xl">
               {stat.label}
             </span>
           </div>

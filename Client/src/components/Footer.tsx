@@ -162,13 +162,17 @@ const Footer = () => {
                 Support
               </h5>
               <ul className="space-y-3">
-                {["Guide", "Status", "Contact us"].map((link) => (
-                  <li key={link}>
+                {[
+                  { label: "Guide", href: "#" },
+                  { label: "Status", href: "#" },
+                  { label: "Contact us", href: "/contact" },
+                ].map((link) => (
+                  <li key={link.label}>
                     <a
-                      href="#"
+                      href={link.href}
                       className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
                     >
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}
