@@ -5,11 +5,17 @@
  * It handles authentication, error handling, and request/response formatting.
  */
 
-const API_URL =
+let API_URL =
   import.meta.env.VITE_API_URL ||
   (import.meta.env.DEV
     ? 'http://localhost:3001/api'
     : 'https://tech-assassin.onrender.com/api');
+
+// Ensure the API URL always ends with /api (in case the environment variable was set without it)
+if (API_URL && !API_URL.endsWith('/api') && !API_URL.endsWith('/api/')) {
+  API_URL = API_URL.replace(/\/$/, '') + '/api';
+}
+
 const DEBUG = import.meta.env.VITE_DEBUG === 'true';
 
 /**
