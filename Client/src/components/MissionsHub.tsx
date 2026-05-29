@@ -17,6 +17,7 @@ import {
   Star,
   ListChecks,
   RefreshCw,
+  AlertCircle,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api-client';
@@ -52,19 +53,19 @@ const formatTime = (ms: number) => {
 };
 
 const getRank = (xp: number) => {
-  if (xp >= 2000) return { label: 'Legend', color: 'text-yellow-400' };
-  if (xp >= 1000) return { label: 'Elite', color: 'text-purple-400' };
-  if (xp >= 500)  return { label: 'Veteran', color: 'text-blue-400' };
-  if (xp >= 100)  return { label: 'Operative', color: 'text-green-400' };
-  return { label: 'Rookie', color: 'text-white/50' };
+  if (xp >= 2000) return { label: 'Legend', color: 'text-yellow-600' };
+  if (xp >= 1000) return { label: 'Elite', color: 'text-purple-600' };
+  if (xp >= 500)  return { label: 'Veteran', color: 'text-blue-600' };
+  if (xp >= 100)  return { label: 'Operative', color: 'text-green-600' };
+  return { label: 'Rookie', color: 'text-slate-500' };
 };
 
 const freqStyle = (f: string) =>
   f === 'daily'
-    ? 'bg-blue-600/20 text-blue-400 border-blue-500/20'
+    ? 'bg-blue-100 text-blue-700 border-blue-300'
     : f === 'weekly'
-    ? 'bg-orange-600/20 text-orange-400 border-orange-500/20'
-    : 'bg-purple-600/20 text-purple-400 border-purple-500/20';
+    ? 'bg-orange-100 text-orange-700 border-orange-300'
+    : 'bg-purple-100 text-purple-700 border-purple-300';
 
 const diffIcon = (title: string) => {
   if (title.toLowerCase().includes('github')) return <Github className="w-4 h-4" />;
@@ -105,10 +106,10 @@ const MissionCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className={`group relative overflow-hidden bg-[#0d0d0e] border rounded-2xl transition-all duration-500
+      className={`group relative overflow-hidden bg-white border rounded-2xl transition-all duration-500
         ${isCompleted
-          ? 'border-green-500/20 opacity-80'
-          : 'border-white/10 hover:border-red-600/40 hover:shadow-[0_0_30px_rgba(220,38,38,0.1)]'}`}
+          ? 'border-green-300 opacity-80'
+          : 'border-slate-300 hover:border-red-400 hover:shadow-[0_0_30px_rgba(220,38,38,0.15)]'}`}
     >
       {/* Top badges */}
       <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
@@ -116,7 +117,7 @@ const MissionCard = ({
           {mission.frequency}
         </span>
         {isCompleted && (
-          <span className="px-2 py-0.5 rounded-md bg-green-500/20 text-green-400 border border-green-500/20 text-[8px] font-black uppercase flex items-center gap-1">
+          <span className="px-2 py-0.5 rounded-md bg-green-100 text-green-700 border border-green-300 text-[8px] font-black uppercase flex items-center gap-1">
             <CheckCircle2 className="w-2.5 h-2.5" /> SECURED
           </span>
         )}
@@ -124,28 +125,28 @@ const MissionCard = ({
 
       {/* XP */}
       <div className="absolute top-4 right-4 text-right z-10">
-        <div className="text-lg font-black italic text-red-500 leading-none">+{mission.xp_reward}</div>
-        <div className="text-[8px] font-black uppercase text-white/20 tracking-tighter">XP</div>
+        <div className="text-lg font-black italic text-red-600 leading-none">+{mission.xp_reward}</div>
+        <div className="text-[8px] font-black uppercase text-slate-500 tracking-tighter">XP</div>
       </div>
 
       {/* Body */}
       <div className="p-6 pt-12 space-y-4">
         <div>
-          <h4 className="text-lg font-black italic uppercase tracking-tight group-hover:text-red-500 transition-colors line-clamp-2 mb-1">
+          <h4 className="text-lg font-black italic uppercase tracking-tight group-hover:text-red-600 transition-colors line-clamp-2 mb-1 text-slate-900">
             {mission.title}
           </h4>
-          <p className="text-xs text-white/40 leading-relaxed min-h-[36px]">{mission.description}</p>
+          <p className="text-xs text-slate-600 leading-relaxed min-h-[36px]">{mission.description}</p>
         </div>
 
-        <div className="flex items-center justify-between pt-3 border-t border-white/5">
+        <div className="flex items-center justify-between pt-3 border-t border-slate-200">
           <div className="flex items-center gap-2">
             <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${diffStyle}`}>
               {diffIcon(mission.title)}
             </div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-white/20">{mission.difficulty}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">{mission.difficulty}</span>
           </div>
           {mission.frequency !== 'one-time' && !isCompleted && (
-            <div className="flex items-center gap-1.5 text-white/30">
+            <div className="flex items-center gap-1.5 text-slate-600">
               <Clock className="w-3 h-3" />
               <span className="text-[9px] font-mono font-bold">{formatTime(mission.time_remaining_ms)}</span>
             </div>
@@ -162,13 +163,13 @@ const MissionCard = ({
                   exit={{ opacity: 0, height: 0 }}
                   className="space-y-1.5 overflow-hidden"
                 >
-                  <div className="text-[9px] font-black text-red-500 uppercase tracking-widest">Submit Proof (URL):</div>
+                  <div className="text-[9px] font-black text-red-600 uppercase tracking-widest">Submit Proof (URL):</div>
                   <input
                     type="text"
                     placeholder="https://..."
                     value={proofLink}
                     onChange={e => onSetProofLink(e.target.value)}
-                    className="w-full bg-black border border-white/10 rounded-lg px-3 py-2 text-xs font-mono focus:border-red-600 outline-none transition-all"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 focus:border-red-600 outline-none transition-all"
                   />
                 </motion.div>
               )}
@@ -180,7 +181,7 @@ const MissionCard = ({
               className={`w-full h-11 border rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 flex items-center justify-center gap-2
                 ${isSolving
                   ? 'bg-red-600 text-white border-red-600'
-                  : 'bg-white/5 hover:bg-red-600 text-white/70 hover:text-white border-white/10 hover:border-red-600'}`}
+                  : 'bg-slate-100 hover:bg-red-600 text-slate-700 hover:text-white border-slate-300 hover:border-red-600'}`}
             >
               {isVerifying
                 ? <Loader2 className="w-4 h-4 animate-spin" />
@@ -190,12 +191,12 @@ const MissionCard = ({
             {isSolving && (
               <button
                 onClick={() => { onSetSolving(null); onSetProofLink(''); }}
-                className="w-full text-[9px] font-black text-white/20 hover:text-white/40 uppercase tracking-widest"
+                className="w-full text-[9px] font-black text-slate-500 hover:text-slate-700 uppercase tracking-widest"
               >[ ABORT ]</button>
             )}
           </div>
         ) : (
-          <div className="w-full h-11 bg-green-500/5 border border-green-500/20 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-green-500/50 flex items-center justify-center gap-2">
+          <div className="w-full h-11 bg-green-100 border border-green-300 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-green-700 flex items-center justify-center gap-2">
             <CheckCircle2 className="w-3.5 h-3.5" /> MISSION SECURED
           </div>
         )}
@@ -208,7 +209,126 @@ const MissionCard = ({
 };
 
 // ─────────────────────────────────────────────
-// Main Component
+// Empty State component
+// ─────────────────────────────────────────────
+interface EmptyStateProps {
+  type: 'no-completed' | 'no-available' | 'no-filtered';
+  activeFilter?: FilterType;
+  hasCompletedAny?: boolean;
+  onSwitchView?: () => void;
+  onResetFilter?: () => void;
+}
+
+const MissionEmptyState = ({
+  type,
+  activeFilter,
+  hasCompletedAny,
+  onSwitchView,
+  onResetFilter,
+}: EmptyStateProps) => {
+  // Configuration for each empty state type
+  const configs = {
+    'no-completed': {
+      icon: ListChecks,
+      title: 'No Missions Completed Yet',
+      description: 'Complete missions from the All Missions tab to see them here. Every mission counts!',
+      color: 'text-green-700',
+      bgColor: 'bg-green-50',
+      borderColor: 'border-green-200',
+      action: {
+        label: '🚀 Start First Mission',
+        onClick: onSwitchView,
+      },
+    },
+    'no-available': {
+      icon: Zap,
+      title: 'All Missions Completed!',
+      description: 'Incredible work, Operative! New missions reset daily. Check back tomorrow for fresh challenges.',
+      color: 'text-amber-700',
+      bgColor: 'bg-amber-50',
+      borderColor: 'border-amber-200',
+      action: null,
+    },
+    'no-filtered': {
+      icon: AlertCircle,
+      title: `No ${activeFilter ? activeFilter.toUpperCase() : 'FILTERED'} Missions`,
+      description: `Currently viewing: ${activeFilter} missions only. Try switching to "all" to see all available missions.`,
+      color: 'text-blue-700',
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200',
+      action: {
+        label: '🔄 View All Missions',
+        onClick: onResetFilter,
+      },
+    },
+  };
+
+  const config = configs[type];
+  const Icon = config.icon;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className={`flex flex-col items-center justify-center py-24 text-center border-2 border-dashed ${config.borderColor} rounded-2xl ${config.bgColor}`}
+    >
+      <div className={`p-4 rounded-2xl ${config.bgColor} mb-4`}>
+        <Icon className={`w-12 h-12 ${config.color}`} />
+      </div>
+      <h4 className={`text-sm font-black uppercase tracking-widest ${config.color} mb-2`}>
+        {config.title}
+      </h4>
+      <p className="text-[11px] text-slate-600 max-w-xs leading-relaxed mb-4">
+        {config.description}
+      </p>
+      {config.action && (
+        <button
+          onClick={config.action.onClick}
+          className={`mt-2 px-6 py-2.5 ${config.bgColor} hover:opacity-75 border ${config.borderColor} rounded-xl text-[10px] font-black uppercase tracking-widest ${config.color} transition-all`}
+        >
+          {config.action.label}
+        </button>
+      )}
+    </motion.div>
+  );
+};
+
+// ─────────────────────────────────────────────
+// Error State component
+// ─────────────────────────────────────────────
+interface ErrorStateProps {
+  message: string;
+  onRetry: () => void;
+}
+
+const MissionErrorState = ({ message, onRetry }: ErrorStateProps) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col items-center justify-center py-24 text-center border-2 border-dashed border-red-200 rounded-2xl bg-red-50"
+    >
+      <div className="p-4 rounded-2xl bg-red-100 mb-4">
+        <AlertCircle className="w-12 h-12 text-red-600" />
+      </div>
+      <h4 className="text-sm font-black uppercase tracking-widest text-red-700 mb-2">
+        System Error
+      </h4>
+      <p className="text-[11px] text-slate-600 max-w-xs leading-relaxed mb-6">
+        {message}
+      </p>
+      <button
+        onClick={onRetry}
+        className="px-6 py-2.5 bg-red-100 hover:bg-red-200 border border-red-300 rounded-xl text-[10px] font-black uppercase tracking-widest text-red-700 hover:text-red-800 transition-all"
+      >
+        🔄 Retry
+      </button>
+    </motion.div>
+  );
+};
+
 // ─────────────────────────────────────────────
 type FilterType = 'all' | 'daily' | 'weekly' | 'one-time';
 type ViewType   = 'all' | 'my';
@@ -218,6 +338,7 @@ const MissionsHub = () => {
   const [profile,           setProfile]           = useState<Profile | null>(null);
   const [userId,            setUserId]            = useState<string | null>(null);
   const [loading,           setLoading]           = useState(true);
+  const [error,             setError]             = useState<string | null>(null);
   const [activeFilter,      setActiveFilter]      = useState<FilterType>('all');
   const [activeView,        setActiveView]        = useState<ViewType>('all');
   const [verifyingId,       setVerifyingId]       = useState<string | null>(null);
@@ -232,16 +353,30 @@ const MissionsHub = () => {
 
   const fetchData = async () => {
     try {
+      setError(null);
       const [missionsData, profileData] = await Promise.all([
         api.get<Mission[]>('/missions'),
         api.get<Profile>('/profile'),
       ]);
 
-      setMissions(missionsData);
+      // Validate missionsData with Array.isArray() check
+      if (Array.isArray(missionsData)) {
+        setMissions(missionsData);
+      } else {
+        // Fallback to empty array if API returns null or undefined
+        setMissions([]);
+        setError('Failed to load missions: Invalid data format');
+      }
+
       setProfile(profileData ?? null);
       setUserId(profileData?.id ?? null);
 
     } catch (err) {
+      // Set error state for UI display
+      const errorMessage = err instanceof Error ? err.message : 'Failed to sync with grid. Please try again.';
+      setError(errorMessage);
+      // Ensure missions is always an array even on error
+      setMissions([]);
       console.error('fetchData error:', err);
     } finally {
       setLoading(false);
@@ -303,18 +438,28 @@ const MissionsHub = () => {
     return (
       <div className="flex flex-col items-center justify-center py-32">
         <Loader2 className="w-10 h-10 animate-spin text-red-600 mb-4" />
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-white/40">Syncing with grid...</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Syncing with grid...</p>
       </div>
     );
   }
 
   if (!userId) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-center border border-dashed border-white/10 rounded-2xl">
-        <Shield className="w-12 h-12 text-white/10 mb-4" />
-        <h4 className="text-sm font-black uppercase tracking-widest text-white/30 mb-1">Authentication Required</h4>
-        <p className="text-[11px] text-white/20 max-w-xs">Sign in to access your mission dossier.</p>
+      <div className="flex flex-col items-center justify-center py-24 text-center border border-dashed border-slate-300 rounded-2xl">
+        <Shield className="w-12 h-12 text-slate-300 mb-4" />
+        <h4 className="text-sm font-black uppercase tracking-widest text-slate-600 mb-1">Authentication Required</h4>
+        <p className="text-[11px] text-slate-500 max-w-xs">Sign in to access your mission dossier.</p>
       </div>
+    );
+  }
+
+  // ── Error state check ──
+  if (error) {
+    return (
+      <MissionErrorState
+        message={error}
+        onRetry={fetchData}
+      />
     );
   }
 
@@ -323,50 +468,50 @@ const MissionsHub = () => {
 
       {/* ── Stats Bar ── */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between hover:border-red-500/30 transition-all">
+        <div className="bg-slate-50 border border-slate-300 rounded-2xl p-5 flex items-center justify-between hover:border-red-400 transition-all">
           <div>
-            <div className="text-[9px] font-black uppercase text-white/30 tracking-[0.2em] mb-1">Daily Streak</div>
-            <div className="text-2xl font-black italic text-red-500 flex items-center gap-1.5">
+            <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.2em] mb-1">Daily Streak</div>
+            <div className="text-2xl font-black italic text-red-600 flex items-center gap-1.5">
               <Flame className="w-5 h-5 animate-pulse" />
               {streak} Days
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[9px] font-black uppercase text-white/20 tracking-[0.15em] mb-1">XP Boost</div>
-            <div className="px-2.5 py-1 rounded-lg bg-red-600/20 text-red-400 text-[9px] font-black">
+            <div className="text-[9px] font-black uppercase text-slate-600 tracking-[0.15em] mb-1">XP Boost</div>
+            <div className="px-2.5 py-1 rounded-lg bg-red-100 text-red-700 text-[9px] font-black">
               {streak >= 30 ? '2.0x' : streak >= 7 ? '1.5x' : '1.0x'} MULTIPLIER
             </div>
           </div>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between hover:border-blue-500/30 transition-all">
+        <div className="bg-slate-50 border border-slate-300 rounded-2xl p-5 flex items-center justify-between hover:border-blue-400 transition-all">
           <div>
-            <div className="text-[9px] font-black uppercase text-white/30 tracking-[0.2em] mb-1">Current Rank</div>
+            <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.2em] mb-1">Current Rank</div>
             <div className={`text-2xl font-black italic ${rank.color} flex items-center gap-1.5`}>
               <Medal className="w-5 h-5" />
               {rank.label}
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[9px] font-black uppercase text-white/20 tracking-[0.15em] mb-1">Total XP</div>
-            <div className="flex items-center gap-1 justify-end text-sm font-black italic text-white">
-              <Trophy className="w-4 h-4 text-yellow-500" />
+            <div className="text-[9px] font-black uppercase text-slate-600 tracking-[0.15em] mb-1">Total XP</div>
+            <div className="flex items-center gap-1 justify-end text-sm font-black italic text-slate-900">
+              <Trophy className="w-4 h-4 text-yellow-600" />
               {totalXP.toLocaleString()}
             </div>
           </div>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between hover:border-green-500/30 transition-all">
+        <div className="bg-slate-50 border border-slate-300 rounded-2xl p-5 flex items-center justify-between hover:border-green-400 transition-all">
           <div>
-            <div className="text-[9px] font-black uppercase text-white/30 tracking-[0.2em] mb-1">Missions Done</div>
-            <div className="text-2xl font-black italic text-green-400 flex items-center gap-1.5">
+            <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.2em] mb-1">Missions Done</div>
+            <div className="text-2xl font-black italic text-green-700 flex items-center gap-1.5">
               <Star className="w-5 h-5" />
               {completedMissions.length} / {missions.length}
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[9px] font-black uppercase text-white/20 tracking-[0.15em] mb-1">Progress</div>
-            <div className="px-2.5 py-1 rounded-lg bg-green-600/20 text-green-400 text-[9px] font-black">
+            <div className="text-[9px] font-black uppercase text-slate-600 tracking-[0.15em] mb-1">Progress</div>
+            <div className="px-2.5 py-1 rounded-lg bg-green-100 text-green-700 text-[9px] font-black">
               {missions.length > 0 ? `${Math.round((completedMissions.length / missions.length) * 100)}% DONE` : '—'}
             </div>
           </div>
@@ -374,9 +519,9 @@ const MissionsHub = () => {
       </div>
 
       {/* ── View + Filter Bar ── */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-6">
         {/* View toggle */}
-        <div className="flex gap-1 p-1 bg-white/5 rounded-xl border border-white/10">
+        <div className="flex gap-1 p-1 bg-slate-100 rounded-xl border border-slate-300">
           {([
             { key: 'all', label: 'All Missions',       Icon: Target,     color: 'bg-red-600' },
             { key: 'my',  label: 'My Missions',         Icon: ListChecks, color: 'bg-green-600' },
@@ -385,13 +530,13 @@ const MissionsHub = () => {
               key={key}
               onClick={() => setActiveView(key)}
               className={`flex items-center gap-2 px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
-                activeView === key ? `${color} text-white` : 'text-white/40 hover:text-white/70'
+                activeView === key ? `${color} text-white` : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
               {label}
               {key === 'my' && completedMissions.length > 0 && (
-                <span className="w-5 h-5 rounded-full bg-green-500/30 text-green-300 text-[9px] flex items-center justify-center font-black">
+                <span className="w-5 h-5 rounded-full bg-green-200 text-green-700 text-[9px] flex items-center justify-center font-black">
                   {completedMissions.length}
                 </span>
               )}
@@ -402,13 +547,13 @@ const MissionsHub = () => {
         <div className="flex items-center gap-3">
           {/* Frequency filter */}
           {activeView === 'all' && (
-            <div className="flex p-1 bg-white/5 rounded-xl border border-white/10">
+            <div className="flex p-1 bg-slate-100 rounded-xl border border-slate-300">
               {(['all', 'daily', 'weekly', 'one-time'] as FilterType[]).map(f => (
                 <button
                   key={f}
                   onClick={() => setActiveFilter(f)}
                   className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
-                    activeFilter === f ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/60'
+                    activeFilter === f ? 'bg-slate-300 text-slate-900' : 'text-slate-600 hover:text-slate-800'
                   }`}
                 >
                   {f}
@@ -420,7 +565,7 @@ const MissionsHub = () => {
           {/* Refresh */}
           <button
             onClick={fetchData}
-            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/30 hover:text-white transition-all"
+            className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 flex items-center justify-center text-slate-600 hover:text-slate-900 transition-all"
           >
             <RefreshCw className="w-4 h-4" />
           </button>
@@ -433,10 +578,10 @@ const MissionsHub = () => {
           {activeView === 'my' ? <ListChecks className="w-5 h-5" /> : <Zap className="w-5 h-5" />}
         </div>
         <div>
-          <h3 className="text-xl font-black italic uppercase tracking-tight">
+          <h3 className="text-xl font-black italic uppercase tracking-tight text-slate-900">
             {activeView === 'my' ? 'Completed Missions' : 'Active Assignments'}
           </h3>
-          <p className="text-[10px] font-black uppercase text-white/30 tracking-widest">
+          <p className="text-[10px] font-black uppercase text-slate-600 tracking-widest">
             {activeView === 'my'
               ? `${completedMissions.length} mission${completedMissions.length !== 1 ? 's' : ''} secured`
               : `${displayedMissions.length} mission${displayedMissions.length !== 1 ? 's' : ''} available`}
@@ -446,27 +591,42 @@ const MissionsHub = () => {
 
       {/* ── Grid ── */}
       {displayedMissions.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center border border-dashed border-white/10 rounded-2xl">
-          {activeView === 'my' ? (
-            <>
-              <ListChecks className="w-12 h-12 text-white/10 mb-4" />
-              <h4 className="text-sm font-black uppercase tracking-widest text-white/30 mb-2">No Missions Completed Yet</h4>
-              <p className="text-[11px] text-white/20 max-w-xs">Execute missions from the All Missions tab to see them here.</p>
-              <button
-                onClick={() => setActiveView('all')}
-                className="mt-6 px-6 py-2.5 bg-red-600/20 hover:bg-red-600 border border-red-600/40 rounded-xl text-[10px] font-black uppercase tracking-widest text-red-400 hover:text-white transition-all"
-              >
-                View Available Missions →
-              </button>
-            </>
-          ) : (
-            <>
-              <Lock className="w-12 h-12 text-white/10 mb-4" />
-              <h4 className="text-sm font-black uppercase tracking-widest text-white/30 mb-2">No Missions Found</h4>
-              <p className="text-[11px] text-white/20 max-w-xs">Try switching the frequency filter to "All".</p>
-            </>
-          )}
-        </div>
+        activeView === 'my' ? (
+          <MissionEmptyState
+            type="no-completed"
+            onSwitchView={() => setActiveView('all')}
+          />
+        ) : (
+          // Determine which empty state to show for "All Missions" view
+          (() => {
+            if (completedMissions.length === missions.length && missions.length > 0) {
+              // All missions are completed
+              return (
+                <MissionEmptyState
+                  type="no-available"
+                  hasCompletedAny={completedMissions.length > 0}
+                />
+              );
+            } else if (activeFilter !== 'all') {
+              // Filter is applied but no results
+              return (
+                <MissionEmptyState
+                  type="no-filtered"
+                  activeFilter={activeFilter}
+                  onResetFilter={() => setActiveFilter('all')}
+                />
+              );
+            } else {
+              // Truly no missions at all
+              return (
+                <MissionEmptyState
+                  type="no-available"
+                  hasCompletedAny={false}
+                />
+              );
+            }
+          })()
+        )
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {displayedMissions.map((mission, idx) => (
@@ -484,10 +644,10 @@ const MissionsHub = () => {
           ))}
 
           {activeView === 'all' && (
-            <div className="bg-white/[0.02] border border-dashed border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center opacity-40">
-              <Lock className="w-7 h-7 text-white/20 mb-3" />
-              <h5 className="text-xs font-black uppercase tracking-widest mb-1 text-white/50">Locked Bounty</h5>
-              <p className="text-[10px] font-bold text-white/20 leading-relaxed">
+            <div className="bg-slate-100 border border-dashed border-slate-300 rounded-2xl p-8 flex flex-col items-center justify-center text-center opacity-60">
+              <Lock className="w-7 h-7 text-slate-400 mb-3" />
+              <h5 className="text-xs font-black uppercase tracking-widest mb-1 text-slate-500">Locked Bounty</h5>
+              <p className="text-[10px] font-bold text-slate-500 leading-relaxed">
                 Reach Rank Elite to unlock legendary assignments.
               </p>
             </div>
