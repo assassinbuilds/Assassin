@@ -1,6 +1,3 @@
-import { Eye } from "lucide-react";
-import { useEffect, useState } from "react";
-import { api } from "@/lib/api-client";
 import logoImg from '@/assets/logo.png';
 
 const socialLinks = [
@@ -42,37 +39,7 @@ const socialLinks = [
   },
 ];
 
-type VisitorTrackResponse = {
-  totalVisitors: number;
-  countedThisVisit: boolean;
-};
-
-const formatVisitorCount = (value: number) => new Intl.NumberFormat("en-US").format(value);
-
 const Footer = () => {
-  const [visitorCount, setVisitorCount] = useState<number | null>(null);
-  const [visitorError, setVisitorError] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-
-    api
-      .post<VisitorTrackResponse>("/visitors/track")
-      .then((data) => {
-        if (!mounted) return;
-        setVisitorCount(data.totalVisitors);
-        setVisitorError(false);
-      })
-      .catch(() => {
-        if (!mounted) return;
-        setVisitorCount(null);
-        setVisitorError(true);
-      });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   return (
     <footer className="bg-hero text-hero-foreground">
@@ -192,14 +159,7 @@ const Footer = () => {
             alt="Tech Assassin"
             className="h-7 w-auto object-contain"
           />
-          {/* <p className="flex items-center gap-2 text-sm text-hero-muted">
-            <Eye className="h-4 w-4 text-primary" />
-            <span>
-              {visitorCount === null
-                ? visitorError ? "Visitors unavailable" : "Visitors loading"
-                : `${formatVisitorCount(visitorCount)} unique visitors`}
-            </span>
-          </p> */}
+
           <p className="text-hero-muted text-sm flex items-center gap-1">
             © 2026, Tech Assassin Community.
           </p>

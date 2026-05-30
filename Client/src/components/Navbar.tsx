@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useUser, useClerk, SignInButton, SignUpButton, UserButton } from "@clerk/react";
 import { motion, AnimatePresence } from "framer-motion";
-import NotificationBell from "./NotificationBell";
 import logoImg from '@/assets/logo.png';
 
 const navLinks = [
@@ -151,7 +150,6 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
             
             {/* Mobile Actions Container */}
             <div className="flex shrink-0 items-center gap-2 min-[380px]:gap-3 md:hidden">
-              {isSignedIn && !mobileOpen && <NotificationBell dark={false} />}
               
               {/* Mobile Menu Button */}
               <button
