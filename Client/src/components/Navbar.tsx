@@ -122,7 +122,6 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           <div className="hidden md:flex items-center gap-4">
             {isSignedIn ? (
               <div className="flex items-center gap-6">
-                <NotificationBell dark={false} />
                 <UserButton>
                   <UserButton.MenuItems>
                     <UserButton.Link href="/profile" label="My Assassin" labelIcon={<Shield className="w-4 h-4" />} />
