@@ -139,7 +139,7 @@ export default function EditProfile() {
     }
   };
 
-  const IMGBB_API_KEY = "753ef111af66396b3016ea3446a0a5c2";
+  const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'banner') => {
     const file = event.target.files?.[0];
