@@ -74,12 +74,14 @@ async function syncClerkToDb() {
         // Our SQL trigger will take this 'created_at' and generate the correct historical member_id
         await dbClient.query(`
           INSERT INTO public.profiles (
-            id, username, email, full_name, avatar_url, created_at, updated_at
+            id, username, email, first_name, last_name, full_name, avatar_url, created_at, updated_at
           ) VALUES (
-            $1, $2, $3, $4, $5, $6, $6
+            $1, $2, $3, $4, $5, $6, $7, $8, $8
           )
           ON CONFLICT (id) DO UPDATE SET
             email = EXCLUDED.email,
+            first_name = EXCLUDED.first_name,
+            last_name = EXCLUDED.last_name,
             full_name = EXCLUDED.full_name,
             avatar_url = EXCLUDED.avatar_url,
             updated_at = NOW()
@@ -87,6 +89,8 @@ async function syncClerkToDb() {
           clerkUserId,
           username,
           primaryEmail,
+          firstName,
+          lastName,
           fullName,
           imageUrl,
           createdAt
