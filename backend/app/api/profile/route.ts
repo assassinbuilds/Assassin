@@ -94,13 +94,18 @@ export async function GET() {
           const primaryEmail = getClerkPrimaryEmail(user) || ''
           const username = await getAvailableClerkUsername(client, user, userId)
 
+          const firstName = user.firstName || '';
+          const lastName = user.lastName || '';
+          const fullName = [firstName, lastName].filter(Boolean).join(' ') || '';
+          const imageUrl = user.imageUrl || null;
+
           const { rows: newRows } = await client.query(`
             INSERT INTO public.profiles (
               id, username, email, first_name, last_name, full_name, avatar_url, updated_at
             ) VALUES (
-              $1, $2, $3, '', '', '', NULL, NOW()
+              $1, $2, $3, $4, $5, $6, $7, NOW()
             ) RETURNING *
-          `, [userId, username, primaryEmail])
+          `, [userId, username, primaryEmail, firstName, lastName, fullName, imageUrl])
           
           return NextResponse.json(newRows[0])
         } catch (syncError) {
