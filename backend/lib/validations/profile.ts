@@ -56,7 +56,6 @@ export const profileUpdateSchema = z.object({
   phone: z.string().max(20).optional().or(z.literal('')),
   address: z.string().max(200).optional().or(z.literal('')),
   banner_url: httpUrlSchema('Banner URL must be a valid URL').optional().or(z.literal('')),
-  avatar_url: httpUrlSchema('Avatar URL must be a valid URL').optional().or(z.literal('')),
   interests: z.array(z.string()).max(10, 'Cannot have more than 10 interests').optional(),
   first_name: z.string().max(50).optional().or(z.literal('')),
   last_name: z.string().max(50).optional().or(z.literal('')),
