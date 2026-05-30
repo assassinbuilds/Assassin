@@ -61,6 +61,13 @@ export default function EditProfile() {
   const isEmailPublic = watch('is_email_public');
   const isAddressPublic = watch('is_address_public');
 
+  // Keep username in sync with Clerk whenever the user object loads/changes
+  useEffect(() => {
+    if (user?.username) {
+      setValue('username', user.username);
+    }
+  }, [user?.username, setValue]);
+
   useEffect(() => {
     if (!isLoaded) return;
     if (!userId) {
@@ -89,6 +96,10 @@ export default function EditProfile() {
         });
       } catch (err: any) {
         console.error('Failed to fetch profile:', err);
+        // Even if the backend fails, populate the username from Clerk
+        if (user?.username) {
+          setValue('username', user.username);
+        }
         toast({ title: 'Error', description: 'Failed to load profile data', variant: 'destructive' });
       } finally {
         setIsLoading(false);
@@ -96,7 +107,7 @@ export default function EditProfile() {
     };
 
     fetchProfile();
-  }, [isLoaded, userId, navigate, reset]);
+  }, [isLoaded, userId, user, navigate, reset, setValue]);
 
   const onSubmit = async (data: ProfileFormValues) => {
     setIsSaving(true);
