@@ -139,6 +139,8 @@ export default function EditProfile() {
     }
   };
 
+  const IMGBB_API_KEY = "753ef111af66396b3016ea3446a0a5c2";
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'banner') => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -147,13 +149,31 @@ export default function EditProfile() {
     else setIsUploadingBanner(true);
 
     try {
+      // 1. Upload to ImgBB
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const imgbbData = await imgbbResponse.json();
+      
+      if (!imgbbResponse.ok || !imgbbData.success) {
+        throw new Error(imgbbData.error?.message || 'Failed to upload image to ImgBB');
+      }
+      
+      const imageUrl = imgbbData.data.url;
+
+      // 2. Save URL to database
       if (type === 'avatar') {
-        const res = await profileService.uploadAvatar(file);
-        setProfile(prev => prev ? { ...prev, avatar_url: res.avatar_url } : null);
+        await profileService.update({ avatar_url: imageUrl } as any);
+        setProfile(prev => prev ? { ...prev, avatar_url: imageUrl } : null);
         toast({ title: 'Success', description: 'Avatar updated successfully' });
       } else {
-        const res = await profileService.uploadBanner(file);
-        setProfile(prev => prev ? { ...prev, banner_url: res.banner_url } : null);
+        await profileService.update({ banner_url: imageUrl } as any);
+        setProfile(prev => prev ? { ...prev, banner_url: imageUrl } : null);
         toast({ title: 'Success', description: 'Banner updated successfully' });
       }
     } catch (err: any) {
