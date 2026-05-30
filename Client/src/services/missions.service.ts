@@ -10,6 +10,7 @@ export interface Mission {
   status: 'in_progress' | 'pending_verification' | 'completed';
   progress: any;
   time_remaining_ms: number;
+  requirement_type?: string;
 }
 
 export const missionsService = {

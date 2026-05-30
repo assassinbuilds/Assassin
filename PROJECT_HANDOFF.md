@@ -89,3 +89,7 @@ Client:
 - Documented the current project structure and setup flow.
 - Moved one-off image adjustment scripts into `tools/scripts`.
 - Separated backend production type-checking from stale legacy tests.
+- Rebuilt critical Profile pages and removed dead code.
+- Removed legacy auth pages (SignIn, SignUp, ForgotPassword) which are superseded by Clerk.
+- Removed root dev logs, client temp logs, and backend debug scripts.
+- Cleaned up App.tsx imports and routes.

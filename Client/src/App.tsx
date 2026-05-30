@@ -9,10 +9,6 @@ import { SignUp, SignIn } from "@clerk/react";
 import ScrollToTop from "./components/ScrollToTop";
 
 const Index = lazy(() => import("./pages/Index"));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
-const MagicLink = lazy(() => import("./pages/MagicLink"));
-const ResetPasswordConfirm = lazy(() => import("./pages/ResetPasswordConfirm"));
-const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const Profile = lazy(() => import("./pages/profile/view/Profile"));
 const EditProfile = lazy(() => import("./pages/profile/edit/EditProfile"));
 const Events = lazy(() => import("./pages/Events"));
@@ -48,10 +44,6 @@ const App = () => (
           <Route path="/" element={withSuspense(<Index />)} />
           <Route path="/signup/*" element={<div className="min-h-screen flex items-center justify-center bg-background"><SignUp routing="path" path="/signup" forceRedirectUrl="/edit-profile" fallbackRedirectUrl="/edit-profile" /></div>} />
           <Route path="/signin/*" element={<div className="min-h-screen flex items-center justify-center bg-background"><SignIn routing="path" path="/signin" /></div>} />
-          <Route path="/forgot-password" element={withSuspense(<ForgotPassword />)} />
-          <Route path="/magic-link" element={withSuspense(<MagicLink />)} />
-          <Route path="/reset-password/confirm" element={withSuspense(<ResetPasswordConfirm />)} />
-          <Route path="/auth/callback" element={withSuspense(<AuthCallback />)} />
           <Route path="/profile/edit" element={withSuspense(<EditProfile />)} />
           <Route path="/edit-profile" element={withSuspense(<EditProfile />)} />
           <Route path="/events" element={withSuspense(<Events />)} />
