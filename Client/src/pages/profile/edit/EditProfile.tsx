@@ -15,6 +15,7 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { ImageCropperModal } from '@/components/ui/ImageCropperModal';
 import { 
   Loader2, Save, Upload, User, MapPin, Link as LinkIcon, 
   Github, Linkedin, Twitter, Briefcase, GraduationCap
@@ -49,6 +50,11 @@ export default function EditProfile() {
   const [isSaving, setIsSaving] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isUploadingBanner, setIsUploadingBanner] = useState(false);
+
+  // Cropper State
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [selectedImageSrc, setSelectedImageSrc] = useState<string | null>(null);
+  const [currentImageType, setCurrentImageType] = useState<'avatar' | 'banner' | null>(null);
 
   const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -141,9 +147,23 @@ export default function EditProfile() {
 
   const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'banner') => {
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>, type: 'avatar' | 'banner') => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    // Create a local URL for the cropper
+    const imageUrl = URL.createObjectURL(file);
+    setSelectedImageSrc(imageUrl);
+    setCurrentImageType(type);
+    setCropModalOpen(true);
+    
+    // Clear the input so the same file can be selected again if needed
+    event.target.value = '';
+  };
+
+  const handleCropComplete = async (croppedImageBlob: Blob) => {
+    if (!currentImageType) return;
+    const type = currentImageType;
 
     if (type === 'avatar') setIsUploadingAvatar(true);
     else setIsUploadingBanner(true);
@@ -151,7 +171,7 @@ export default function EditProfile() {
     try {
       // 1. Upload to ImgBB
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', croppedImageBlob, `${type}.jpg`);
       
       const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
         method: 'POST',
@@ -181,6 +201,9 @@ export default function EditProfile() {
     } finally {
       if (type === 'avatar') setIsUploadingAvatar(false);
       else setIsUploadingBanner(false);
+      setCropModalOpen(false);
+      setCurrentImageType(null);
+      setSelectedImageSrc(null);
     }
   };
 
@@ -414,6 +437,22 @@ export default function EditProfile() {
         </form>
       </main>
       <Footer />
+
+      {/* Cropper Modal */}
+      {selectedImageSrc && (
+        <ImageCropperModal
+          isOpen={cropModalOpen}
+          onClose={() => {
+            setCropModalOpen(false);
+            setSelectedImageSrc(null);
+            setCurrentImageType(null);
+          }}
+          imageSrc={selectedImageSrc}
+          onCropComplete={handleCropComplete}
+          aspectRatio={currentImageType === 'avatar' ? 1 : 3 / 1}
+          title={currentImageType === 'avatar' ? 'Crop Profile Avatar' : 'Crop Cover Banner'}
+        />
+      )}
     </div>
   );
 }
