@@ -124,6 +124,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
               <div className="flex items-center gap-6">
                 <UserButton>
                   <UserButton.MenuItems>
+                    <UserButton.Link href="/dashboard" label="Command Center" labelIcon={<Zap className="w-4 h-4" />} />
                     <UserButton.Link href="/profile" label="My Assassin" labelIcon={<Shield className="w-4 h-4" />} />
                     <UserButton.Link href="/edit-profile" label="Edit Profile" labelIcon={<PenSquare className="w-4 h-4" />} />
                     <UserButton.Link href="/missions" label="My Missions" labelIcon={<Target className="w-4 h-4" />} />
@@ -209,7 +210,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                    <Link to="/profile" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>My Assassin</Link>
                    <Link to="/edit-profile" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Edit Profile</Link>
                    <Link to="/missions" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>My Missions</Link>
-                   <Link to="/profile" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                   <Link to="/dashboard" className="font-bold uppercase tracking-widest text-slate-700" onClick={() => setMobileOpen(false)}>Command Center</Link>
                    <button onClick={handleLogout} className="text-left font-bold uppercase tracking-widest text-red-500">Log Out</button>
                 </div>
               ) : (

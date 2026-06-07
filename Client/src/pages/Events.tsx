@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
-import { Loader2, Calendar, MapPin, Users, ArrowRight, Target, Trophy, Clock, Search } from 'lucide-react';
+import { Loader2, Calendar, MapPin, Users, ArrowRight, Target, Trophy, Clock, Search, Radio, UserPlus } from 'lucide-react';
 import type { EventWithParticipants } from '@/types/api';
 import Navbar from '@/components/Navbar';
 import { Input } from '@/components/ui/input';
@@ -85,6 +85,9 @@ export default function Events() {
     };
   }, [allEvents]);
 
+  const hasSearchQuery = searchQuery.trim().length > 0;
+  const isSearchEmpty = hasSearchQuery && filteredEvents.length === 0 && allEvents.length > 0;
+  const isFilterEmpty = !hasSearchQuery && filteredEvents.length === 0 && filter !== 'all';
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Navbar dark={false} />
@@ -126,10 +129,13 @@ export default function Events() {
             <Loader2 className="h-10 w-10 animate-spin text-red-600" />
           </div>
         ) : filteredEvents.length === 0 ? (
-          <div className="py-32 text-center bg-white rounded-[2.5rem] border border-dashed border-slate-200">
-             <Clock className="w-16 h-16 text-slate-200 mx-auto mb-6" />
-             <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest italic">No missions detected in this sector.</h3>
-          </div>
+          <EventsEmptyState
+            variant={isSearchEmpty ? 'search' : isFilterEmpty ? 'filter' : 'empty'}
+            searchQuery={searchQuery}
+            filter={filter}
+            onClearSearch={() => setSearchQuery('')}
+            onResetFilter={() => setFilter('all')}
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredEvents.map((event) => (
@@ -138,6 +144,68 @@ export default function Events() {
           </div>
         )}
       </main>
+    </div>
+  );
+}
+
+function EventsEmptyState({
+  variant,
+  searchQuery,
+  filter,
+  onClearSearch,
+  onResetFilter,
+}: {
+  variant: 'search' | 'filter' | 'empty';
+  searchQuery: string;
+  filter: string;
+  onClearSearch: () => void;
+  onResetFilter: () => void;
+}) {
+  const config = {
+    search: {
+      icon: Search,
+      title: 'No matches in this sector',
+      description: `No missions match "${searchQuery}". Try a different keyword or clear your search.`,
+      action: { label: 'Clear Search', onClick: onClearSearch },
+    },
+    filter: {
+      icon: Radio,
+      title: `No ${filter} missions right now`,
+      description: 'Check back soon or browse all missions to find your next deployment.',
+      action: { label: 'View All Missions', onClick: onResetFilter },
+    },
+    empty: {
+      icon: Clock,
+      title: 'No missions deployed yet',
+      description: 'The network is gearing up for the next operation. Join the squad to get notified when missions go live.',
+      action: null,
+    },
+  }[variant];
+
+  const Icon = config.icon;
+
+  return (
+    <div className="py-20 px-8 text-center bg-white rounded-[2.5rem] border border-dashed border-slate-200">
+      <Icon className="w-16 h-16 text-slate-200 mx-auto mb-6" />
+      <h3 className="text-xl font-bold text-slate-600 uppercase tracking-widest italic mb-3">{config.title}</h3>
+      <p className="text-sm text-slate-400 font-medium max-w-md mx-auto mb-8">{config.description}</p>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        {config.action && (
+          <Button onClick={config.action.onClick} className="rounded-2xl bg-slate-900 hover:bg-red-600 font-black uppercase tracking-widest text-[11px] h-12 px-8">
+            {config.action.label}
+          </Button>
+        )}
+        {variant === 'empty' && (
+          <>
+            <Button asChild className="rounded-2xl bg-red-600 hover:bg-red-700 font-black uppercase tracking-widest text-[11px] h-12 px-8">
+              <Link to="/signup"><UserPlus className="w-4 h-4 mr-2" />Join the Squad</Link>
+            </Button>
+            <Button asChild variant="outline" className="rounded-2xl font-black uppercase tracking-widest text-[11px] h-12 px-8">
+              <Link to="/contact">Request a Mission</Link>
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

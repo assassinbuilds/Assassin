@@ -10,6 +10,7 @@ import { SignUp, SignIn } from "@clerk/react";
 import ScrollToTop from "./components/ScrollToTop";
 
 const Index = lazy(() => import("./pages/Index"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Profile = lazy(() => import("./pages/profile/view/Profile"));
 const EditProfile = lazy(() => import("./pages/profile/edit/EditProfile"));
 const QrCodePage = lazy(() => import("./pages/profile/qr/QrCodePage"));
@@ -58,7 +59,7 @@ const App = () => (
           <Route path="/aura" element={withSuspense(<Aura />)} />
           <Route path="/projects" element={withSuspense(<NotFound />)} />
           <Route path="/profile" element={withSuspense(<Profile />)} />
-          <Route path="/dashboard" element={withSuspense(<Profile />)} />
+          <Route path="/dashboard" element={withSuspense(<Dashboard />)} />
           <Route path="/qr" element={withSuspense(<QrCodePage />)} />
           <Route path="/@:username" element={withSuspense(<Profile />)} />
           <Route path="/:username" element={withSuspense(<Profile />)} />
