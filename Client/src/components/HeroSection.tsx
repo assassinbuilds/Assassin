@@ -12,26 +12,27 @@ const HeroSection = () => {
 
           <div className="relative z-10 mx-auto max-w-5xl pt-0 sm:pt-12 md:pt-14">
             <h1 className="text-[2.45rem] font-normal leading-[1.02] text-slate-800 min-[380px]:text-5xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-[4rem]">
-              Turning{" "}
-              <span className="font-black text-slate-950">learners</span> into
-              builders with{" "}
+              From{" "}
+              <span className="font-black text-slate-950">beginner</span> to
+              builder, one{" "}
               <span className="relative inline-block font-black text-slate-950">
-                real missions
+                mission at a time
                 <span className="absolute -bottom-1 left-0 right-0 h-1.5 bg-red-500 md:h-2" />
               </span>
             </h1>
 
             <p className="mx-auto mt-5 max-w-[20rem] text-sm font-medium leading-6 text-slate-600 min-[420px]:max-w-sm sm:max-w-2xl sm:text-base md:mt-8 md:text-lg md:leading-8">
-              Tech Assassin gives students the team, mentorship, feedback, and
-              project runway they need to move from learning to building.
+              Tech Assassin is a mission-based student builder community where
+              students join missions, build projects, submit proof, and grow
+              with a squad.
             </p>
           </div>
 
-          <div className="relative z-10 mx-auto mt-14 max-w-sm sm:mt-16 sm:max-w-xl md:mt-20">
-            <p className="mb-3 text-[11px] font-black uppercase text-slate-800 sm:mb-4 sm:text-sm md:mb-5">
-              Join us
+          <div className="relative z-10 mx-auto mt-14 max-w-lg sm:mt-16 md:mt-20">
+            <p className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-slate-800">
+              Start Building
             </p>
-            <form action="/signup" className="flex items-center justify-center gap-2 sm:gap-4">
+            <form action="/join" className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <label className="sr-only" htmlFor="hero-email">
                 Email address
               </label>
@@ -39,15 +40,14 @@ const HeroSection = () => {
                 id="hero-email"
                 name="email"
                 type="email"
-                placeholder="Your email"
-                className="h-11 min-w-0 flex-1 rounded-lg border border-slate-100 bg-white px-4 text-sm font-medium text-slate-900 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.65)] outline-none transition-colors placeholder:text-slate-400 focus:border-red-300 sm:h-14 sm:px-6 sm:text-base md:h-16 md:px-7 md:text-lg"
+                placeholder="Enter your email to apply"
+                className="w-full h-12 rounded-full border border-slate-200 bg-white px-6 text-sm font-medium text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-red-500 sm:h-14 sm:px-7 sm:text-base"
               />
               <button
                 type="submit"
-                aria-label="Join Tech Assassin"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/20 transition-colors hover:bg-red-700 sm:h-14 sm:w-14 md:h-16 md:w-16"
+                className="w-full sm:w-auto shrink-0 flex h-12 items-center justify-center gap-2 rounded-full bg-red-600 px-6 text-xs font-black uppercase tracking-wider text-white shadow-lg shadow-red-600/20 transition-all hover:bg-red-700 hover:scale-[1.02] active:scale-[0.98] sm:h-14 sm:px-8 sm:text-sm"
               >
-                <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                Apply for Mission 01 <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
             </form>
           </div>

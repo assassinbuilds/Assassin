@@ -21,9 +21,9 @@ export function Toaster() {
             isSuccess = true;
           } else if (text.includes("warning") || text.includes("alert")) {
             Icon = AlertTriangle;
-          } else if (text.includes("tactical") || text.includes("mission") || text.includes("command") || text.includes("sync")) {
+          } else if (text.includes("challenge") || text.includes("event") || text.includes("builder") || text.includes("sync")) {
             Icon = Terminal;
-          } else if (text.includes("achievement") || text.includes("unlock") || text.includes("aura") || text.includes("bounty")) {
+          } else if (text.includes("achievement") || text.includes("unlock") || text.includes("aura") || text.includes("reward")) {
             Icon = Sparkles;
           }
         }

@@ -78,7 +78,7 @@ export default function MentorshipLiveChat() {
         if (status === 'SUBSCRIBED') {
           // Track presence
           await room.track({
-            username: user.username || user.firstName || 'Anonymous Operative',
+            username: user.username || user.firstName || 'Anonymous Builder',
             avatarUrl: user.imageUrl,
             onlineAt: Date.now(),
           });
@@ -97,7 +97,7 @@ export default function MentorshipLiveChat() {
     const payload: ChatMessage = {
       id: crypto.randomUUID(),
       userId: user.id,
-      username: user.username || user.firstName || 'Anonymous Operative',
+      username: user.username || user.firstName || 'Anonymous Builder',
       avatarUrl: user.imageUrl,
       text: newMessage.trim(),
       timestamp: Date.now(),
@@ -124,7 +124,7 @@ export default function MentorshipLiveChat() {
       const payload: ChatMessage = {
         id: crypto.randomUUID(),
         userId: user.id,
-        username: user.username || user.firstName || 'Anonymous Operative',
+        username: user.username || user.firstName || 'Anonymous Builder',
         avatarUrl: user.imageUrl,
         text: `🚀 I just started an open Jitsi Meet video lounge! Join here: ${meetUrl}`,
         timestamp: Date.now(),
@@ -163,7 +163,7 @@ export default function MentorshipLiveChat() {
                 <div>
                   <h3 className="font-bold text-sm text-foreground leading-none">Global Lounge</h3>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">
-                    {onlineUsers.size} Operatives Live
+                    {onlineUsers.size} Builders Live
                   </p>
                 </div>
               </div>
@@ -198,7 +198,7 @@ export default function MentorshipLiveChat() {
                     <MessageSquare className="w-6 h-6 text-primary opacity-50" />
                   </div>
                   <p className="text-sm font-medium text-muted-foreground">The lounge is quiet.</p>
-                  <p className="text-xs text-muted-foreground/60 max-w-[200px]">Send a message to ping the active ops or start a live video room.</p>
+                  <p className="text-xs text-muted-foreground/60 max-w-[200px]">Send a message to ping the active builders or start a live video room.</p>
                 </div>
               ) : (
                 messages.map((msg, i) => {
@@ -260,7 +260,7 @@ export default function MentorshipLiveChat() {
                   type="text"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Communicate with live operatives..."
+                  placeholder="Communicate with live builders..."
                   className="w-full bg-muted border border-border rounded-full pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
                 />
                 <button

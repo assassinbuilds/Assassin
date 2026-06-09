@@ -7,9 +7,9 @@ async function createUser() {
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const email = 'aryansondharva25@gmail.com';
-  const password = '23J@n2008';
-  const username = 'aryansondharva';
+  const email = process.env.TEST_USER_EMAIL || 'builder-test@example.com';
+  const password = process.env.TEST_USER_PASSWORD || 'TestPassword123!';
+  const username = process.env.TEST_USER_USERNAME || 'test_builder';
 
   console.log(`Creating user: ${email}`);
 

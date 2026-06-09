@@ -131,7 +131,7 @@ export default function EditProfile() {
         if (data.resume_url) {
           setResumeUrl(data.resume_url);
           if (data.resume_url.startsWith('data:')) {
-            setResumeFileName('dossier_resume.pdf');
+            setResumeFileName('builder_resume.pdf');
           } else {
             setResumeFileName(data.resume_url.split('/').pop() || 'linked_resume');
           }
@@ -252,8 +252,8 @@ export default function EditProfile() {
       
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 pt-24 pb-20">
         <div className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase">Edit Dossier</h1>
-          <p className="text-slate-500 font-medium">Update your tactical information and public presence.</p>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase">Edit Profile</h1>
+          <p className="text-slate-500 font-medium">Update your profile information and public presence.</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -320,7 +320,7 @@ export default function EditProfile() {
           <Card className="rounded-[2rem] border-slate-200/60 shadow-sm">
             <CardContent className="p-8 space-y-6">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2 border-b border-slate-100 pb-4">
-                <Briefcase className="w-4 h-4" /> Professional Intel
+                <Briefcase className="w-4 h-4" /> Professional Info
               </h3>
 
               <div className="space-y-2">
@@ -369,7 +369,7 @@ export default function EditProfile() {
             <CardContent className="p-8 space-y-6">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-100 pb-4 gap-2">
                 <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
-                  <Briefcase className="w-4 h-4 text-red-500" /> Top 5 Tactical Skills Matrix
+                  <Briefcase className="w-4 h-4 text-red-500" /> Top 5 Technical Skills Matrix
                 </h3>
                 <span className="text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-600 px-3 py-1 rounded-full">
                   Question {currentSkillStep + 1} of 5
@@ -381,7 +381,7 @@ export default function EditProfile() {
                 <div className="space-y-4">
                   <div>
                     <span className="text-[10px] font-black uppercase tracking-[0.15em] text-red-500 block mb-1">
-                      TACTICAL SLOT #{currentSkillStep + 1}
+                      SKILL SLOT #{currentSkillStep + 1}
                     </span>
                     <h4 className="text-sm font-bold text-slate-800">
                       {[

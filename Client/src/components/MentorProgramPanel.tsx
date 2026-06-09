@@ -144,7 +144,7 @@ const MentorProgramPanel = () => {
         void err;
       }
     } catch (error) {
-      setMessage('Failed to load mission data.');
+      setMessage('Failed to load mentorship data.');
     } finally {
       setLoading(false);
     }
@@ -244,8 +244,8 @@ const MentorProgramPanel = () => {
       {/* Stats & Identity */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard icon={Users} label="Active Mentors" value={stats.activeMentors} color="blue" />
-        <MetricCard icon={ShieldCheck} label="Operational Links" value={stats.openHelpRequests} color="red" />
-        <MetricCard icon={Zap} label="Matches Executed" value={stats.successfulMatchesThisWeek} color="yellow" />
+        <MetricCard icon={ShieldCheck} label="Open Requests" value={stats.openHelpRequests} color="red" />
+        <MetricCard icon={Zap} label="Matches Made" value={stats.successfulMatchesThisWeek} color="yellow" />
         
         {myProfile?.is_mentor_verified ? (
            <motion.div whileHover={{ y: -4 }} className="rounded-2xl border border-green-500/20 bg-green-500/5 p-6 shadow-sm">
@@ -284,7 +284,7 @@ const MentorProgramPanel = () => {
             key={tab} onClick={() => setActiveTab(tab as 'directory' | 'requests')}
             className={`px-6 py-4 text-xs font-black uppercase tracking-[0.2em] transition-all relative ${activeTab === tab ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
           >
-            {tab === 'directory' ? 'Operational Dossiers' : 'Mission Logs'}
+            {tab === 'directory' ? 'Mentor Directory' : 'My Requests'}
             {activeTab === tab && <motion.div layoutId="tabLine" className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-t-full shadow-[0_0_10px_rgba(255,0,0,0.3)]" />}
           </button>
         ))}
@@ -330,7 +330,7 @@ const MentorProgramPanel = () => {
                                  <span className="text-xs font-black text-yellow-600">{formatRating(mentor.mentor_rating)}</span>
                                </div>
                             </div>
-                            <p className="text-sm text-muted-foreground mt-3 line-clamp-2 italic font-medium">"{mentor.bio || 'Strategic operative ready for mission assignment.'}"</p>
+                            <p className="text-sm text-muted-foreground mt-3 line-clamp-2 italic font-medium">"{mentor.bio || 'Experienced builder ready to mentor.'}"</p>
                             <div className="flex flex-wrap gap-2 mt-4">
                                {mentor.skills?.slice(0, 4).map(s => (
                                  <span key={s} className="px-3 py-1 bg-muted rounded-lg text-[9px] font-black uppercase tracking-widest text-muted-foreground border border-border">#{s}</span>
@@ -362,12 +362,12 @@ const MentorProgramPanel = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-2">Mission Subject</label>
+                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-2">Topic</label>
                         <input className="w-full bg-muted/30 border border-border rounded-2xl px-6 py-4 text-sm font-medium outline-none focus:border-primary transition-all shadow-inner" placeholder="e.g. System Scalability Design" required value={topic} onChange={e => setTopic(e.target.value)} />
                       </div>
 
                       <div className="space-y-2">
-                         <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-2">Operational Goal</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-2">Mentorship Goal</label>
                          <textarea className="w-full h-32 bg-muted/30 border border-border rounded-2xl px-6 py-4 text-sm font-medium outline-none focus:border-primary transition-all resize-none shadow-inner" placeholder="Target objectives for this session..." required value={goal} onChange={e => setGoal(e.target.value)} />
                       </div>
 
@@ -428,11 +428,11 @@ const MentorProgramPanel = () => {
                           )}
 
                           {req.canConfirmComplete && (
-                            <button onClick={() => handleRequestAction(req.id, 'confirm_complete')} className="flex-1 py-3 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:shadow-lg shadow-primary/20">Mark Mission Complete</button>
+                            <button onClick={() => handleRequestAction(req.id, 'confirm_complete')} className="flex-1 py-3 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:shadow-lg shadow-primary/20">Mark Session Complete</button>
                           )}
 
                           {req.status === 'completed' && !isMentorRole && (
-                            <button onClick={() => { setShowReviewModal(req); setReviewRating(5); setReviewText(''); }} className="flex-1 py-3 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-700 transition-all">Leave Performance Review</button>
+                            <button onClick={() => { setShowReviewModal(req); setReviewRating(5); setReviewText(''); }} className="flex-1 py-3 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-700 transition-all">Leave Feedback</button>
                           )}
 
                           {req.session && (req.status === 'accepted' || req.status === 'completed') && (
@@ -465,23 +465,23 @@ const MentorProgramPanel = () => {
                 
                 <div className="text-center mb-10">
                    <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4 text-primary"><ShieldCheck size={32} /></div>
-                   <h3 className="text-3xl font-black uppercase tracking-tighter">Mentor <span className="text-primary">Accreditation</span></h3>
+                   <h3 className="text-3xl font-black uppercase tracking-tighter">Become a <span className="text-primary">Mentor</span></h3>
                    <p className="text-sm text-muted-foreground font-medium">Clear this form to earn your Mentor Badge.</p>
                 </div>
 
                 <form onSubmit={handleApplyAsMentor} className="space-y-6">
                    <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground px-1">Professional Bio</label>
-                      <textarea name="bio" required className="w-full h-24 bg-muted/40 border border-border rounded-2xl p-5 text-sm outline-none focus:border-primary resize-none transition-all" placeholder="Strategic background and mission highlights..." />
+                      <textarea name="bio" required className="w-full h-24 bg-muted/40 border border-border rounded-2xl p-5 text-sm outline-none focus:border-primary resize-none transition-all" placeholder="Share your background and domain expertise..." />
                    </div>
                    <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground px-1">Expertise Tier</label>
                          <select name="expertise" className="w-full bg-muted/40 border border-border rounded-xl px-4 py-3 text-sm outline-none focus:border-primary">
-                            <option value="junior">Junior Operative</option>
+                            <option value="junior">Junior Builder</option>
                             <option value="mid">Specialist</option>
-                            <option value="senior" selected>Strategic Senior</option>
-                            <option value="expert">Elite Expert</option>
+                            <option value="senior" selected>Senior Builder</option>
+                            <option value="expert">Expert Builder</option>
                          </select>
                       </div>
                       <div className="space-y-2">
@@ -499,7 +499,7 @@ const MentorProgramPanel = () => {
         {showAcceptModal && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm pointer-events-auto">
              <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="bg-card border border-border w-full max-w-md rounded-[2rem] p-8 shadow-2xl">
-                <h3 className="text-xl font-black uppercase mb-6 tracking-tight">Set Mission <span className="text-indigo-600">Schedule</span></h3>
+                <h3 className="text-xl font-black uppercase mb-6 tracking-tight">Set Session <span className="text-indigo-600">Schedule</span></h3>
                 <form onSubmit={handleAcceptWithSchedule} className="space-y-6">
                    <div className="space-y-2">
                       <label className="text-xs font-bold text-muted-foreground">Select Date & Time</label>
@@ -519,7 +519,7 @@ const MentorProgramPanel = () => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm pointer-events-auto">
              <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="bg-card border border-border w-full max-w-md rounded-[2rem] p-8 shadow-2xl text-center">
                 <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600"><Star size={24} fill="currentColor" /></div>
-                <h3 className="text-xl font-black uppercase mb-2">Performance <span className="text-indigo-600">Debrief</span></h3>
+                <h3 className="text-xl font-black uppercase mb-2">Session <span className="text-indigo-600">Debrief</span></h3>
                 <p className="text-sm text-muted-foreground mb-8">Synchronize your experience with the mentor.</p>
                 
                 <form onSubmit={handleSubmitReview} className="space-y-6">
@@ -530,8 +530,8 @@ const MentorProgramPanel = () => {
                         </button>
                       ))}
                    </div>
-                   <textarea placeholder="Operational notes on your guidance..." className="w-full h-24 bg-muted border border-border rounded-xl p-4 text-sm resize-none outline-none focus:border-indigo-600 transition-all font-medium" value={reviewText} onChange={e => setReviewText(e.target.value)} />
-                   <button type="submit" className="w-full py-5 bg-indigo-600 text-white font-black uppercase tracking-widest rounded-2xl text-xs shadow-xl shadow-indigo-600/20">Submit Performance Log</button>
+                   <textarea placeholder="Notes on your guidance / feedback..." className="w-full h-24 bg-muted border border-border rounded-xl p-4 text-sm resize-none outline-none focus:border-indigo-600 transition-all font-medium" value={reviewText} onChange={e => setReviewText(e.target.value)} />
+                   <button type="submit" className="w-full py-5 bg-indigo-600 text-white font-black uppercase tracking-widest rounded-2xl text-xs shadow-xl shadow-indigo-600/20">Submit Feedback</button>
                 </form>
              </motion.div>
           </motion.div>

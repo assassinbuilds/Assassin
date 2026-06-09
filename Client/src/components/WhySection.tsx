@@ -5,7 +5,7 @@ const reasons = [
     icon: Lightbulb,
     title: "Innovate & Evolve",
     description:
-      "Exclusive tactical workshops and mentorship to sharpen your skills as an elite operative.",
+      "Exclusive hands-on workshops and mentorship to sharpen your skills as a builder.",
   },
   {
     icon: Users,
@@ -15,7 +15,7 @@ const reasons = [
   },
   {
     icon: GraduationCap,
-    title: "Gain Elite Status",
+    title: "Gain Recognition",
     description:
       "Progress through ranks and earn recognition from top tech firms and community leaders.",
   },
@@ -23,7 +23,7 @@ const reasons = [
     icon: Rocket,
     title: "Launch Real Assets",
     description:
-      "Go from mission brief to functional asset, building a high-impact portfolio.",
+      "Go from idea to production-ready product, building a high-impact portfolio.",
   },
 ];
 
@@ -39,7 +39,7 @@ const WhySection = () => {
             Why Our Community
           </h2>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Beyond code — it's an elite network for digital assassins.
+            Beyond code — it's a global community for student builders.
           </p>
         </div>
 

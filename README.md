@@ -1,27 +1,137 @@
-# Tech Assassin - Community Platform
+# Tech Assassin
 
-> A high-performance, gamified developer community infrastructure wrapping an elite software collaboration workspace.
+**From Beginner to Builder, One Mission at a Time.**
 
-<p align="center">
-  <img src="./Client/public/favicon.ico" alt="TechAssassin Logo" width="80" height="80" />
-</p>
+Tech Assassin is a mission-based student builder platform that helps students move from learning to building through structured missions, squads, real projects, and public proof-of-work.
 
-<p align="center">
-  <strong>Dismantling Monoliths • Mastering Frameworks • Claiming the Digital Throne</strong>
-</p>
+[Live website](https://tech-assassin.vercel.app/)
 
-<p align="center">
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-F1C40F?style=flat-square" alt="License: MIT" /></a>
-  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
-  <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" /></a>
-  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-14.2-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js" /></a>
-  <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" /></a>
-  <a href="https://clerk.com/"><img src="https://img.shields.io/badge/Clerk-Auth-6C47FF?style=flat-square&logo=clerk&logoColor=white" alt="Clerk" /></a>
-  <a href="https://capacitorjs.com/"><img src="https://img.shields.io/badge/Capacitor-Android-119EFF?style=flat-square&logo=capacitor&logoColor=white" alt="Capacitor" /></a>
-</p>
+## What Is Tech Assassin?
 
----
+Students do not need one more random group. They need direction, accountability, teammates, and proof.
 
-## Welcome to the Command Center
-Tech Assassin is a high-performance developer community infrastructure. It merges real-time event telemetry, cooperative coding sprints, dynamic gamification (XP progression, streaks, and ranks), and deep social integrations into a unified dashboard and Capacitor-powered native Android shell.
+Tech Assassin gives students:
 
+- Mission-based learning
+- GitHub and portfolio building
+- Hackathon preparation
+- Student squads
+- Proof submission
+- Wall of Builders
+- Events and showcases
+- Beginner-friendly resources
+
+## Why Assassin?
+
+At Tech Assassin, Assassin means precision, focus, discipline, and execution. It is not about violence.
+
+A Tech Assassin removes confusion, beats procrastination, builds with discipline, and ships real work.
+
+## Product Journey
+
+Visitor -> Apply -> Join Mission -> Complete Tasks -> Submit Proof -> Get Featured -> Level Up
+
+## Core Product Modules
+
+- Public website: Home, Missions, Join, Wall of Builders, Community, Resources, Events, About
+- Mission system: Mission 01, daily tasks, proof checklist, batch roadmap
+- Builder showcase: Featured builders, shipped projects, testimonials, profile proof
+- Resources: GitHub guide, README template, LinkedIn examples, portfolio structure, hackathon checklist
+- Backend API: Auth, events, profiles, missions, resources, community services
+
+## Tech Stack
+
+- Frontend: React 18, Vite, TypeScript, Tailwind CSS, shadcn/ui, Clerk
+- Backend: Next.js API routes, TypeScript, Supabase/Postgres
+- Data and auth: Supabase, Clerk
+- Deployment: Vercel for web, Render-compatible backend config
+
+## Repository Structure
+
+```text
+techassassin/
+├── Client/              # Public website and future student dashboard
+├── backend/             # API, server logic, auth, Supabase integrations
+├── content/             # Brand, mission, resource, and builder content
+├── docs/                # Product, brand, security, roadmap, website docs
+├── tools/               # Existing utility scripts
+├── README.md
+├── SECURITY.md
+├── package.json
+├── render.yaml
+└── vercel.json
+```
+
+The repo intentionally keeps the current `Client` and `backend` folders for stability. A later migration can move them to `apps/web` and `apps/api` once the product surface is stable.
+
+## Local Setup
+
+```bash
+npm install
+npm install --prefix Client
+npm install --prefix backend
+npm run dev:client
+```
+
+Run the backend separately when API work is needed:
+
+```bash
+npm run dev:backend
+```
+
+## Environment Variables
+
+Frontend variables must be public Vite values only:
+
+```env
+VITE_API_URL=
+VITE_APP_URL=
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+VITE_CLERK_PUBLISHABLE_KEY=
+```
+
+Backend-only secrets must never be exposed through `VITE_` variables:
+
+```env
+DATABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+CLERK_SECRET_KEY=
+CLERK_WEBHOOK_SECRET=
+JWT_SECRET=
+RESEND_API_KEY=
+SMTP_PASS=
+```
+
+## Security Rules
+
+- Do not commit real `.env` files.
+- Keep service keys and database URLs backend-only.
+- Use CORS allowlists for deployed origins.
+- Validate forms and API payloads with Zod.
+- Enforce server-side roles for admin actions.
+- Keep Supabase RLS policies enabled for user-owned data.
+- Disable production debug logs.
+- Keep GitHub secret scanning and dependency alerts enabled.
+
+See [SECURITY.md](./SECURITY.md) and [docs/SECURITY.md](./docs/SECURITY.md).
+
+## Roadmap
+
+- Phase 1: Website pages, mission funnel, README, docs, content structure
+- Phase 2: Student dashboard, mission checklist, proof submission
+- Phase 3: Wall of Builders automation and project showcase
+- Phase 4: Admin application review and mission progress tools
+- Phase 5: Events, sponsors, certificates, and partner reporting
+
+## Contributing
+
+Contributions should support the mission system, builder proof, student experience, or security posture. Start with [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Tagline
+
+Learn. Build. Ship. Repeat.
+
+## License
+
+MIT. See [LICENSE](./LICENSE).

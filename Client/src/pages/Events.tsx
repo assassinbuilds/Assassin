@@ -46,7 +46,7 @@ export default function Events() {
       });
       setAllEvents(response.data);
     } catch (error) {
-      let errorMessage = 'Failed to synchronize mission logs.';
+      let errorMessage = 'Failed to synchronize event details.';
       if (error instanceof ApiError) {
         errorMessage = error.message;
       }
@@ -95,10 +95,10 @@ export default function Events() {
           <div>
              <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-[0.2em] mb-3">
                 <Target className="w-4 h-4" />
-                <span>Active Deployment Zone</span>
+                <span>Active Challenges</span>
              </div>
-             <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Community Missions</h1>
-             <p className="text-slate-500 mt-2 font-medium">Explore and join high-impact tactical operations within the network.</p>
+             <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Community Events</h1>
+             <p className="text-slate-500 mt-2 font-medium">Explore and join high-impact build challenges within the community.</p>
           </div>
           
           <div className="relative w-full md:w-80 group">
@@ -128,7 +128,7 @@ export default function Events() {
         ) : filteredEvents.length === 0 ? (
           <div className="py-32 text-center bg-white rounded-[2.5rem] border border-dashed border-slate-200">
              <Clock className="w-16 h-16 text-slate-200 mx-auto mb-6" />
-             <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest italic">No missions detected in this sector.</h3>
+             <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest italic">No events or challenges found.</h3>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -204,12 +204,12 @@ function MissionCard({ event }: { event: EventWithParticipants }) {
           <div className="pt-4 flex items-center justify-between border-t border-slate-50">
              <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-slate-300" />
-                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{event.participant_count}/{event.max_participants} Units</span>
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{event.participant_count}/{event.max_participants} Builders</span>
              </div>
              {event.prizes && (
                 <div className="flex items-center gap-2 text-red-600">
                    <Trophy className="w-4 h-4" />
-                   <span className="text-xs font-black uppercase tracking-widest italic">{event.prizes['1st']} Bounty</span>
+                   <span className="text-xs font-black uppercase tracking-widest italic">{event.prizes['1st']} Reward</span>
                 </div>
              )}
           </div>
@@ -218,7 +218,7 @@ function MissionCard({ event }: { event: EventWithParticipants }) {
         <CardFooter className="p-8 pt-0">
             <Button className="w-full h-14 rounded-2xl bg-slate-900 hover:bg-red-600 text-white font-black uppercase tracking-widest text-[11px] shadow-lg transition-all group-hover:scale-[1.02] active:scale-[0.98]" asChild>
                <span>
-                  Mission Briefing <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  Event Details <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                </span>
             </Button>
         </CardFooter>

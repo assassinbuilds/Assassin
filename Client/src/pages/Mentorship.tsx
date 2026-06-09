@@ -13,17 +13,17 @@ const features = [
   },
   {
     icon: Target,
-    title: "Tactical Guidance",
+    title: "1-on-1 Guidance",
     description: "Get one-on-one sessions for code reviews, architecture, and career advice.",
   },
   {
     icon: Video,
-    title: "Live Sync",
+    title: "Live Meet",
     description: "Integrated secure video calls straight from the platform for immediate feedback.",
   },
   {
     icon: Globe,
-    title: "Elite Networking",
+    title: "Builder Network",
     description: "Expand your professional network with pre-vetted tech professionals securely.",
   },
 ];
@@ -41,7 +41,7 @@ const Mentorship = () => {
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-4"
               >
-                Mentor Command
+                Mentorship Lounge
               </motion.span>
               <motion.h1 
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}

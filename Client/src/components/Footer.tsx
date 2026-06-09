@@ -1,4 +1,7 @@
-import logoImg from '@/assets/logo.png';
+import { Github, Linkedin, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import logoImg from "@/assets/logo.png";
+import { footerNavGroups } from "@/data/nav";
 
 const socialLinks = [
   {
@@ -39,136 +42,85 @@ const socialLinks = [
   },
 ];
 
-const Footer = () => {
+const Footer = () => (
+  <footer className="bg-hero text-hero-foreground">
+    <div className="container mx-auto px-6 py-16 md:py-[4.5rem]">
+      <div className="flex flex-col items-start justify-between gap-12 lg:flex-row lg:gap-16">
+        <div className="flex max-w-sm flex-col gap-8">
+          <h2 className="text-[2rem] font-extrabold leading-tight text-hero-foreground md:text-[2.45rem]">
+            We help{" "}
+            <span className="text-primary italic">students</span>
+            <br />
+            move from learning
+            <br />
+            to{" "}
+            <span className="text-orange-400 italic">building</span>.
+          </h2>
 
-  return (
-    <footer className="bg-hero text-hero-foreground">
-      <div className="container mx-auto px-6 py-16 md:py-[4.5rem]">
-
-        {/* Top section: Tagline + Link columns */}
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-16">
-
-          {/* Left — Tagline + socials */}
-          <div className="flex max-w-sm flex-col gap-8">
-            <h2 className="text-[2rem] font-extrabold leading-tight text-hero-foreground md:text-[2.45rem]">
-              We help{" "}
-              <span className="text-primary italic">students</span>
-              <br />
-              move from learning
-              <br />
-              to{" "}
-              <span className="text-orange-400 italic">building</span>.
-            </h2>
-
-            {/* Social Icons */}
-            <div className="flex items-center gap-4 flex-wrap">
-              {socialLinks.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  aria-label={s.label}
-                  className="text-hero-muted hover:text-primary transition-colors duration-200"
-                >
-                  {s.icon}
-                </a>
-              ))}
-            </div>
+          <div className="flex flex-wrap items-center gap-4">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={social.label}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-hero-muted transition-colors duration-200 hover:border-red-200 hover:text-primary"
+              >
+                {social.icon}
+              </a>
+            ))}
           </div>
+        </div>
 
-          {/* Right — Link Columns */}
-          <div className="flex flex-wrap gap-10 md:gap-16">
-
-            {/* Community */}
-            <div>
+        <div className="flex flex-wrap gap-10 md:gap-16">
+          {footerNavGroups.map((group) => (
+            <div key={group.title}>
               <h5 className="mb-5 text-xs font-black uppercase tracking-[0.22em] text-hero-muted">
-                Community
+                {group.title}
               </h5>
               <ul className="space-y-3">
-                {[
-                  "Launch a Mission",
-                  "Global Missions",
-                  "Rules of Engagement",
-                  "Brand Assets",
-                  "Documentation",
-                ].map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h5 className="mb-5 text-xs font-black uppercase tracking-[0.22em] text-hero-muted">
-                Company
-              </h5>
-              <ul className="space-y-3">
-                {["About", "Blog", "Careers", "Changelog", "Privacy", "Terms"].map(
-                  (link) => (
-                    <li key={link}>
+                {group.links.map((link) => (
+                  <li key={link.label}>
+                    {link.href.startsWith("http") ? (
                       <a
-                        href={link === "About" ? "/about" : "#"}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
                         className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
                       >
-                        {link}
+                        {link.label}
                       </a>
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h5 className="mb-5 text-xs font-black uppercase tracking-[0.22em] text-hero-muted">
-                Support
-              </h5>
-              <ul className="space-y-3">
-                {[
-                  { label: "Guide", href: "#" },
-                  { label: "Status", href: "#" },
-                  { label: "Contact us", href: "/contact" },
-                ].map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
-                    >
-                      {link.label}
-                    </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        className="text-[0.95rem] font-medium text-hero-muted transition-colors duration-200 hover:text-primary"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
             </div>
-
-          </div>
+          ))}
         </div>
-
-        {/* Divider */}
-        <div className="w-full h-px bg-hero-foreground/10 my-12" />
-
-        {/* Bottom bar: Brand + Copyright */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <img
-            src={logoImg}
-            alt="Tech Assassin"
-            className="h-7 w-auto object-contain"
-          />
-
-          <p className="text-hero-muted text-sm flex items-center gap-1">
-            © 2026, Tech Assassin Community.
-          </p>
-        </div>
-
       </div>
-    </footer>
-  );
-};
+
+      <div className="my-12 h-px w-full bg-hero-foreground/10" />
+
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <img
+          src={logoImg}
+          alt="Tech Assassin"
+          className="h-7 w-auto object-contain"
+        />
+        <p className="flex items-center gap-1 text-sm text-hero-muted">
+           © 2026, Tech Assassin Community.
+        </p>
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;

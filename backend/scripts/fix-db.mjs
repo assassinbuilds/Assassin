@@ -41,7 +41,7 @@ SELECT
     avatar_url,
     total_xp,
     RANK() OVER (ORDER BY total_xp DESC) as rank,
-    'Elite Operative' as rank_name,
+    'Elite Builder' as rank_name,
     '🚀' as rank_icon
 FROM public.profiles
 WHERE total_xp > 0

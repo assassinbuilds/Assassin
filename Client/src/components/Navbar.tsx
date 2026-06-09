@@ -6,11 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useUser, useClerk, SignInButton, SignUpButton, UserButton } from "@clerk/react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImg from '@/assets/logo.png';
-
-const navLinks = [
-  { label: "About", href: "/about", isRoute: true },
-  { label: "Testimonials", href: "/#developers-say", isRoute: false },
-];
+import { mainNavLinks } from "@/data/nav";
 
 const Navbar = ({ dark = true }: { dark?: boolean }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -94,9 +90,9 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           </Link>
 
           {/* Desktop Navigation - Centered */}
-          <div className="hidden lg:flex items-center justify-center absolute left-1/2 -translate-x-1/2 border border-transparent bg-transparent px-2 py-1 rounded-full">
+          <div className="hidden xl:flex items-center justify-center absolute left-1/2 -translate-x-1/2 border border-transparent bg-transparent px-2 py-1 rounded-full">
             <div className="flex items-center gap-1">
-              {navLinks.map((link) => {
+              {mainNavLinks.map((link) => {
                 const isActive = getIsActive(link.href);
                 return (
                   <Link
@@ -104,7 +100,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
                     to={link.href}
                     onClick={() => handleNavClick(link.href)}
                     className={`
-                      px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.18em] transition-all duration-300 relative
+                      px-3 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.16em] transition-all duration-300 relative
                       ${isActive 
                         ? "text-red-600"
                         : "text-slate-500 hover:text-slate-950"
@@ -119,7 +115,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           </div>
 
           {/* Right Side - Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden xl:flex items-center gap-4">
             {isSignedIn ? (
               <div className="flex items-center gap-6">
                 <UserButton>
@@ -148,7 +144,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
           </div>
             
             {/* Mobile Actions Container */}
-            <div className="flex shrink-0 items-center gap-2 min-[380px]:gap-3 md:hidden">
+            <div className="flex shrink-0 items-center gap-2 min-[380px]:gap-3 xl:hidden">
               
               {/* Mobile Menu Button */}
               <button
@@ -170,7 +166,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-0 z-[110] bg-white px-5 py-5 pointer-events-auto lg:hidden"
+            className="fixed inset-0 z-[110] bg-white px-5 py-5 pointer-events-auto xl:hidden"
           >
             <div className="flex h-full flex-col">
               <div className="flex items-center justify-between">
@@ -192,7 +188,7 @@ const Navbar = ({ dark = true }: { dark?: boolean }) => {
               </div>
 
               <div className="flex flex-1 flex-col justify-center gap-7">
-                {navLinks.map((link) => (
+                {mainNavLinks.map((link) => (
                   <Link
                     key={link.label}
                     to={link.href}

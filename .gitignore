@@ -6,9 +6,39 @@
 # =============================================================================
 *.md
 !README.md
+!SECURITY.md
+!CODE_OF_CONDUCT.md
 !code_of_conduct.md
 !CONTRIBUTING.md
 !PROJECT_HANDOFF.md
+!docs/PRODUCT_VISION.md
+!docs/BRAND_GUIDE.md
+!docs/SECURITY.md
+!docs/ROADMAP.md
+!docs/WEBSITE_STRUCTURE.md
+!content/**/*.md
+
+# Allow specific important documentation if needed
+# !CONTRIBUTING.md
+# !CHANGELOG.md
+
+# =============================================================================
+# SQL FILES (database setup and migration files)
+# =============================================================================
+*.sql
+!backend/supabase/migrations/*.sql
+
+# Specific SQL files to ignore
+COMPLETE_DATABASE_SETUP.sql
+FIX_MISSING_COLUMNS.sql
+VERIFY_DATABASE.sql
+
+# =============================================================================
+# SUPABASE (using local PostgreSQL instead)
+# =============================================================================
+backend/supabase/
+**/supabase/
+!backend/supabase/
 
 # Allow specific important documentation if needed
 # !CONTRIBUTING.md
@@ -41,12 +71,9 @@ backend/supabase/
 # ENVIRONMENT FILES
 # =============================================================================
 .env
-.env.local
-.env*.local
-backend/.env
-backend/.env.local
-Client/.env
-Client/.env.local
+.env.*
+!.env.example
+!.env.*.example
 
 # =============================================================================
 # DEPENDENCIES

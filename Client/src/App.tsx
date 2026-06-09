@@ -17,6 +17,10 @@ const Events = lazy(() => import("./pages/Events"));
 const EventDetails = lazy(() => import("./pages/EventDetails"));
 const Mentorship = lazy(() => import("./pages/Mentorship"));
 const Missions = lazy(() => import("./pages/Missions"));
+const Join = lazy(() => import("./pages/Join"));
+const Builders = lazy(() => import("./pages/Builders"));
+const Resources = lazy(() => import("./pages/Resources"));
+const Community = lazy(() => import("./pages/Community"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Collaborate = lazy(() => import("./pages/Collaborate"));
@@ -52,6 +56,10 @@ const App = () => (
           <Route path="/events/:id" element={withSuspense(<EventDetails />)} />
           <Route path="/mentorship" element={withSuspense(<Mentorship />)} />
           <Route path="/missions" element={withSuspense(<Missions />)} />
+          <Route path="/join" element={withSuspense(<Join />)} />
+          <Route path="/builders" element={withSuspense(<Builders />)} />
+          <Route path="/resources" element={withSuspense(<Resources />)} />
+          <Route path="/community" element={withSuspense(<Community />)} />
           <Route path="/about" element={withSuspense(<About />)} />
           <Route path="/contact" element={withSuspense(<Contact />)} />
           <Route path="/collaborate" element={withSuspense(<Collaborate />)} />
