@@ -50,16 +50,16 @@ Visitor -> Apply -> Join Mission -> Complete Tasks -> Submit Proof -> Get Featur
 
 ```text
 techassassin/
-├── Client/              # Public website and future student dashboard
-├── backend/             # API, server logic, auth, Supabase integrations
-├── content/             # Brand, mission, resource, and builder content
-├── docs/                # Product, brand, security, roadmap, website docs
-├── tools/               # Existing utility scripts
-├── README.md
-├── SECURITY.md
-├── package.json
-├── render.yaml
-└── vercel.json
+|-- Client/              # Public website and future student dashboard
+|-- backend/             # API, server logic, auth, Supabase integrations
+|-- content/             # Brand, mission, resource, and builder content
+|-- Docs/                # Product, brand, security, roadmap, website docs
+|-- tools/               # Existing utility scripts
+|-- README.md
+|-- SECURITY.md
+|-- package.json
+|-- render.yaml
+`-- vercel.json
 ```
 
 The repo intentionally keeps the current `Client` and `backend` folders for stability. A later migration can move them to `apps/web` and `apps/api` once the product surface is stable.
@@ -114,7 +114,7 @@ SMTP_PASS=
 - Disable production debug logs.
 - Keep GitHub secret scanning and dependency alerts enabled.
 
-See [SECURITY.md](./SECURITY.md) and [docs/SECURITY.md](./docs/SECURITY.md).
+See [SECURITY.md](./SECURITY.md) and [Docs/SECURITY.md](./Docs/SECURITY.md).
 
 ## Roadmap
 

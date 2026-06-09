@@ -2,7 +2,25 @@ import { NextResponse } from 'next/server'
 import { handleApiError } from '@/lib/errors'
 
 // Simple in-memory cache
-let contributorsCache: any = null
+type GitHubContributor = {
+  id: number
+  login: string
+  avatar_url: string
+  contributions: number
+  html_url: string
+}
+
+type FormattedContributor = {
+  id: string
+  name: string
+  username: string
+  avatar: string
+  contributions: number
+  role: string
+  githubUrl: string
+}
+
+let contributorsCache: FormattedContributor[] | null = null
 let lastFetched = 0
 const CACHE_TTL = 3600 * 1000 // 1 hour
 
@@ -13,7 +31,7 @@ export async function GET() {
       return NextResponse.json(contributorsCache)
     }
 
-    const response = await fetch('https://api.github.com/repos/aryansondharva/TechAssasin/contributors', {
+    const response = await fetch('https://api.github.com/repos/aryansondharva/TechAssassin/contributors', {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
         'User-Agent': 'TechAssassin-Community-Hub'
@@ -27,10 +45,10 @@ export async function GET() {
       return NextResponse.json([])
     }
 
-    const githubContributors = await response.json()
+    const githubContributors = await response.json() as GitHubContributor[]
     
     // Map GitHub data to our frontend format
-    const formattedContributors = githubContributors.map((c: any) => ({
+    const formattedContributors = githubContributors.map((c) => ({
       id: String(c.id),
       name: c.login, // GitHub doesn't return full name in contributor list
       username: c.login,

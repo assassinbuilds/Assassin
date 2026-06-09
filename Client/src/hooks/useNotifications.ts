@@ -16,7 +16,7 @@ export interface Notification {
   type: string
   title: string
   content: string | null
-  metadata: Record<string, any>
+  metadata: Record<string, unknown>
   action_url: string | null
   is_read: boolean
   created_at: string
@@ -79,8 +79,8 @@ export function useNotifications() {
             table: 'notifications',
             filter: `user_id=eq.${userId}`,
           },
-          (payload: any) => {
-            const incoming = payload.new as Notification
+          (payload: { new: Notification }) => {
+            const incoming = payload.new
             setNotifications(prev => [incoming, ...prev])
             setUnreadCount(prev => prev + 1)
           }

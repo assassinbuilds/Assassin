@@ -8,12 +8,13 @@ import { api } from "@/lib/api-client";
 import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import type { Profile } from "@/types/api";
 
 export default function QrCodePage() {
   const { isLoaded, isSignedIn } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
@@ -25,7 +26,7 @@ export default function QrCodePage() {
 
     if (isSignedIn) {
       api
-        .get<any>("/profile")
+        .get<Profile>("/profile")
         .then((data) => {
           setProfile(data);
           setLoading(false);

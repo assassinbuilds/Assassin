@@ -4,6 +4,7 @@
  * so that it shares the same auth session as the rest of the app.
  */
 import { createClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL  = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -26,7 +27,7 @@ export function getStoredUserId(): string | null {
 /**
  * Supabase client initialization with asynchronous Clerk JWT injection.
  */
-let supabaseInstance: any;
+let supabaseInstance: SupabaseClient;
 
 if (isSupabaseConfigured) {
   supabaseInstance = createClient(SUPABASE_URL, SUPABASE_ANON, {
@@ -65,7 +66,7 @@ if (isSupabaseConfigured) {
         return { data: null, error: new Error("Supabase not configured") };
       };
     }
-  });
+  }) as SupabaseClient;
 }
 
 export const supabase = supabaseInstance;

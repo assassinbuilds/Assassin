@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { eventsService, registrationsService } from '@/services';
 import { useAuth } from '@clerk/react';
@@ -28,13 +28,7 @@ export default function EventDetails() {
   });
   const { userId } = useAuth();
 
-  useEffect(() => {
-    if (id) {
-      fetchEvent();
-    }
-  }, [id]);
-
-  const fetchEvent = async () => {
+  const fetchEvent = useCallback(async () => {
     if (!id) return;
     
     setIsLoading(true);
@@ -53,7 +47,11 @@ export default function EventDetails() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id, navigate]);
+
+  useEffect(() => {
+    void fetchEvent();
+  }, [fetchEvent]);
 
   const handleRegisterClick = () => {
     if (!userId) {
@@ -120,7 +118,7 @@ export default function EventDetails() {
       setFormData({ team_name: '', project_idea: '' });
       
       // Refresh event to update participant count
-      fetchEvent();
+      void fetchEvent();
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.status === 409) {

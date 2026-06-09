@@ -24,7 +24,7 @@ interface EmailTemplate {
   to: string;
   subject: string;
   templateName: string;
-  templateData: Record<string, any>;
+  templateData: Record<string, unknown>;
 }
 
 export const emailService = {

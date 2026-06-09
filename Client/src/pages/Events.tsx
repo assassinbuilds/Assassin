@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { eventsService } from '@/services';
 import { ApiError } from '@/lib/api-client';
@@ -29,16 +29,7 @@ export default function Events() {
     setFilter((currentFilter) => (currentFilter === nextFilter ? currentFilter : nextFilter));
   }, [searchParams]);
 
-  useEffect(() => {
-    fetchEvents();
-  }, [filter]);
-
-  const updateFilter = (nextFilter: EventFilter) => {
-    setFilter(nextFilter);
-    setSearchParams(nextFilter === 'all' ? {} : { status: nextFilter });
-  };
-
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await eventsService.list({
@@ -59,6 +50,15 @@ export default function Events() {
     } finally {
       setIsLoading(false);
     }
+  }, [filter]);
+
+  useEffect(() => {
+    void fetchEvents();
+  }, [fetchEvents]);
+
+  const updateFilter = (nextFilter: EventFilter) => {
+    setFilter(nextFilter);
+    setSearchParams(nextFilter === 'all' ? {} : { status: nextFilter });
   };
 
   // Filter events by search query (client-side for real-time search)
@@ -142,7 +142,14 @@ export default function Events() {
   );
 }
 
-function FilterButton({ active, onClick, label, count }: any) {
+interface FilterButtonProps {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  count?: number;
+}
+
+function FilterButton({ active, onClick, label, count }: FilterButtonProps) {
   return (
     <button
       onClick={onClick}

@@ -62,7 +62,7 @@ export interface Event {
   max_participants: number;
   registration_open: boolean;
   image_urls: string[];
-  prizes: Record<string, any> | null;
+  prizes: Record<string, unknown> | null;
   themes: string[];
   created_at: string;
 }
@@ -190,7 +190,7 @@ export interface PaginatedResponse<T> {
 
 export interface ApiError {
   error: string;
-  details?: any;
+  details?: unknown;
 }
 
 export interface HealthResponse {
@@ -263,6 +263,7 @@ export interface ProfileUpdateRequest {
   bio?: string;
   readme?: string;
   github_url?: string;
+  avatar_url?: string;
   linkedin_url?: string;
   twitter_url?: string;
   portfolio_url?: string;
@@ -309,11 +310,11 @@ export interface EventCreateRequest {
   location: string;
   max_participants: number;
   registration_open?: boolean;
-  prizes?: Record<string, any>;
+  prizes?: Record<string, unknown>;
   themes?: string[];
 }
 
-export interface EventUpdateRequest extends Partial<EventCreateRequest> {}
+export type EventUpdateRequest = Partial<EventCreateRequest>;
 
 export interface EventFilterParams {
   status?: 'live' | 'upcoming' | 'past';
@@ -367,7 +368,7 @@ export interface ResourceCreateRequest {
   category: string;
 }
 
-export interface ResourceUpdateRequest extends Partial<ResourceCreateRequest> {}
+export type ResourceUpdateRequest = Partial<ResourceCreateRequest>;
 
 export interface ResourceFilterParams {
   category?: string;
@@ -387,7 +388,7 @@ export interface SponsorCreateRequest {
   description?: string;
 }
 
-export interface SponsorUpdateRequest extends Partial<SponsorCreateRequest> {}
+export type SponsorUpdateRequest = Partial<SponsorCreateRequest>;
 
 export interface SponsorLogoUploadResponse {
   logo_url: string;

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { profileService } from '@/services';
-import type { Profile as ProfileType } from '@/types/api';
+import type { Profile as ProfileType, ProfileUpdateRequest } from '@/types/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -136,7 +136,7 @@ export default function EditProfile() {
             setResumeFileName(data.resume_url.split('/').pop() || 'linked_resume');
           }
         }
-      } catch (err: any) {
+      } catch (err) {
         console.error('Failed to fetch profile:', err);
         // Even if the backend fails, populate available data from Clerk
         if (user?.username) {
@@ -166,8 +166,9 @@ export default function EditProfile() {
       });
       toast({ title: 'Success', description: 'Profile updated successfully' });
       navigate('/profile');
-    } catch (err: any) {
-      toast({ title: 'Update Failed', description: err.message, variant: 'destructive' });
+    } catch (err) {
+      const description = err instanceof Error ? err.message : 'Failed to update profile';
+      toast({ title: 'Update Failed', description, variant: 'destructive' });
     } finally {
       setIsSaving(false);
     }
@@ -206,26 +207,34 @@ export default function EditProfile() {
         body: formData,
       });
       
-      const imgbbData = await imgbbResponse.json();
+      const imgbbData = await imgbbResponse.json() as {
+        success?: boolean;
+        data?: { url?: string };
+        error?: { message?: string };
+      };
       
       if (!imgbbResponse.ok || !imgbbData.success) {
         throw new Error(imgbbData.error?.message || 'Failed to upload image to ImgBB');
       }
       
-      const imageUrl = imgbbData.data.url;
+      const imageUrl = imgbbData.data?.url;
+      if (!imageUrl) {
+        throw new Error('Image upload response did not include a URL');
+      }
 
       // 2. Save URL to database
       if (type === 'avatar') {
-        await profileService.update({ avatar_url: imageUrl } as any);
+        await profileService.update({ avatar_url: imageUrl } as ProfileUpdateRequest);
         setProfile(prev => prev ? { ...prev, avatar_url: imageUrl } : null);
         toast({ title: 'Success', description: 'Avatar updated successfully' });
       } else {
-        await profileService.update({ banner_url: imageUrl } as any);
+        await profileService.update({ banner_url: imageUrl } as ProfileUpdateRequest);
         setProfile(prev => prev ? { ...prev, banner_url: imageUrl } : null);
         toast({ title: 'Success', description: 'Banner updated successfully' });
       }
-    } catch (err: any) {
-      toast({ title: 'Upload Failed', description: err.message, variant: 'destructive' });
+    } catch (err) {
+      const description = err instanceof Error ? err.message : 'Failed to upload image';
+      toast({ title: 'Upload Failed', description, variant: 'destructive' });
     } finally {
       if (type === 'avatar') setIsUploadingAvatar(false);
       else setIsUploadingBanner(false);

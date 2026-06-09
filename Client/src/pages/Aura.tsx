@@ -4,6 +4,7 @@ import {
   ArrowLeft, Terminal, Layout, FileText, Brain, MessageSquare, 
   BarChart3, ShieldCheck, Mail, Database, Bot, FastForward
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { Link } from "react-router-dom";
 import logoImg from '@/assets/logo.png';
@@ -34,7 +35,7 @@ const Aura = () => {
             >
               <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-slate-900 text-white text-[11px] font-black uppercase tracking-[0.3em] mb-10 shadow-xl shadow-slate-200 border border-white/10 group cursor-default">
                 <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                INTELLIGENCE • <span className="text-red-500">AURA</span> • PROJECT 01
+                INTELLIGENCE * <span className="text-red-500">AURA</span> * PROJECT 01
               </div>
               <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter text-slate-900 mb-6 uppercase leading-[0.9]">
                 PROJECT <span className="text-red-600 underline decoration-red-200 decoration-8 underline-offset-8">AURA</span>
@@ -46,7 +47,7 @@ const Aura = () => {
               
               <div className="flex flex-wrap gap-4">
                 <a 
-                  href="https://techassasin.vercel.app" 
+                  href="https://tech-assassin.vercel.app" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-900 text-white font-black uppercase tracking-widest hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-slate-200"
@@ -73,7 +74,7 @@ const Aura = () => {
               <div className="absolute inset-0 bg-red-600/5 rounded-[3rem] blur-3xl" />
               <div className="relative aspect-video rounded-[2.5rem] overflow-hidden shadow-[0_32px_80px_-16px_rgba(0,0,0,0.1)] border-8 border-white bg-white">
                 <img 
-                  src="/og-image.png"
+                  src="/og-image.webp"
                   alt="Aura Interface" 
                   className="w-full h-full object-cover"
                 />
@@ -155,7 +156,7 @@ const Aura = () => {
             />
           </div>
           <p className="text-slate-400 text-xs uppercase tracking-[0.5em] font-black">
-             Engineered with 💖 for the Future of Learning
+             Engineered for the Future of Learning
           </p>
         </div>
       </footer>
@@ -163,7 +164,7 @@ const Aura = () => {
   );
 };
 
-const BentoCard = ({ className, icon: Icon, title, description, color }: { className: string, icon: any, title: string, description: string, color: string }) => (
+const BentoCard = ({ className, icon: Icon, title, description, color }: { className: string, icon: LucideIcon, title: string, description: string, color: string }) => (
   <motion.div 
     whileHover={{ y: -5 }}
     className={`p-8 rounded-[2rem] border transition-all duration-300 flex flex-col justify-between group cursor-default shadow-sm hover:shadow-xl ${className} ${color}`}

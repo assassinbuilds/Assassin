@@ -8,7 +8,7 @@ export interface Mission {
   frequency: 'daily' | 'weekly' | 'one-time';
   difficulty: 'easy' | 'medium' | 'hard';
   status: 'in_progress' | 'pending_verification' | 'completed';
-  progress: any;
+  progress: unknown;
   time_remaining_ms: number;
   requirement_type?: string;
 }
@@ -18,7 +18,7 @@ export const missionsService = {
     return api.get<Mission[]>('/missions');
   },
   
-  verifyMission: (missionId: string, requirementType: string, payload: any = {}) => {
+  verifyMission: (missionId: string, requirementType: string, payload: Record<string, unknown> = {}) => {
     return api.post<{ verified: boolean, message?: string }>('/missions', {
       missionId,
       requirementType,

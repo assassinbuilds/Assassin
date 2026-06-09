@@ -54,9 +54,9 @@ export default function Profile() {
         }
 
         setProfile(data);
-      } catch (err: any) {
+      } catch (err) {
         console.error('Failed to fetch profile:', err);
-        setError(err.message || 'Failed to load profile');
+        setError(err instanceof Error ? err.message : 'Failed to load profile');
       } finally {
         setIsLoading(false);
       }
@@ -115,7 +115,7 @@ export default function Profile() {
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar dark={false} />
 
-      {/* ── Profile Header ── */}
+      {/* Profile Header */}
       <header className="border-b border-slate-200 bg-white pt-24 pb-6">
         <div className="max-w-4xl mx-auto w-full px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row gap-6 items-start">
@@ -198,7 +198,7 @@ export default function Profile() {
         </div>
       </header>
 
-      {/* ── Tabs ── */}
+      {/* Tabs */}
       <main className="flex-1 bg-[#F5F5F5]">
         <Tabs defaultValue="home" className="w-full">
           {/* Tab bar */}
@@ -232,7 +232,7 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* ───────── HOME TAB ───────── */}
+          {/* Home Tab */}
           <TabsContent value="home" className="mt-0">
             <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 py-8 space-y-6">
 
@@ -347,7 +347,7 @@ export default function Profile() {
             </div>
           </TabsContent>
 
-          {/* ───────── ABOUT TAB ───────── */}
+          {/* About Tab */}
           <TabsContent value="about" className="mt-8 outline-none animate-fade-in-up">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left Column: Education/Background summary */}
@@ -459,7 +459,7 @@ export default function Profile() {
             </div>
           </TabsContent>
 
-          {/* ───────── README TAB ───────── */}
+          {/* README Tab */}
           {profile.readme && (
             <TabsContent value="readme" className="mt-0">
               <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 py-8">

@@ -19,8 +19,8 @@ export function useEventChat(eventId: string) {
     const channel = supabase.channel(`event-chat:${eventId}`)
 
     channel
-      .on('broadcast', { event: 'chat_message' }, ({ payload }: any) => {
-        setMessages(prev => [...prev, payload as ChatMessage])
+      .on('broadcast', { event: 'chat_message' }, ({ payload }: { payload: ChatMessage }) => {
+        setMessages(prev => [...prev, payload])
       })
       .subscribe()
 
