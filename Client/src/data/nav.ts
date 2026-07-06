@@ -3,7 +3,6 @@ export const mainNavLinks = [
   { label: "Missions", href: "/missions" },
   { label: "Builders", href: "/builders" },
   { label: "Resources", href: "/resources" },
-  { label: "About", href: "/about" },
   { label: "Join", href: "/join" },
 ];
 

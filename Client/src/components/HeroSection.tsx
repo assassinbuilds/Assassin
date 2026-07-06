@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -32,7 +33,7 @@ const HeroSection = () => {
             <p className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-slate-800">
               Start Building
             </p>
-            <form action="/join" className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <label className="sr-only" htmlFor="hero-email">
                 Email address
               </label>
@@ -43,13 +44,13 @@ const HeroSection = () => {
                 placeholder="Enter your email to apply"
                 className="w-full h-12 rounded-full border border-slate-200 bg-white px-6 text-sm font-medium text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-red-500 sm:h-14 sm:px-7 sm:text-base"
               />
-              <button
-                type="submit"
+              <Link
+                to="/join"
                 className="w-full sm:w-auto shrink-0 flex h-12 items-center justify-center gap-2 rounded-full bg-red-600 px-6 text-xs font-black uppercase tracking-wider text-white shadow-lg shadow-red-600/20 transition-all hover:bg-red-700 hover:scale-[1.02] active:scale-[0.98] sm:h-14 sm:px-8 sm:text-sm"
               >
                 Apply for Mission 01 <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
-            </form>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

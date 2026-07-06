@@ -14,7 +14,7 @@ const pool = new Pool({
 });
 
 async function main() {
-  const sqlPath = join(__dirname, '../../database/schemas/phase1_notifications.sql');
+  const sqlPath = join(__dirname, '../database/schemas/phase1_notifications.sql');
   const sql = fs.readFileSync(sqlPath, 'utf8');
 
   console.log("🚀 Applying Phase 1 Notifications Schema...");

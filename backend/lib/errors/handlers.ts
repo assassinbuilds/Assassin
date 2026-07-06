@@ -12,6 +12,46 @@ export interface ApiErrorResponse {
   statusCode?: number
 }
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === 'object'
+
+const getNonEmptyMessage = (error: unknown): string | undefined => {
+  if (error instanceof Error && error.message.trim()) {
+    return error.message
+  }
+
+  if (isRecord(error) && typeof error.message === 'string' && error.message.trim()) {
+    return error.message
+  }
+
+  return undefined
+}
+
+const serializeErrorForLog = (error: unknown): string => {
+  if (error instanceof Error) {
+    return error.stack || `${error.name}: ${error.message || '(empty message)'}`
+  }
+
+  if (isRecord(error)) {
+    const payload = Object.getOwnPropertyNames(error).reduce<Record<string, unknown>>((acc, key) => {
+      acc[key] = error[key]
+      return acc
+    }, {})
+
+    if (typeof payload.message === 'string' && !payload.message.trim()) {
+      payload.message = '(empty message)'
+    }
+
+    try {
+      return JSON.stringify(payload)
+    } catch {
+      return String(error)
+    }
+  }
+
+  return String(error)
+}
+
 /**
  * Custom error class for not found errors
  */
@@ -251,6 +291,17 @@ export function formatErrorResponse(error: unknown): ApiErrorResponse {
       statusCode
     }
   }
+
+  if (isRecord(error)) {
+    const statusCode = getStatusCode(error)
+    const message = getNonEmptyMessage(error)
+
+    return {
+      error: message || 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? serializeErrorForLog(error) : undefined,
+      statusCode
+    }
+  }
   
   // Handle unknown error types
   return {
@@ -284,14 +335,14 @@ export function handleApiError(error: unknown, logError: boolean = true): NextRe
   
   // Log server errors (500) and unexpected errors
   if (logError && statusCode >= 500) {
-    console.error('API Error:', error)
+    console.error('API Error:', serializeErrorForLog(error))
     
     // Attempt to log to a file for easier retrieval
     try {
       const fs = require('fs');
       const path = require('path');
       const logFile = path.join(process.cwd(), 'api_error.log');
-      const logMessage = `[${new Date().toISOString()}] ${statusCode} - ${error instanceof Error ? error.stack : JSON.stringify(error)}\n`;
+      const logMessage = `[${new Date().toISOString()}] ${statusCode} - ${serializeErrorForLog(error)}\n`;
       fs.appendFileSync(logFile, logMessage);
     } catch (e) {
       // Ignore logging errors

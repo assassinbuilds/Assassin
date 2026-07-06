@@ -47,7 +47,15 @@ if (!PUBLISHABLE_KEY) {
       <ClerkProvider 
         publishableKey={PUBLISHABLE_KEY} 
         afterSignOutUrl="/" 
-        appearance={{ baseTheme: dark }}
+        appearance={{
+          baseTheme: dark,
+          elements: {
+            modalCloseButton: {
+              border: 'none',
+              boxShadow: 'none',
+            },
+          },
+        }}
       >
         <App />
       </ClerkProvider>

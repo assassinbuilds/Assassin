@@ -53,7 +53,8 @@ techassassin/
 |-- Client/              # Public website and future student dashboard
 |-- backend/             # API, server logic, auth, Supabase integrations
 |-- content/             # Brand, mission, resource, and builder content
-|-- Docs/                # Product, brand, security, roadmap, website docs
+|-- contributors/        # First-contribution name and role profiles
+|-- docs/                # Product, brand, security, roadmap, website docs
 |-- tools/               # Existing utility scripts
 |-- README.md
 |-- SECURITY.md
@@ -114,7 +115,7 @@ SMTP_PASS=
 - Disable production debug logs.
 - Keep GitHub secret scanning and dependency alerts enabled.
 
-See [SECURITY.md](./SECURITY.md) and [Docs/SECURITY.md](./Docs/SECURITY.md).
+See [SECURITY.md](./SECURITY.md) and [docs/SECURITY.md](./docs/SECURITY.md).
 
 ## Roadmap
 
@@ -127,6 +128,18 @@ See [SECURITY.md](./SECURITY.md) and [Docs/SECURITY.md](./Docs/SECURITY.md).
 ## Contributing
 
 Contributions should support the mission system, builder proof, student experience, or security posture. Start with [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+New contributors can make their first contribution by adding a profile file in `contributors/your-name.md` with their name and role:
+
+```md
+# Your Name
+
+- GitHub: @your-username
+- Role: Student / Developer / Designer / Builder
+- First contribution: Added my contributor profile to Tech Assassin.
+```
+
+See [contributors/README.md](./contributors/README.md) for the full template.
 
 ## Tagline
 

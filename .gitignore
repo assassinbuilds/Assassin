@@ -22,6 +22,9 @@
 # SQL FILES
 # =============================================================================
 *.sql
+!backend/database/
+!backend/database/**
+!backend/database/**/*.sql
 !backend/supabase/migrations/
 !backend/supabase/migrations/**
 !backend/supabase/migrations/*.sql

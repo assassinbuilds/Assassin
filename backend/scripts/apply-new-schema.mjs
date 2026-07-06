@@ -33,7 +33,7 @@ async function applySchema() {
     await client.connect();
     console.log('✅ Connected.');
 
-    const sqlPath = join(__dirname, '../../database/schemas/initial_clerk_schema.sql');
+    const sqlPath = join(__dirname, '../database/schemas/initial_clerk_schema.sql');
     const sql = fs.readFileSync(sqlPath, 'utf8');
 
     console.log('🚀 Applying Initial Clerk Schema...');

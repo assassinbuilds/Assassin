@@ -206,8 +206,7 @@ TechAssassin/
 |-- backend/         # Next.js API and server logic
 |-- content/         # Brand, mission, resource, and builder content
 |-- contributors/    # First-contribution profile files
-|-- database/        # Database schema and related files
-|-- Docs/            # Product and project documentation
+|-- docs/            # Product and project documentation
 |-- tools/           # Utility scripts
 |-- README.md
 |-- CONTRIBUTING.md
