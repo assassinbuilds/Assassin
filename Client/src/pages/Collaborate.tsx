@@ -1,4 +1,4 @@
-import { useEffect, useState, KeyboardEvent } from "react";
+import { FormEvent, useEffect, useState, KeyboardEvent } from "react";
 import { useUser } from "@clerk/react";
 import {
   Clock3,
@@ -91,7 +91,7 @@ export default function Collaborate() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedRequest, setSubmittedRequest] = useState<CollaborationRequest | null>(null);
-  const [submissionError, setSubmissionError] = useState<boolean>(false);
+  const [errorPopup, setErrorPopup] = useState<{ title: string; message: string } | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 10;
 
@@ -125,31 +125,46 @@ export default function Collaborate() {
     switch (step) {
       case 1:
         if (!formData.contact_name.trim()) {
-          toast({ title: "Name is required", description: "Please let us know your full name.", variant: "destructive" });
+          setErrorPopup({
+            title: "ERROR!",
+            message: "Contact name is required. Please let us know your full name to proceed.",
+          });
           return false;
         }
         return true;
       case 2:
         if (!formData.organization_name.trim()) {
-          toast({ title: "Organization is required", description: "Please enter your company or community name.", variant: "destructive" });
+          setErrorPopup({
+            title: "ERROR!",
+            message: "Organization name is required. Please enter your company or community name.",
+          });
           return false;
         }
         return true;
       case 5:
         if (!formData.work_email.trim() || !formData.work_email.includes("@")) {
-          toast({ title: "Valid email is required", description: "Please enter a valid email address.", variant: "destructive" });
+          setErrorPopup({
+            title: "ERROR!",
+            message: "Valid work email is required. Please check your spelling and try again.",
+          });
           return false;
         }
         return true;
       case 8:
         if (formData.collaboration_interests.length === 0) {
-          toast({ title: "Focus area required", description: "Select at least one collaboration focus.", variant: "destructive" });
+          setErrorPopup({
+            title: "ERROR!",
+            message: "Focus area required. Select at least one collaboration focus to continue.",
+          });
           return false;
         }
         return true;
       case 10:
         if (!formData.message.trim()) {
-          toast({ title: "Brief is required", description: "Please tell us a bit about your goals.", variant: "destructive" });
+          setErrorPopup({
+            title: "ERROR!",
+            message: "Partnership brief is required. Please describe your goals briefly.",
+          });
           return false;
         }
         return true;
@@ -183,7 +198,6 @@ export default function Collaborate() {
 
   const submitForm = async () => {
     setIsSubmitting(true);
-    setSubmissionError(false);
     try {
       const payload: CollaborationRequestCreateRequest = {
         organization_name: formData.organization_name.trim(),
@@ -204,77 +218,54 @@ export default function Collaborate() {
       const request = await api.post<CollaborationRequest>("/collaboration-requests", payload);
       setSubmittedRequest(request);
     } catch (error) {
-      setSubmissionError(true);
+      const description = error instanceof ApiError ? error.message : "Could not submit your collaboration request. Please try again.";
+      setErrorPopup({
+        title: "ERROR!",
+        message: description,
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-950 selection:bg-red-500 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-950 selection:bg-red-500 selection:text-white">
       <Navbar dark={false} />
 
       <main className="flex min-h-[calc(100vh-80px)] items-center justify-center pt-20 pb-16">
-        <div className="container mx-auto max-w-3xl px-6 flex items-center justify-center">
+        <div className="container mx-auto max-w-3xl px-6">
           
           {submittedRequest ? (
-            /* Success Popup Styled exactly like the left card in the image */
-            <div className="w-[360px] overflow-hidden rounded-2xl bg-white text-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up">
-              {/* Header illustration section */}
-              <div className="flex h-44 items-center justify-center bg-[#e0f2fe] relative">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-24 h-24 text-[#0ea5e9]/70">
-                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round" />
+            /* Custom Success Card (Daily UI Style) */
+            <div className="mx-auto max-w-sm rounded-3xl border border-slate-100 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] overflow-hidden flex flex-col items-center text-center pb-8 animate-fade-in-up">
+              <div className="w-full h-36 bg-emerald-500 rounded-b-[45%] flex items-center justify-center relative">
+                {/* Ascending Paper Airplane SVG */}
+                <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="2" strokeLinecap="round">
+                  <path d="M 30 80 Q 70 20, 110 50 T 170 30" strokeDasharray="4 4" />
+                  <g transform="translate(170, 30) rotate(-15)">
+                    <path d="M 0 0 L -16 -6 L -18 10 L 0 0 Z" fill="white" />
+                    <path d="M 0 0 L -18 10 L -10 3 L 0 0 Z" fill="rgba(255,255,255,0.7)" />
+                  </g>
                 </svg>
               </div>
-              
-              {/* Content body */}
-              <div className="p-8">
-                <h2 className="text-2xl font-heading font-bold text-slate-800">Woo hoo!</h2>
-                <p className="mt-3 text-sm text-slate-500 leading-relaxed font-body">
-                  Your collaboration request was sent. Bask in the glory.
-                </p>
-                
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSubmittedRequest(null);
-                    setFormData(initialFormState);
-                    setCurrentStep(1);
-                  }}
-                  className="mt-8 w-full rounded-xl bg-[#38bdf8] hover:bg-[#0ea5e9] py-3.5 text-xs font-heading font-black tracking-widest text-white shadow-[0_6px_20px_rgba(56,189,248,0.4)] transition-all uppercase"
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
-          ) : submissionError ? (
-            /* Failure Popup Styled exactly like the right card in the image */
-            <div className="w-[360px] overflow-hidden rounded-2xl bg-white text-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up">
-              {/* Header illustration section */}
-              <div className="flex h-44 items-center justify-center bg-[#ffe4e6] relative">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-24 h-24 text-[#f43f5e]/70">
-                  <path d="M12 2L2 22h20L12 2zM12 9v5M12 17h.01" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              
-              {/* Content body */}
-              <div className="p-8">
-                <h2 className="text-2xl font-heading font-bold text-slate-800">Uh oh.</h2>
-                <p className="mt-3 text-sm text-slate-500 leading-relaxed font-body">
-                  Something weird happened. Keep calm and try again.
-                </p>
-                
-                <button
-                  type="button"
-                  onClick={() => setSubmissionError(false)}
-                  className="mt-8 w-full rounded-xl bg-[#f43f5e] hover:bg-[#e11d48] py-3.5 text-xs font-heading font-black tracking-widest text-white shadow-[0_6px_20px_rgba(244,63,94,0.4)] transition-all uppercase"
-                >
-                  Try Again
-                </button>
-              </div>
+              <h3 className="mt-8 text-xl font-heading font-black tracking-widest text-slate-900">SUCCESS!</h3>
+              <p className="mt-4 px-8 text-sm font-medium text-slate-500 leading-relaxed font-body">
+                Your collaboration request has been sent to <span className="font-bold text-slate-800">{submittedRequest.work_email}</span>. We will review your request and get back to you soon.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSubmittedRequest(null);
+                  setFormData(initialFormState);
+                  setCurrentStep(1);
+                }}
+                className="mt-8 w-[80%] py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-emerald-500/20 transition-all"
+              >
+                Thanks!
+              </button>
             </div>
           ) : (
-            <div className="relative w-full rounded-2xl border border-slate-200 bg-white p-8 md:p-12 shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)]">
+            <div className="relative rounded-2xl border border-slate-200 bg-white p-8 md:p-12 shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)]">
               {/* Top Progress bar and desk header */}
               <div className="mb-10 flex items-center justify-between">
                 <div>
@@ -583,6 +574,35 @@ export default function Collaborate() {
 
         </div>
       </main>
+
+      {/* Custom Error Popup (Daily UI Style Modal Overlay) */}
+      {errorPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-sm rounded-3xl border border-slate-100 bg-white shadow-2xl overflow-hidden flex flex-col items-center text-center pb-8 animate-fade-in-up">
+            <div className="w-full h-36 bg-red-500 rounded-b-[45%] flex items-center justify-center relative">
+              {/* Descending Paper Airplane SVG */}
+              <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="2" strokeLinecap="round">
+                <path d="M 30 30 Q 70 80, 110 50 T 170 70" strokeDasharray="4 4" />
+                <g transform="translate(170, 70) rotate(15)">
+                  <path d="M 0 0 L -16 -6 L -10 10 L 0 0 Z" fill="white" />
+                  <path d="M 0 0 L -10 10 L -8 3 L 0 0 Z" fill="rgba(255,255,255,0.7)" />
+                </g>
+              </svg>
+            </div>
+            <h3 className="mt-8 text-xl font-heading font-black tracking-widest text-slate-900">{errorPopup.title}</h3>
+            <p className="mt-4 px-8 text-sm font-medium text-slate-500 leading-relaxed font-body">
+              {errorPopup.message}
+            </p>
+            <button
+              type="button"
+              onClick={() => setErrorPopup(null)}
+              className="mt-8 w-[80%] py-3.5 rounded-full bg-red-500 hover:bg-red-600 text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-red-500/20 transition-all"
+            >
+              Okay!
+            </button>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
