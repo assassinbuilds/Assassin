@@ -236,23 +236,9 @@ export default function Collaborate() {
           
           {submittedRequest ? (
             /* Custom Success Card (Daily UI Style) */
-            <div className="mx-auto max-w-sm rounded-3xl border border-slate-100 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] overflow-hidden flex flex-col items-center text-center pb-8 animate-fade-in-up">
-              <div className="w-full h-36 bg-[#2ecc71] rounded-b-[45%] flex items-center justify-center relative">
-                {/* Loop-de-loop Ascending Paper Airplane SVG */}
-                <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M 30 80 C 15 50, 45 40, 50 65 C 55 90, 95 90, 110 60 C 125 30, 140 10, 170 20" strokeDasharray="4 4" />
-                  <g transform="translate(170, 20) rotate(-25)">
-                    {/* Keel fold */}
-                    <path d="M -20 0 L 10 0" />
-                    {/* Right Wing fold */}
-                    <path d="M 10 0 L -20 12 L -5 3 Z" />
-                    {/* Left Wing fold */}
-                    <path d="M 10 0 L -20 -12 L -5 -3 Z" />
-                  </g>
-                </svg>
-              </div>
-              <h3 className="mt-8 text-xl font-heading font-black tracking-widest text-slate-900">SUCCESS!</h3>
-              <p className="mt-4 px-8 text-sm font-medium text-slate-500 leading-relaxed font-body">
+            <div className="mx-auto max-w-sm rounded-3xl border border-slate-100 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] overflow-hidden flex flex-col items-center text-center pb-8 pt-8 animate-fade-in-up">
+              <h3 className="text-4xl font-heading font-black tracking-widest text-[#2ecc71]">SUCCESS!</h3>
+              <p className="mt-4 px-8 text-base font-medium text-slate-500 leading-relaxed font-body">
                 Your request for <span className="font-bold text-slate-800">{submittedRequest.organization_name}</span> is received. We will get back to you soon.
               </p>
               <button
