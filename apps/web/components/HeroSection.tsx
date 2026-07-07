@@ -42,7 +42,7 @@ const HeroSection = () => {
                 id="hero-email"
                 name="email"
                 type="email"
-                placeholder="Enter your email to apply"
+                placeholder="Enter your email"
                 className="w-full h-12 rounded-full border border-slate-200 bg-white px-6 text-sm font-medium text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-red-500 sm:h-14 sm:px-7 sm:text-base"
               />
               <Link
