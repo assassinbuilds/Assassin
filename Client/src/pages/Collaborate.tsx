@@ -226,11 +226,11 @@ export default function Collaborate() {
         <div className="container mx-auto max-w-3xl px-6">
           
           {submittedRequest ? (
-            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)]">
+            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)] font-body">
               <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                 <CheckCircle2 className="h-8 w-8" />
               </span>
-              <h2 className="mt-6 text-3xl font-black tracking-tight text-slate-950">Request Received.</h2>
+              <h2 className="mt-6 text-3xl font-heading font-bold tracking-tight text-slate-950">Request Received.</h2>
               <p className="mt-4 text-base text-slate-600 leading-relaxed max-w-lg mx-auto">
                 Your collaboration request for <strong className="text-slate-950">{submittedRequest.organization_name}</strong> has been logged in our partner review queue.
               </p>
@@ -241,7 +241,7 @@ export default function Collaborate() {
                   setFormData(initialFormState);
                   setCurrentStep(1);
                 }}
-                className="mt-8 rounded-lg bg-slate-950 px-6 py-3 text-sm font-bold text-white shadow-lg transition-colors hover:bg-red-600"
+                className="mt-8 rounded-lg bg-slate-950 px-6 py-3 text-sm font-heading font-bold text-white shadow-lg transition-colors hover:bg-red-600"
               >
                 Submit another request
               </button>
@@ -251,13 +251,13 @@ export default function Collaborate() {
               {/* Top Progress bar and desk header */}
               <div className="mb-10 flex items-center justify-between">
                 <div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-red-600">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-black text-red-600 font-heading">
                     <Clock3 className="h-3 w-3" />
                     Partner Desk
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-black text-red-600">
+                  <span className="text-sm font-bold text-red-600 font-heading">
                     Step {String(currentStep).padStart(2, "0")} / {String(totalSteps).padStart(2, "0")}
                   </span>
                 </div>
@@ -275,11 +275,11 @@ export default function Collaborate() {
               <div className="min-h-[220px]">
                 {/* Step 1: Contact Name */}
                 {currentStep === 1 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      First, what is your full name? <span className="text-red-600">*</span>
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">1 →</span> First, what is your full name? <span className="text-red-600 font-bold">*</span>
                     </label>
-                    <p className="text-sm font-medium text-slate-500">Let's get acquainted before diving into details.</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">Let's get acquainted before diving into details.</p>
                     <input
                       autoFocus
                       type="text"
@@ -287,18 +287,18 @@ export default function Collaborate() {
                       onChange={(e) => updateField("contact_name", e.target.value)}
                       onKeyDown={handleKeyPress}
                       placeholder="Type your answer here..."
-                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-bold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                     />
                   </div>
                 )}
 
                 {/* Step 2: Organization Name */}
                 {currentStep === 2 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      What is the name of your organization? <span className="text-red-600">*</span>
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">2 →</span> What is the name of your organization? <span className="text-red-600 font-bold">*</span>
                     </label>
-                    <p className="text-sm font-medium text-slate-500">Company, university, startup, or community name.</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">Company, university, startup, or community name.</p>
                     <input
                       autoFocus
                       type="text"
@@ -306,24 +306,24 @@ export default function Collaborate() {
                       onChange={(e) => updateField("organization_name", e.target.value)}
                       onKeyDown={handleKeyPress}
                       placeholder="Type your answer here..."
-                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-bold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                     />
                   </div>
                 )}
 
                 {/* Step 3: Organization Type */}
                 {currentStep === 3 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      What type of organization is this? <span className="text-red-600">*</span>
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">3 →</span> What type of organization is this? <span className="text-red-600 font-bold">*</span>
                     </label>
-                    <p className="text-sm font-medium text-slate-500">Select the option that matches best.</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">Select the option that matches best.</p>
                     <select
                       autoFocus
                       value={formData.organization_type}
                       onChange={(e) => updateField("organization_type", e.target.value as CollaborationOrganizationType)}
                       onKeyDown={handleKeyPress}
-                      className="mt-6 h-14 w-full rounded-lg border border-slate-200 bg-white px-4 text-lg font-semibold text-slate-900 outline-none focus:border-red-500 transition-colors"
+                      className="mt-6 h-14 w-full rounded-lg border border-slate-200 bg-white px-4 text-lg font-medium text-slate-900 outline-none focus:border-red-500 transition-colors font-heading"
                     >
                       {organizationTypes.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -336,11 +336,11 @@ export default function Collaborate() {
 
                 {/* Step 4: Role Title */}
                 {currentStep === 4 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      What is your role or title?
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">4 →</span> What is your role or title?
                     </label>
-                    <p className="text-sm font-medium text-slate-500">E.g., Founder, HR, Developer Relations, Student Lead (Optional).</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">E.g., Founder, HR, Developer Relations, Student Lead (Optional).</p>
                     <input
                       autoFocus
                       type="text"
@@ -348,18 +348,18 @@ export default function Collaborate() {
                       onChange={(e) => updateField("role_title", e.target.value)}
                       onKeyDown={handleKeyPress}
                       placeholder="Type your answer here..."
-                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-bold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                     />
                   </div>
                 )}
 
                 {/* Step 5: Work Email */}
                 {currentStep === 5 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      What is your email address? <span className="text-red-600">*</span>
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">5 →</span> What is your email address? <span className="text-red-600 font-bold">*</span>
                     </label>
-                    <p className="text-sm font-medium text-slate-500">We'll use this for all professional correspondence.</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">We'll use this for all professional correspondence.</p>
                     <input
                       autoFocus
                       type="email"
@@ -367,18 +367,18 @@ export default function Collaborate() {
                       onChange={(e) => updateField("work_email", e.target.value)}
                       onKeyDown={handleKeyPress}
                       placeholder="name@company.com"
-                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-bold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                     />
                   </div>
                 )}
 
                 {/* Step 6: Phone */}
                 {currentStep === 6 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      What is your contact phone number?
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">6 →</span> What is your contact phone number?
                     </label>
-                    <p className="text-sm font-medium text-slate-500">Optional, but helpful for urgent calls.</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">Optional, but helpful for urgent calls.</p>
                     <input
                       autoFocus
                       type="text"
@@ -386,18 +386,18 @@ export default function Collaborate() {
                       onChange={(e) => updateField("phone", e.target.value)}
                       onKeyDown={handleKeyPress}
                       placeholder="+91 98765 43210"
-                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-bold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                     />
                   </div>
                 )}
 
                 {/* Step 7: Website URL */}
                 {currentStep === 7 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      Do you have a website or profile URL?
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">7 →</span> Do you have a website or profile URL?
                     </label>
-                    <p className="text-sm font-medium text-slate-500">Provide a link to your company website or profile page (Optional).</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">Provide a link to your company website or profile page (Optional).</p>
                     <input
                       autoFocus
                       type="text"
@@ -405,19 +405,19 @@ export default function Collaborate() {
                       onChange={(e) => updateField("website_url", e.target.value)}
                       onKeyDown={handleKeyPress}
                       placeholder="https://company.com"
-                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-bold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                      className="mt-6 w-full border-b border-slate-200 bg-transparent py-3 text-xl font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                     />
                   </div>
                 )}
 
                 {/* Step 8: Collaboration Focus */}
                 {currentStep === 8 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      Select your collaboration focus areas <span className="text-red-600">*</span>
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">8 →</span> Select your collaboration focus areas <span className="text-red-600 font-bold">*</span>
                     </label>
-                    <p className="text-sm font-medium text-slate-500">Choose all areas you are interested in exploring.</p>
-                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 max-h-[300px] overflow-y-auto pr-2">
+                    <p className="text-sm font-normal text-slate-500 font-body">Choose all areas you are interested in exploring.</p>
+                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 max-h-[300px] overflow-y-auto pr-2 font-heading">
                       {interestOptions.map((option) => {
                         const checked = formData.collaboration_interests.includes(option.value);
                         return (
@@ -446,14 +446,14 @@ export default function Collaborate() {
 
                 {/* Step 9: Timeline, Budget & Audience */}
                 {currentStep === 9 && (
-                  <div className="animate-fade-in space-y-6">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      Tell us about your logistics
+                  <div className="animate-fade-in space-y-6 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">9 →</span> Tell us about your logistics
                     </label>
-                    <p className="text-sm font-medium text-slate-500">All fields are optional.</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">All fields are optional.</p>
                     <div className="grid gap-5 sm:grid-cols-3 mt-6">
                       <label className="block space-y-2">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Timeline</span>
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 font-heading">Timeline</span>
                         <input
                           autoFocus
                           type="text"
@@ -461,29 +461,29 @@ export default function Collaborate() {
                           onChange={(e) => updateField("timeline", e.target.value)}
                           onKeyDown={handleKeyPress}
                           placeholder="This month, Q3"
-                          className="h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                          className="h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                         />
                       </label>
                       <label className="block space-y-2">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Budget Range</span>
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 font-heading">Budget Range</span>
                         <input
                           type="text"
                           value={formData.budget_range}
                           onChange={(e) => updateField("budget_range", e.target.value)}
                           onKeyDown={handleKeyPress}
                           placeholder="Optional"
-                          className="h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                          className="h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                         />
                       </label>
                       <label className="block space-y-2">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Audience size</span>
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 font-heading">Audience size</span>
                         <input
                           type="text"
                           value={formData.student_audience}
                           onChange={(e) => updateField("student_audience", e.target.value)}
                           onKeyDown={handleKeyPress}
                           placeholder="50, 200, all"
-                          className="h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400"
+                          className="h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 font-heading"
                         />
                       </label>
                     </div>
@@ -492,11 +492,11 @@ export default function Collaborate() {
 
                 {/* Step 10: Message Brief */}
                 {currentStep === 10 && (
-                  <div className="animate-fade-in space-y-4">
-                    <label className="block text-2xl md:text-3xl font-black leading-tight text-slate-950">
-                      Briefly describe your partnership goals <span className="text-red-600">*</span>
+                  <div className="animate-fade-in space-y-4 font-heading">
+                    <label className="block text-2xl md:text-3xl font-medium tracking-tight text-slate-950">
+                      <span className="text-red-500 mr-2 font-bold">10 →</span> Briefly describe your partnership goals <span className="text-red-600 font-bold">*</span>
                     </label>
-                    <p className="text-sm font-medium text-slate-500">Target students, preferred format, and what success looks like.</p>
+                    <p className="text-sm font-normal text-slate-500 font-body">Target students, preferred format, and what success looks like.</p>
                     <textarea
                       autoFocus
                       required
@@ -504,7 +504,7 @@ export default function Collaborate() {
                       value={formData.message}
                       onChange={(e) => updateField("message", e.target.value)}
                       placeholder="Tell us what you would like to build together..."
-                      className="mt-6 w-full resize-none border-b border-slate-200 bg-transparent py-2 text-lg font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 leading-relaxed"
+                      className="mt-6 w-full resize-none border-b border-slate-200 bg-transparent py-2 text-lg font-medium text-slate-950 outline-none focus:border-red-500 transition-colors placeholder:text-slate-400 leading-relaxed font-heading"
                     />
                   </div>
                 )}
@@ -517,12 +517,12 @@ export default function Collaborate() {
                     <button
                       type="button"
                       onClick={goBack}
-                      className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-slate-950"
+                      className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-slate-950 font-heading"
                     >
                       <ArrowLeft className="h-4 w-4" /> Back
                     </button>
                   ) : (
-                    <span className="text-xs text-slate-400">Press Enter ↵ to advance</span>
+                    <span className="text-xs text-slate-400 font-heading">Press Enter ↵ to advance</span>
                   )}
                 </div>
                 <div className="flex gap-4">
@@ -530,7 +530,7 @@ export default function Collaborate() {
                     type="button"
                     onClick={goNext}
                     disabled={isSubmitting}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-slate-950 px-6 font-bold text-white transition-all hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-slate-950 px-6 font-bold text-white transition-all hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50 font-heading"
                   >
                     {currentStep === totalSteps ? (
                       isSubmitting ? (
