@@ -1,7 +1,6 @@
 export const mainNavLinks = [
   { label: "Home", href: "/" },
   { label: "Missions", href: "/missions" },
-  { label: "Resources", href: "/resources" },
   { label: "Join", href: "/join" },
 ];
 
@@ -11,7 +10,6 @@ export const footerNavGroups = [
     links: [
       { label: "Missions", href: "/missions" },
       { label: "Join", href: "/join" },
-      { label: "Resources", href: "/resources" },
     ],
   },
   {
