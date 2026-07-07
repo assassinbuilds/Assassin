@@ -145,3 +145,4 @@ github.html
 test_regex.js
 test_fetch.js
 test-supabase.ts
+.env*.local

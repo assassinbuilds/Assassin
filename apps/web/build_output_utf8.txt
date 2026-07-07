@@ -1,0 +1,51 @@
+﻿
+> web@0.1.0 build
+> next build
+
+node.exe : ΓÜá Warning: Next.js inferred your workspace root, but it may not be correct.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ΓÜá Warning: Ne...not be correct.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ We detected multiple lockfiles and selected the directory of 
+C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if 
+it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\package-lock.json
+
+Γû▓ Next.js 16.2.10 (Turbopack)
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 15.1s
+  Running TypeScript ...
+  Finished TypeScript in 22.4s ...
+  Collecting page data using 17 workers ...
+  Generating static pages using 17 workers (0/18) ...
+  Generating static pages using 17 workers (4/18) 
+  Generating static pages using 17 workers (8/18) 
+Γ¿» useSearchParams() should be wrapped in a suspense boundary at page "/events". Read more: 
+https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at S (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\.next\server\chunks\ssr\0rrk_next_0vm2173._.js:2:2692)
+    at r (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\.next\server\chunks\ssr\0rrk_next_0vm2173._.js:4:6759)
+    at C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\.next\server\chunks\ssr\apps_web_03q6hw1._.js:7:3320
+    at an (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\node_modules\next\dist\compiled\next-server\app-page-t
+urbo.runtime.prod.js:2:84267)
+    at ai (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\node_modules\next\dist\compiled\next-server\app-page-t
+urbo.runtime.prod.js:2:86086)
+    at al (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\node_modules\next\dist\compiled\next-server\app-page-t
+urbo.runtime.prod.js:2:107860)
+    at as (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\node_modules\next\dist\compiled\next-server\app-page-t
+urbo.runtime.prod.js:2:105275)
+    at aa (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\node_modules\next\dist\compiled\next-server\app-page-t
+urbo.runtime.prod.js:2:84619)
+    at ai (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\node_modules\next\dist\compiled\next-server\app-page-t
+urbo.runtime.prod.js:2:86135)
+    at ai (C:\Users\ARYAN\OneDrive\Desktop\TechAssassin\apps\web\node_modules\next\dist\compiled\next-server\app-page-t
+urbo.runtime.prod.js:2:104615)
+Error occurred prerendering page "/events". Read more: https://nextjs.org/docs/messages/prerender-error
+Export encountered an error on /events/page: /events, exiting the build.
+Γ¿» Next.js build worker exited with code: 1 and signal: null
