@@ -127,7 +127,7 @@ export default function Collaborate() {
         if (!formData.contact_name.trim()) {
           setErrorPopup({
             title: "Contact Name Missing !",
-            message: "Your name is required. Please fill it in and then you can continue using the desk.",
+            message: "Please enter your name.",
           });
           return false;
         }
@@ -136,7 +136,7 @@ export default function Collaborate() {
         if (!formData.organization_name.trim()) {
           setErrorPopup({
             title: "Organization Name Missing !",
-            message: "Organization name is required. Please fill it in and then you can continue using the desk.",
+            message: "Please enter organization name.",
           });
           return false;
         }
@@ -145,7 +145,7 @@ export default function Collaborate() {
         if (!formData.work_email.trim() || !formData.work_email.includes("@")) {
           setErrorPopup({
             title: "Work Email Missing !",
-            message: "A valid work email is required. Please fill it in and then you can continue using the desk.",
+            message: "Please enter valid email.",
           });
           return false;
         }
@@ -154,7 +154,7 @@ export default function Collaborate() {
         if (formData.collaboration_interests.length === 0) {
           setErrorPopup({
             title: "Focus Areas Unselected !",
-            message: "Please select at least one collaboration focus and then you can continue.",
+            message: "Please select focus areas.",
           });
           return false;
         }
@@ -163,7 +163,7 @@ export default function Collaborate() {
         if (!formData.message.trim()) {
           setErrorPopup({
             title: "Partnership Brief Empty !",
-            message: "Partnership brief is required. Please fill it in and then you can continue using the desk.",
+            message: "Please write partnership goals.",
           });
           return false;
         }
@@ -218,10 +218,9 @@ export default function Collaborate() {
       const request = await api.post<CollaborationRequest>("/collaboration-requests", payload);
       setSubmittedRequest(request);
     } catch (error) {
-      const description = error instanceof ApiError ? error.message : "Submission failed. Please check your network and try again.";
       setErrorPopup({
         title: "Submission Failed !",
-        message: description,
+        message: "Please try again later.",
       });
     } finally {
       setIsSubmitting(false);
