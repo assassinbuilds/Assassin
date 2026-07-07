@@ -1,7 +1,6 @@
-import { FormEvent, useEffect, useState, KeyboardEvent } from "react";
+import { useEffect, useState, KeyboardEvent } from "react";
 import { useUser } from "@clerk/react";
 import {
-  CheckCircle2,
   Clock3,
   Loader2,
   Send,
@@ -92,6 +91,7 @@ export default function Collaborate() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedRequest, setSubmittedRequest] = useState<CollaborationRequest | null>(null);
+  const [submissionError, setSubmissionError] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 10;
 
@@ -183,6 +183,7 @@ export default function Collaborate() {
 
   const submitForm = async () => {
     setIsSubmitting(true);
+    setSubmissionError(false);
     try {
       const payload: CollaborationRequestCreateRequest = {
         organization_name: formData.organization_name.trim(),
@@ -202,52 +203,78 @@ export default function Collaborate() {
 
       const request = await api.post<CollaborationRequest>("/collaboration-requests", payload);
       setSubmittedRequest(request);
-      toast({
-        title: "Collaboration request sent",
-        description: "We received your partner intake and will review it soon.",
-      });
     } catch (error) {
-      const description = error instanceof ApiError ? error.message : "Could not submit your collaboration request.";
-      toast({
-        title: "Submission failed",
-        description,
-        variant: "destructive",
-      });
+      setSubmissionError(true);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-950 selection:bg-red-500 selection:text-white">
+    <div className="min-h-screen bg-slate-100 text-slate-950 selection:bg-red-500 selection:text-white">
       <Navbar dark={false} />
 
       <main className="flex min-h-[calc(100vh-80px)] items-center justify-center pt-20 pb-16">
-        <div className="container mx-auto max-w-3xl px-6">
+        <div className="container mx-auto max-w-3xl px-6 flex items-center justify-center">
           
           {submittedRequest ? (
-            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)] font-body">
-              <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                <CheckCircle2 className="h-8 w-8" />
-              </span>
-              <h2 className="mt-6 text-3xl font-heading font-bold tracking-tight text-slate-950">Request Received.</h2>
-              <p className="mt-4 text-base text-slate-600 leading-relaxed max-w-lg mx-auto">
-                Your collaboration request for <strong className="text-slate-950">{submittedRequest.organization_name}</strong> has been logged in our partner review queue.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setSubmittedRequest(null);
-                  setFormData(initialFormState);
-                  setCurrentStep(1);
-                }}
-                className="mt-8 rounded-lg bg-slate-950 px-6 py-3 text-sm font-heading font-bold text-white shadow-lg transition-colors hover:bg-red-600"
-              >
-                Submit another request
-              </button>
+            /* Success Popup Styled exactly like the left card in the image */
+            <div className="w-[360px] overflow-hidden rounded-2xl bg-white text-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up">
+              {/* Header illustration section */}
+              <div className="flex h-44 items-center justify-center bg-[#e0f2fe] relative">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-24 h-24 text-[#0ea5e9]/70">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              
+              {/* Content body */}
+              <div className="p-8">
+                <h2 className="text-2xl font-heading font-bold text-slate-800">Woo hoo!</h2>
+                <p className="mt-3 text-sm text-slate-500 leading-relaxed font-body">
+                  Your collaboration request was sent. Bask in the glory.
+                </p>
+                
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubmittedRequest(null);
+                    setFormData(initialFormState);
+                    setCurrentStep(1);
+                  }}
+                  className="mt-8 w-full rounded-xl bg-[#38bdf8] hover:bg-[#0ea5e9] py-3.5 text-xs font-heading font-black tracking-widest text-white shadow-[0_6px_20px_rgba(56,189,248,0.4)] transition-all uppercase"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          ) : submissionError ? (
+            /* Failure Popup Styled exactly like the right card in the image */
+            <div className="w-[360px] overflow-hidden rounded-2xl bg-white text-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up">
+              {/* Header illustration section */}
+              <div className="flex h-44 items-center justify-center bg-[#ffe4e6] relative">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-24 h-24 text-[#f43f5e]/70">
+                  <path d="M12 2L2 22h20L12 2zM12 9v5M12 17h.01" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              
+              {/* Content body */}
+              <div className="p-8">
+                <h2 className="text-2xl font-heading font-bold text-slate-800">Uh oh.</h2>
+                <p className="mt-3 text-sm text-slate-500 leading-relaxed font-body">
+                  Something weird happened. Keep calm and try again.
+                </p>
+                
+                <button
+                  type="button"
+                  onClick={() => setSubmissionError(false)}
+                  className="mt-8 w-full rounded-xl bg-[#f43f5e] hover:bg-[#e11d48] py-3.5 text-xs font-heading font-black tracking-widest text-white shadow-[0_6px_20px_rgba(244,63,94,0.4)] transition-all uppercase"
+                >
+                  Try Again
+                </button>
+              </div>
             </div>
           ) : (
-            <div className="relative rounded-2xl border border-slate-200 bg-white p-8 md:p-12 shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)]">
+            <div className="relative w-full rounded-2xl border border-slate-200 bg-white p-8 md:p-12 shadow-[0_34px_90px_-56px_rgba(15,23,42,0.95)]">
               {/* Top Progress bar and desk header */}
               <div className="mb-10 flex items-center justify-between">
                 <div>
