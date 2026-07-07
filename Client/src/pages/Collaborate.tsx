@@ -578,40 +578,10 @@ export default function Collaborate() {
         </div>
       </main>
 
-      {/* Custom Error Popup (Daily UI Style Modal Overlay with Disconnected Plug) */}
+      {/* Custom Error Popup (Daily UI Style Modal Overlay) */}
       {errorPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
           <div className="w-full max-w-sm rounded-3xl border border-slate-100 bg-white shadow-2xl overflow-hidden flex flex-col items-center text-center pb-8 pt-8 animate-fade-in-up">
-            {/* Disconnected Plug SVG Illustration with realistic 3D perspective alignment */}
-            <div className="w-full flex justify-center mb-6">
-              <svg viewBox="0 0 200 120" className="w-56 h-36" fill="none">
-                {/* Wall plate left side */}
-                <path d="M 55 25 L 70 20 L 70 80 L 55 85 Z" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="1" />
-                {/* Wall Plate front face */}
-                <path d="M 70 20 L 85 25 L 85 85 L 70 80 Z" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1.5" />
-                {/* Socket circle in perspective */}
-                <ellipse cx="77.5" cy="52.5" rx="5" ry="11" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="1" />
-                {/* Two outlets holes */}
-                <circle cx="77.5" cy="47" r="1.5" fill="#475569" />
-                <circle cx="77.5" cy="57" r="1.5" fill="#475569" />
-
-                {/* Unplugged Red Plug floating in perspective */}
-                <g transform="translate(105, 35)">
-                  {/* Gray metal pins pointing left towards the socket */}
-                  <line x1="-12" y1="12" x2="3" y2="12" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
-                  <line x1="-12" y1="21" x2="3" y2="21" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
-                  
-                  {/* Cylinder Plug body */}
-                  <ellipse cx="8" cy="16.5" rx="5" ry="10" fill="#dc2626" />
-                  <path d="M 8 6.5 L 25 9 L 25 24 L 8 26.5 Z" fill="#ef4444" />
-                  <ellipse cx="25" cy="16.5" rx="4" ry="7.5" fill="#b91c1c" />
-                  
-                  {/* Cable wire */}
-                  <path d="M 25 16.5 C 50 16.5, 60 34, 90 28" stroke="#ef4444" strokeWidth="4" strokeLinecap="round" />
-                </g>
-              </svg>
-            </div>
-            
             <h3 className="text-4xl font-heading font-black tracking-widest text-[#ef4444]">OOPS!</h3>
             <h4 className="mt-4 text-2xl font-heading font-bold text-slate-900">{errorPopup.title || "Detail Missing!"}</h4>
             <p className="mt-4 px-8 text-base font-medium text-slate-500 leading-relaxed font-body max-w-[300px]">
