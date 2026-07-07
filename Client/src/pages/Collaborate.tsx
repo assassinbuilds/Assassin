@@ -69,7 +69,7 @@ const interestOptions: Array<{ value: CollaborationInterest; label: string }> = 
   { value: "mentorship", label: "Mentorship" },
   { value: "brand_presence", label: "Brand Presence" },
   { value: "campus_events", label: "Campus Events" },
-  { value: "internship_connect", label: "Internship Connect" },
+  { value: "internship_connect", stroke: "currentColor", label: "Internship Connect" },
   { value: "startup_collaboration", label: "Startup Collaboration" },
   { value: "community_growth", label: "Community Growth" },
   { value: "student_innovation", label: "Student Innovation" },
@@ -126,8 +126,8 @@ export default function Collaborate() {
       case 1:
         if (!formData.contact_name.trim()) {
           setErrorPopup({
-            title: "ERROR!",
-            message: "Contact name is required. Please let us know your full name to proceed.",
+            title: "Contact Name Missing !",
+            message: "Your name is required. Please fill it in and then you can continue using the desk.",
           });
           return false;
         }
@@ -135,8 +135,8 @@ export default function Collaborate() {
       case 2:
         if (!formData.organization_name.trim()) {
           setErrorPopup({
-            title: "ERROR!",
-            message: "Organization name is required. Please enter your company or community name.",
+            title: "Organization Name Missing !",
+            message: "Organization name is required. Please fill it in and then you can continue using the desk.",
           });
           return false;
         }
@@ -144,8 +144,8 @@ export default function Collaborate() {
       case 5:
         if (!formData.work_email.trim() || !formData.work_email.includes("@")) {
           setErrorPopup({
-            title: "ERROR!",
-            message: "Valid work email is required. Please check your spelling and try again.",
+            title: "Work Email Missing !",
+            message: "A valid work email is required. Please fill it in and then you can continue using the desk.",
           });
           return false;
         }
@@ -153,8 +153,8 @@ export default function Collaborate() {
       case 8:
         if (formData.collaboration_interests.length === 0) {
           setErrorPopup({
-            title: "ERROR!",
-            message: "Focus area required. Select at least one collaboration focus to continue.",
+            title: "Focus Areas Unselected !",
+            message: "Please select at least one collaboration focus and then you can continue.",
           });
           return false;
         }
@@ -162,8 +162,8 @@ export default function Collaborate() {
       case 10:
         if (!formData.message.trim()) {
           setErrorPopup({
-            title: "ERROR!",
-            message: "Partnership brief is required. Please describe your goals briefly.",
+            title: "Partnership Brief Empty !",
+            message: "Partnership brief is required. Please fill it in and then you can continue using the desk.",
           });
           return false;
         }
@@ -218,9 +218,9 @@ export default function Collaborate() {
       const request = await api.post<CollaborationRequest>("/collaboration-requests", payload);
       setSubmittedRequest(request);
     } catch (error) {
-      const description = error instanceof ApiError ? error.message : "Could not submit your collaboration request. Please try again.";
+      const description = error instanceof ApiError ? error.message : "Submission failed. Please check your network and try again.";
       setErrorPopup({
-        title: "ERROR!",
+        title: "Submission Failed !",
         message: description,
       });
     } finally {
@@ -579,34 +579,45 @@ export default function Collaborate() {
         </div>
       </main>
 
-      {/* Custom Error Popup (Daily UI Style Modal Overlay) */}
+      {/* Custom Error Popup (Daily UI Style Modal Overlay with Disconnected Plug) */}
       {errorPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="w-full max-w-sm rounded-3xl border border-slate-100 bg-white shadow-2xl overflow-hidden flex flex-col items-center text-center pb-8 animate-fade-in-up">
-            <div className="w-full h-36 bg-[#ff4d4d] rounded-b-[45%] flex items-center justify-center relative">
-              {/* Loop-de-loop Descending Paper Airplane SVG */}
-              <svg viewBox="0 0 200 100" className="w-40 h-20 text-white fill-none stroke-white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M 30 35 C 10 50, 10 75, 30 75 C 50 75, 60 40, 80 40 C 100 40, 100 10, 120 15 C 140 20, 135 50, 165 65" strokeDasharray="4 4" />
-                <g transform="translate(165, 65) rotate(25)">
-                  {/* Keel fold */}
-                  <path d="M -20 0 L 10 0" />
-                  {/* Right Wing fold */}
-                  <path d="M 10 0 L -20 12 L -5 3 Z" />
-                  {/* Left Wing fold */}
-                  <path d="M 10 0 L -20 -12 L -5 -3 Z" />
+          <div className="w-full max-w-sm rounded-3xl border border-slate-100 bg-white shadow-2xl overflow-hidden flex flex-col items-center text-center pb-8 pt-6 animate-fade-in-up">
+            {/* Disconnected Plug SVG Illustration */}
+            <div className="w-full flex justify-center mb-4">
+              <svg viewBox="0 0 200 120" className="w-48 h-32 text-slate-300 fill-none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                {/* Wall Plate (3D perspective tilt) */}
+                <path d="M 60 20 L 90 15 L 90 85 L 60 90 Z" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="2" />
+                {/* Circular Socket */}
+                <ellipse cx="75" cy="52" rx="9" ry="14" fill="#cbd5e1" stroke="#94a3b8" />
+                {/* Outlets (two holes) */}
+                <circle cx="72" cy="52" r="2" fill="#475569" />
+                <circle cx="78" cy="52" r="2" fill="#475569" />
+
+                {/* Plug (unplugged and pulled to the right) */}
+                <g transform="translate(115, 58)">
+                  {/* Plug body (red/orange) */}
+                  <path d="M 0 -12 L 15 -12 A 12 12 0 0 1 27 0 L 27 12 A 12 12 0 0 1 15 24 L 0 24 Z" fill="#ef4444" stroke="#dc2626" strokeWidth="1.5" />
+                  {/* Plug pins (silver/gray, pointing left to the socket) */}
+                  <line x1="0" y1="2" x2="-10" y2="2" stroke="#94a3b8" strokeWidth="3" />
+                  <line x1="0" y1="14" x2="-10" y2="14" stroke="#94a3b8" strokeWidth="3" />
+                  {/* Cable wire trailing off to the right */}
+                  <path d="M 27 6 C 50 6, 55 30, 95 24" stroke="#ef4444" strokeWidth="3.5" fill="none" />
                 </g>
               </svg>
             </div>
-            <h3 className="mt-8 text-xl font-heading font-black tracking-widest text-slate-900">{errorPopup.title}</h3>
-            <p className="mt-4 px-8 text-sm font-medium text-slate-500 leading-relaxed font-body">
+            
+            <h3 className="text-xl font-heading font-black tracking-widest text-[#ef4444]">OOPS!</h3>
+            <h4 className="mt-2 text-md font-heading font-bold text-slate-900">{errorPopup.title || "Detail Missing!"}</h4>
+            <p className="mt-3 px-8 text-xs font-medium text-slate-500 leading-relaxed font-body max-w-[280px]">
               {errorPopup.message}
             </p>
             <button
               type="button"
               onClick={() => setErrorPopup(null)}
-              className="mt-8 w-[80%] py-3.5 rounded-full bg-[#ff4d4d] hover:bg-[#ff3333] text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-red-500/20 transition-all"
+              className="mt-6 w-[80%] py-3 rounded-full bg-[#ef4444] hover:bg-[#e03b3b] text-white font-heading font-bold text-sm tracking-widest shadow-lg shadow-red-600/20 transition-all"
             >
-              Okay!
+              Try Again
             </button>
           </div>
         </div>
